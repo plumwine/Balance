@@ -1,6 +1,8 @@
 #include "DxLib.h"
 
 
+//金井編集リポジトリ確認用
+
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
