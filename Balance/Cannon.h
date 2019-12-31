@@ -7,7 +7,7 @@ class Cannon : public Object
 {
 public:
 
-	Cannon(Vector2 &position, Vector2 &size,int grNum,int listNum);
+	Cannon(const Vector2 &position,const Vector2 &size,const int grNum,int listNum);
 	~Cannon();
 
 	//åpè≥

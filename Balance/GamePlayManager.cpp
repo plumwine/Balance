@@ -12,6 +12,11 @@ GamePlayManager & GamePlayManager::Instance()
 	return *instance;
 }
 
+void GamePlayManager::Initialize()
+{
+	m_pCannon = new Cannon(Vector2(100, 100), Vector2(32, 32), 1, 1);
+}
+
 //	ƒ‹[ƒvˆ—
 void GamePlayManager::Update()
 {
@@ -39,4 +44,5 @@ void GamePlayManager::Update()
 void GamePlayManager::GameUpdate()
 {
 
+	m_pCannon->Draw();
 }
