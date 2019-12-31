@@ -1,6 +1,11 @@
 #pragma once
 #include "Vector2.h"
 
+enum Direction
+{
+	Top, Bottom, Right, Left, None
+};
+
 //	ゲームオブジェクトクラス
 class Object
 {
@@ -28,10 +33,38 @@ public:
 		Vector2 rectBPos = rect.Position();
 		Vector2 rectASize = Size();
 		Vector2 rectBSize = rect.Size();
-		auto dx = abs((rectAPos.x + rectASize.x / 2) - (rectBPos.x + rectBSize.x / 2));
-		auto dy = abs((rectAPos.y + rectASize.y / 2) - (rectBPos.y + rectBSize.y / 2));
+		auto dx = (rectAPos.x + rectASize.x / 2) - (rectBPos.x + rectBSize.x / 2);
+		auto dy = (rectAPos.y + rectASize.y / 2) - (rectBPos.y + rectBSize.y / 2);
 
-		return (dx < (rectASize.x + rectBSize.x) / 2 && dy < (rectASize.y + rectBSize.y) / 2);
+		if (abs(dx) < (rectASize.x + rectBSize.x) / 2 && abs(dy) < (rectASize.y + rectBSize.y) / 2)
+		{
+			_direction = ColDirection(Vector2(dx, dy), rectBSize);
+			return true;
+		}
+		_direction = None;
+	}
+
+	Direction ColDirection(Vector2 dir, Vector2 otherSize)
+	{
+		Vector2 AddSize = _size + otherSize;
+
+		float x = dir.x / AddSize.x;
+		float y = dir.y / AddSize.y;
+
+		if (abs(x) > abs(y))
+		{
+			if (x < 0)
+			{
+				return Left;
+			}
+			return Right;
+		}
+
+		if (y < 0)
+		{
+			return Bottom;
+		}
+		return Top;
 	}
 
 	//	メンバ関数にconstを付与する事で
@@ -44,4 +77,5 @@ protected:
 	Vector2 _position;		//	座標
 	Vector2 _size;			//	サイズ
 	int _grp;				//  画像ID
+	Direction _direction;   //  当たった方向
 };
