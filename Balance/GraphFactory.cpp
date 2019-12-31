@@ -1,5 +1,8 @@
 #include "GraphFactory.h"
 
+
+////GraphFactory::Instance()::メソッド名();で使える
+
 //	インスタンスを取得する
 GraphFactory& GraphFactory::Instance()
 {
