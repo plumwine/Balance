@@ -1,5 +1,6 @@
 #include "GraphFactory.h"
 
+#define STR(var) #var
 
 ////GraphFactory::Instance()::メソッド名();で使える
 
@@ -15,6 +16,22 @@ GraphFactory& GraphFactory::Instance()
 //	既にロード済みの場合キャッシュを使用する
 int GraphFactory::LoadGraph(std::string filepath)
 {
+	//	グラフィックハンドルがキャッシュされていなければ画像を読み込む
+	if (!_graphCache.count(filepath)) {
+
+		//	画像をロードしグラフィックハンドルをキャッシュする
+		auto grp = DxLib::LoadGraph(filepath.c_str());
+
+		//	キャッシュはファイルパスをキーとする
+		_graphCache[filepath] = grp;
+	}
+
+	return _graphCache[filepath];
+}
+
+int GraphFactory::LoadGraph(PictString pict)
+{
+	std::string filepath = STR(pict);
 	//	グラフィックハンドルがキャッシュされていなければ画像を読み込む
 	if (!_graphCache.count(filepath)) {
 

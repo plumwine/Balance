@@ -4,6 +4,12 @@
 #include <memory>
 #include <unordered_map>
 
+//画像名列挙(.pngとかまで入れてください)
+enum PictString
+{
+
+};
+
 //
 //	画像を読み込みキャッシュするクラスの作成
 //	※final指定子を使用することで継承禁止のクラスとする
@@ -29,6 +35,7 @@ public:
 
 	//	グラフィックをロードする
 	int LoadGraph(std::string filepath);
+	int LoadGraph(PictString filepath);
 
 	//	グラフィックを削除する
 	void EraseGraph(std::string filepath);
