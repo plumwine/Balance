@@ -27,6 +27,7 @@
     <ClCompile Include="GraphFactory.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Render.cpp">
     <ClCompile Include="Cannon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -50,6 +51,7 @@
     <ClInclude Include="FPS.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Render.h">
     <ClInclude Include="Cannon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
