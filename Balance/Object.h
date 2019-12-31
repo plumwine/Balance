@@ -6,19 +6,19 @@ class Object
 {
 public:
 	//	コンストラクタ
-	Object() : _position(0, 0), _size(0, 0) {}
+	Object(Vector2 position, Vector2 size, int grNum);
 
 	//	初期化
-	virtual void Initialize() = 0;
+	virtual void Initialize();
 
 	//	描画
-	virtual void Draw() = 0;
+	virtual void Draw();
 
 	//	更新
-	virtual void Update() = 0;
+	virtual void Update();
 
 	//	解放
-	virtual void Release() = 0;
+	virtual void Release();
 
 
 	//	矩形対矩形の判定
