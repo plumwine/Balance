@@ -14,7 +14,6 @@ GamePlayManager & GamePlayManager::Instance()
 
 void GamePlayManager::Initialize()
 {
-	m_pCannon = new Cannon(Vector2(100, 100), Vector2(32, 32), 1, 1);
 }
 
 //	ループ処理
@@ -43,6 +42,6 @@ void GamePlayManager::Update()
 //	更新処理
 void GamePlayManager::GameUpdate()
 {
-
+	m_pCannon->Update();
 	m_pCannon->Draw();
 }

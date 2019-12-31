@@ -1,5 +1,6 @@
 #pragma once
 #include "Cannon.h"
+#include "Bullet.h"
 
 
 //	ゲームプレイ管理クラス
