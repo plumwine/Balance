@@ -3,8 +3,9 @@
 
 
 //コンストラクタ　初期化並び
-Cannon::Cannon(Vector2 &position, Vector2 &size,int num)
-	:mListNum(num),
+Cannon::Cannon(Vector2 &position, Vector2 &size, int grNum, int listNum)
+	:Object(position,size,grNum),
+	mListNum(listNum),
 	underTouch(false),
 	flipHorizontal(false)
 {
