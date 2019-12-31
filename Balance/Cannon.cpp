@@ -3,7 +3,7 @@
 
 
 //コンストラクタ　初期化並び
-Cannon::Cannon(Vector2 &position, Vector2 &size, int grNum, int listNum)
+Cannon::Cannon(const Vector2 &position, const Vector2 &size, const int grNum, int listNum)
 	:Object(position,size,grNum),
 	mListNum(listNum),
 	underTouch(false),
@@ -19,7 +19,7 @@ Cannon::~Cannon()
 void Cannon::Initialize()
 {
 	//画像の描画
-	image = LoadGraph(".Texture/kari/battery_A.png");
+	image = LoadGraph("../Texture/kari/battery_A.png");
 }
 //描画
 void Cannon::Draw()

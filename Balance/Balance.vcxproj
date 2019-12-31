@@ -155,7 +155,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cannon.cpp" />
+    <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GamePlayManager.cpp" />
     <ClCompile Include="GraphFactory.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -164,8 +166,10 @@
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cannon.h" />
     <ClInclude Include="FPS.h" />
+    <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GamePlayManager.h" />
     <ClInclude Include="GraphFactory.h" />
     <ClInclude Include="Object.h" />

@@ -12,6 +12,10 @@ GamePlayManager & GamePlayManager::Instance()
 	return *instance;
 }
 
+void GamePlayManager::Initialize()
+{
+}
+
 //	ループ処理
 void GamePlayManager::Update()
 {
@@ -38,5 +42,6 @@ void GamePlayManager::Update()
 //	更新処理
 void GamePlayManager::GameUpdate()
 {
-
+	m_pCannon->Update();
+	m_pCannon->Draw();
 }
