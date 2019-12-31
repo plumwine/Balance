@@ -44,9 +44,6 @@ bool Cannon::TouchGround()
 {
 	return false;
 }
-
-
-
 //ˆÚ“®
 void Cannon::Move()
 {
