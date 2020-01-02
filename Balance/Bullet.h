@@ -6,16 +6,16 @@
 class Bullet:public Object
 {
 public:
-	Bullet(const Vector2 &position, const Vector2 &size, const int grNum,
+	Bullet(const Vector2 &position, const Vector2 &size,
 		   Vector2 velocity);
 	~Bullet();
 
 
-	bool IsDead();                    //死んでいるか
+	bool IsDead() override;                    //死んでいるか
 	//継承
 	void Initialize() override;        //初期化
 	void Draw() override;              //描画
-	void Update() override;            //更新
+	void Update(float deltaTime) override;            //更新
 	void Release() override;           //解放
 	
 private:
@@ -28,6 +28,5 @@ private:
 private:
 	Vector2 mVelocity; //移動方向
 	float speed;       //速さ
-	int image;         //画像
 	bool isDeadFlag;   //死んでいるか
 };

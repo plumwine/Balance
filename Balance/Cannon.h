@@ -7,15 +7,15 @@ class Cannon : public Object
 {
 public:
 
-	Cannon(const Vector2 &position,const Vector2 &size,const int grNum,int listNum);
+	Cannon(const Vector2 &position,const Vector2 &size,int listNum);
 	~Cannon();
 
 	//Œp³
 	void Initialize() override;        //‰Šú‰»
 	void Draw() override;              //•`‰æ
-	void Update() override;            //XV
+	void Update(float deltaTime) override;            //XV
 	void Release() override;           //‰ğ•ú
-
+	bool IsDead() override;            //€–S”»’è
 private:
 
 	//ƒQ[ƒ€I—¹”»’è
@@ -28,6 +28,5 @@ private:
 
 	Vector2 velocity;                  //ˆÚ“®—Ê
 	int mListNum;                      //©•ª‚Ì”Ô†
-	int image;                         //‰æ‘œ
 	
 };

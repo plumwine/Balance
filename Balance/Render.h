@@ -5,6 +5,8 @@
 #include "Object.h"
 #include "Vector2.h"
 
+class Object;
+
 class Render
 {
 private:

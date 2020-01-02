@@ -2,7 +2,6 @@
 #include <vector>
 
 class Object;
-class Render;
 
 class GameObjectManager
 {
@@ -11,7 +10,7 @@ public:
 	~GameObjectManager();
 
 	void Update(float deltaTime);
-	void Draw(Render* pRender);
+	void Draw();
 	void Add(Object* pObject);
 
 private:

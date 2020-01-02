@@ -5,12 +5,14 @@
 
 
 
-Bullet::Bullet(const Vector2 &position, const Vector2 &size, const int grNum, Vector2 velocity)
-	:Object(position, size, grNum),
-	mVelocity(velocity),
+Bullet::Bullet(const Vector2 &position, const Vector2 &size, Vector2 velocity)
+	:mVelocity(velocity),
 	speed(5),
 	isDeadFlag(false)
 {
+	_position = position;
+	_size = size;
+	_grp = LoadGraph("../Texture/kari/bullet_A.png");
 	Initialize();
 }
 
@@ -21,21 +23,20 @@ Bullet::~Bullet()
 
 bool Bullet::IsDead()
 {
-	return false;
+	return isDeadFlag;
 }
 
 void Bullet::Initialize()
 {
-	//âÊëúÇÃï`âÊ
-	image = LoadGraph("../Texture/kari/bullet_A.png");
 }
 
 void Bullet::Draw()
 {
-	DrawTurnGraph(_position.x - _size.x / 2, _position.y - _size.y / 2, image, false);
+	//Render::Instance().RectDraw(*this);
+	DrawTurnGraph((int)(_position.x - _size.x / 2), (int)(_position.y - _size.y / 2), _grp, false);
 }
 
-void Bullet::Update()
+void Bullet::Update(float deltaTime)
 {
 	Move();
 	DeadJudgment();
@@ -44,7 +45,6 @@ void Bullet::Update()
 
 void Bullet::Release()
 {
-	delete this;
 }
 
 void Bullet::Move()
@@ -67,11 +67,11 @@ void Bullet::DeadJudgment()
 		isDeadFlag = true;
 	}
 
-	//éÄñSîªíËÇ™ämíËÇµÇΩÇÁè¡Ç∑
-	if (isDeadFlag)
-	{
-		Release();
-	}
+	////éÄñSîªíËÇ™ämíËÇµÇΩÇÁè¡Ç∑
+	//if (isDeadFlag)
+	//{
+	//	Release();
+	//}
 
 
 }

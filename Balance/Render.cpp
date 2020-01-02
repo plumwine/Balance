@@ -15,11 +15,11 @@ Render & Render::Instance()
 void Render::RectDraw(Object& object)
 {
 	DrawRectGraph(
-		object.Position().x,
-		object.Position().y,
+		(int)object.Position().x,
+		(int)object.Position().y,
 		0, 0,
-		object.Size().x,
-		object.Size().y,
+		(int)object.Size().x,
+		(int)object.Size().y,
 		object.Grp(), TRUE
 	);
 }
@@ -29,11 +29,11 @@ void Render::RectDraw(Object& object)
 void Render::RectDraw(Object& object, bool reverse)
 {
 	DrawRectGraph(
-		object.Position().x,
-		object.Position().y,
+		(int)object.Position().x,
+		(int)object.Position().y,
 		0, 0,
-		object.Size().x,
-		object.Size().y,
+		(int)object.Size().x,
+		(int)object.Size().y,
 		object.Grp(), TRUE, reverse
 	);
 }
@@ -43,8 +43,8 @@ void Render::RectDraw(Object& object, bool reverse)
 void Render::LineDraw(Vector2 start, Vector2 end, unsigned int color)
 {
 	DrawLine(
-		start.x, start.y,
-		end.x, end.y,
+		(int)start.x, (int)start.y,
+		(int)end.x, (int)end.y,
 		color
 	);
 }
@@ -53,12 +53,12 @@ void Render::LineDraw(Vector2 start, Vector2 end, unsigned int color)
 void Render::StringDraw(Vector2 pos, const TCHAR* str)
 {
 	DrawString(
-		pos.x, pos.y, str, 0);
+		(int)pos.x, (int)pos.y, str, 0);
 }
 
 //êFéwíËÇ†ÇËï∂éöï`âÊ
 void Render::StringDraw(Vector2 pos, const TCHAR* str, unsigned int color)
 {
 	DrawString(
-		pos.x, pos.y, str, color);
+		(int)pos.x, (int)pos.y, str, color);
 }
