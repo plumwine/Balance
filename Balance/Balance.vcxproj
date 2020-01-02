@@ -160,6 +160,7 @@
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GamePlayManager.cpp" />
     <ClCompile Include="GraphFactory.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Render.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GamePlayManager.h" />
     <ClInclude Include="GraphFactory.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Vector2.h" />

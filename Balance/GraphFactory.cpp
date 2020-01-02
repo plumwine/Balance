@@ -29,9 +29,21 @@ int GraphFactory::LoadGraph(std::string filepath)
 	return _graphCache[filepath];
 }
 
-int GraphFactory::LoadGraph(PictString pict)
+int GraphFactory::LoadGraph(PictString pict, bool TMasFKari)
 {
-	std::string filepath = STR(pict);
+	std::string filepath = "../Texture/";
+	if (TMasFKari)
+	{
+		filepath.append("master/");
+	}
+	else
+	{
+		filepath.append("kari/");
+	}
+
+	filepath.append(STR(pict));
+	filepath.append(".png");
+
 	//	グラフィックハンドルがキャッシュされていなければ画像を読み込む
 	if (!_graphCache.count(filepath)) {
 
