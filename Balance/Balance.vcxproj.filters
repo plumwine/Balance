@@ -10,6 +10,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="Input.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cannon.h" />
@@ -22,5 +23,6 @@
     <ClInclude Include="WindowInfo.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="Input.h" />
   </ItemGroup>
 </Project>

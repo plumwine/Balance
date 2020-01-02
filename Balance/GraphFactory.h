@@ -35,7 +35,7 @@ public:
 
 	//	グラフィックをロードする
 	int LoadGraph(std::string filepath);
-	int LoadGraph(PictString filepath);
+	int LoadGraph(PictString filepath, bool kariMaster);
 
 	//	グラフィックを削除する
 	void EraseGraph(std::string filepath);
