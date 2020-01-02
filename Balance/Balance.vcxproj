@@ -162,7 +162,6 @@
     <ClCompile Include="GraphFactory.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>

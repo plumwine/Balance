@@ -2,6 +2,7 @@
 #include <memory>
 #include "GamePlayManager.h"
 #include "FPS.h"
+#include "GraphFactory.h"
 
 
 //	クラスのインスタンスを取得
@@ -14,10 +15,13 @@ GamePlayManager & GamePlayManager::Instance()
 
 void GamePlayManager::Initialize()
 {
+	m_pGameManager = new GameObjectManager();
+	m_pGameManager->Add(new Cannon(Vector2(100, 100), Vector2(32, 32), 0));
+	m_pGameManager->Add(new Bullet(Vector2(100, 100), Vector2(32, 32), Vector2(1,1)));
 }
 
 //	ループ処理
-void GamePlayManager::Update()
+void GamePlayManager::Update(float deltaTime)
 {
 	Fps fps;
 	//	メインループ
@@ -27,7 +31,7 @@ void GamePlayManager::Update()
 		ClearDrawScreen();
 
 		//	シーンを更新する
-		GameUpdate();
+		GameUpdate(deltaTime);
 
 		//	更新
 		fps.Update();
@@ -40,8 +44,10 @@ void GamePlayManager::Update()
 }
 
 //	更新処理
-void GamePlayManager::GameUpdate()
+void GamePlayManager::GameUpdate(float deltaTime)
 {
-	m_pCannon->Update();
-	m_pCannon->Draw();
+	m_pGameManager->Update(deltaTime);
+
+	m_pGameManager->Draw();
+
 }

@@ -3,6 +3,7 @@
 #include "WindowInfo.h"
 #include "GamePlayManager.h"
 
+
 //金井編集リポジトリ確認用
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -24,8 +25,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//	画面背景の色を設定する
 	SetBackgroundColor(0, 0, 0);
 
+	float a = 0;
 	//	実行
-	GamePlayManager::Instance().Update();
+	GamePlayManager::Instance().Update(a);
 
 	//	解放処理
 	DxLib_End();				// ＤＸライブラリ使用の終了処理

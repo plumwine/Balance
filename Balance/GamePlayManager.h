@@ -2,6 +2,8 @@
 #include "Cannon.h"
 #include "Bullet.h"
 
+#include "Render.h"
+#include "GameObjectManager.h"
 
 //	ゲームプレイ管理クラス
 class GamePlayManager
@@ -18,13 +20,13 @@ public:
 	void Initialize(); //初期化
 
 	//	ループ処理
-	void Update();
+	void Update(float deltaTime);
 
 	//  更新処理
-	void GameUpdate();
+	void GameUpdate(float deltaTime);
 
 
 private:
 	Cannon* m_pCannon;
-
+	GameObjectManager* m_pGameManager;
 };

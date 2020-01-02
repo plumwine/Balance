@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.h"
+#include "Render.h"
 
 enum Direction
 {
@@ -11,20 +12,21 @@ class Object
 {
 public:
 	//	コンストラクタ
-	Object(Vector2 position, Vector2 size, int grNum);
+	Object() : _position(0, 0), _size(0, 0) {};
 
 	//	初期化
-	virtual void Initialize();
+	virtual void Initialize() = 0;
 
 	//	描画
-	virtual void Draw();
+	virtual void Draw() =0;
 
 	//	更新
-	virtual void Update();
+	virtual void Update(float deltaTime) = 0;
 
 	//	解放
-	virtual void Release();
+	virtual void Release() = 0;
 
+	virtual bool IsDead() = 0;
 
 	//	矩形対矩形の判定
 	bool RectCollision(const Object& rect)
@@ -42,6 +44,7 @@ public:
 			return true;
 		}
 		_direction = None;
+		return false;
 	}
 
 	Direction ColDirection(Vector2 dir, Vector2 otherSize)
