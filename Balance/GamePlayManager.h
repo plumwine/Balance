@@ -28,5 +28,5 @@ public:
 
 private:
 	Cannon* m_pCannon;
-	GameObjectManager* m_pGameManager;
+	GameObjectManager m_pGameManager;
 };

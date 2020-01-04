@@ -1,16 +1,19 @@
 #include "Cannon.h"
 #include"DxLib.h"
+#include "Bullet.h"
 
 
 //コンストラクタ　初期化並び
-Cannon::Cannon(const Vector2 &position, const Vector2 &size, int listNum)
+Cannon::Cannon(const Vector2 &position, const Vector2 &size, GameObjectManager* objectManager, int listNum)
 	:mListNum(listNum),
 	underTouch(false),
 	flipHorizontal(false)
 {
 	_position = position;
 	_size = size;
+	m_pObjectManager = objectManager;
 	_grp = LoadGraph("../Texture/kari/battery_A.png");
+	
 
 	Initialize();//初期化
 }
@@ -33,12 +36,14 @@ void Cannon::Draw()
 void Cannon::Update(float deltaTime)
 {
 	Move();
+	Shot();
+	m_pObjectManager->Update(deltaTime);
+	m_pObjectManager->Draw();
+
 }
 //解放
 void Cannon::Release()
 {
-	//自分を削除 デスストラクタを呼ぶ
-	delete this;
 }
 bool Cannon::IsDead()
 {
@@ -54,4 +59,9 @@ void Cannon::Move()
 {
 
 
+}
+
+void Cannon::Shot()
+{
+	m_pObjectManager->Add(new Bullet(Vector2(100, 100), Vector2(32, 32), Vector2(1, 1)));
 }

@@ -7,6 +7,7 @@ class GameObjectManager
 {
 public:
 	GameObjectManager();
+
 	~GameObjectManager();
 
 	void Update(float deltaTime);
@@ -14,6 +15,7 @@ public:
 	void Add(Object* pObject);
 
 private:
+	//GameObjectsManager* operator=(const GameObjectManager*) {}
 	std::vector<Object*> mObjects;
 };
 
