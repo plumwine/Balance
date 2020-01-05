@@ -23,8 +23,8 @@ int Input::GetInputState(int inputType)
 
 Vector2 Input::GetAnalog()
 {
-	int* x;
-	int* y;
+	int* x = 0;
+	int* y = 0;
 	GetJoypadAnalogInput(x, y, DX_INPUT_PAD1);
 
 	Vector2 Analog = Vector2(*x, *y);
@@ -34,8 +34,8 @@ Vector2 Input::GetAnalog()
 
 Vector2 Input::GetAnalog(int inputType)
 {
-	int* x;
-	int* y;
+	int* x = 0;
+	int* y = 0;
 	GetJoypadAnalogInput(x, y, inputType);
 
 	Vector2 Analog = Vector2(*x, *y);
@@ -45,8 +45,8 @@ Vector2 Input::GetAnalog(int inputType)
 
 int Input::GetAnalogX()
 {
-	int* x;
-	int* y;
+	int* x = 0;
+	int* y = 0;
 	GetJoypadAnalogInput(x, y, DX_INPUT_PAD1);
 
 
@@ -55,8 +55,8 @@ int Input::GetAnalogX()
 
 int Input::GetAnalogX(int inputType)
 {
-	int* x;
-	int* y;
+	int* x = 0;
+	int* y = 0;
 	GetJoypadAnalogInput(x, y, inputType);
 
 
@@ -81,4 +81,30 @@ void Input::StartJoypadVibration(int Power, int Time, int inputType)
 void Input::StopJoypadVibration(int inputType)
 {
 	StopJoypadVibration(inputType);
+}
+
+bool Input::GetButtonTrigger(int key, int inputType)
+{
+	static int trigger = 0;
+
+	if ((GetInputState(inputType) & key) != 0)
+	{
+		trigger++;
+	}
+	else trigger = 0;
+
+	if (trigger == 1)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Input::GetButtonState(int key, int inputType)
+{
+	if ((GetInputState(inputType) & key) != 0)
+	{
+		return true;
+	}
+	return false;
 }
