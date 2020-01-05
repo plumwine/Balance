@@ -1,8 +1,4 @@
 #pragma once
-#include "Cannon.h"
-#include "Bullet.h"
-
-#include "Render.h"
 #include "GameObjectManager.h"
 
 //	ゲームプレイ管理クラス
@@ -27,6 +23,5 @@ public:
 
 
 private:
-	Cannon* m_pCannon;
 	GameObjectManager m_pGameManager;
 };

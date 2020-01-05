@@ -7,7 +7,7 @@ class Cannon : public Object
 {
 public:
 
-	Cannon(const Vector2 &position,const Vector2 &size,GameObjectManager *objectManager,int listNum);
+	Cannon(const Vector2 &position,GameObjectManager *objectManager,int listNum);
 	~Cannon();
 
 	//Œp³
@@ -16,11 +16,10 @@ public:
 	void Update(float deltaTime) override;            //XV
 	void Release() override;           //‰ğ•ú
 	bool IsDead() override;            //€–S”»’è
+	void Hit(Object& object) override; //“–‚½‚Á‚½‚Ìˆ—
 	void Shot();                       //’e‚ğŒ‚‚Â
 private:
 
-	//ƒQ[ƒ€I—¹”»’è
-	bool TouchGround();                //‘å–C‚ª’n–Ê‚É‚Â‚¢‚½‚©‚Ç‚¤‚©
 	void Move();                       //ˆÚ“®ŠÖŒW
 
 	
@@ -28,8 +27,12 @@ private:
 private:
 	bool underTouch;                   //‰º•ûŒü‚É‘å–C‚ª‚ ‚é‚©‚Ç‚¤‚©
 	bool flipHorizontal;               //…•½”½“]
+	bool isDeadFlag;
 
 	Vector2 velocity;                  //ˆÚ“®—Ê
+	float reaction;                    //”½“®
+	float gravity;                     //d—Í
+
 	int mListNum;                      //©•ª‚Ì”Ô†
 	GameObjectManager* m_pObjectManager;  //GameObjectManager‚Ìƒ|ƒCƒ“ƒ^
 	

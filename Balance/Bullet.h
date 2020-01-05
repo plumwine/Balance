@@ -6,7 +6,7 @@
 class Bullet:public Object
 {
 public:
-	Bullet(const Vector2 &position, const Vector2 &size,
+	Bullet(const Vector2 &position,
 		   Vector2 velocity);
 	~Bullet();
 
@@ -17,9 +17,9 @@ public:
 	void Draw() override;              //•`‰æ
 	void Update(float deltaTime) override;            //XV
 	void Release() override;           //‰ğ•ú
-	
+	void Hit(Object& object) override; //“–‚½‚Á‚½‚Ìˆ—
 private:
-	
+
 
 	void Move();                      //ˆÚ“®
 	void DeadJudgment();              //€–S”»’è
