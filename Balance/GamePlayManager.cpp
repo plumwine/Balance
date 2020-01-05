@@ -15,9 +15,18 @@ GamePlayManager & GamePlayManager::Instance()
 
 void GamePlayManager::Initialize()
 {
-	m_pGameManager = new GameObjectManager();
-	m_pGameManager->Add(new Cannon(Vector2(100, 100), Vector2(32, 32), 0));
-	m_pGameManager->Add(new Bullet(Vector2(100, 100), Vector2(32, 32), Vector2(1,1)));
+	 
+	GameObjectManager* p_pGameManager;
+	p_pGameManager = &m_pGameManager;
+	p_pGameManager = new GameObjectManager();
+	 //GameObjectManager* m_pGameManager2;
+
+
+	//m_pCannon = new Cannon(Vector2(100, 100), Vector2(32, 32), m_pGameManager, 0);
+	
+	m_pGameManager.Add(new Cannon(Vector2(100, 100), Vector2(32, 32), p_pGameManager, 0));
+	m_pGameManager.Add(new Bullet(Vector2(100, 100), Vector2(32, 32), Vector2(1,1)));
+	
 }
 
 //	ループ処理
@@ -46,8 +55,7 @@ void GamePlayManager::Update(float deltaTime)
 //	更新処理
 void GamePlayManager::GameUpdate(float deltaTime)
 {
-	m_pGameManager->Update(deltaTime);
-
-	m_pGameManager->Draw();
+	m_pGameManager.Update(deltaTime);
+	m_pGameManager.Draw();
 
 }
