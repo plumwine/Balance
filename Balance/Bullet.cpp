@@ -5,13 +5,13 @@
 
 
 
-Bullet::Bullet(const Vector2 &position, const Vector2 &size, Vector2 velocity)
+Bullet::Bullet(const Vector2 &position, Vector2 velocity)
 	:mVelocity(velocity),
 	speed(5),
 	isDeadFlag(false)
 {
 	_position = position;
-	_size = size;
+	_size = Vector2(16, 16);
 	_grp = LoadGraph("../Texture/kari/bullet_A.png");
 	Initialize();
 }
@@ -45,6 +45,11 @@ void Bullet::Update(float deltaTime)
 
 void Bullet::Release()
 {
+}
+
+void Bullet::Hit(Object & object)
+{
+	CurrentPosition(object);  //ìñÇΩÇ¡ÇΩï˚å¸Ç÷ÇÃâüÇµèoÇµ
 }
 
 void Bullet::Move()

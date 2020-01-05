@@ -10,6 +10,9 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Ground.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cannon.h" />
@@ -23,5 +26,8 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Ground.h" />
   </ItemGroup>
 </Project>

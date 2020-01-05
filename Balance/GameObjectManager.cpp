@@ -24,6 +24,7 @@ void GameObjectManager::Update(float deltaTime)
 {
 	for (auto& object : mObjects)
 	{
+		
 		if (object == nullptr) continue;
 		if (!object->IsDead())
 		{
@@ -34,9 +35,12 @@ void GameObjectManager::Update(float deltaTime)
 				if (&object == &object_2) continue;
 				if (object_2->IsDead()) continue;
 
-				if (!object->RectCollision(*object_2)) continue;
-				object->RectCollision(*object_2);
-				object_2->RectCollision(*object);
+				if (object->RectCollision(*object_2))
+				{
+					object->Hit(*object_2);
+					object_2->Hit(*object);
+
+				}
 
 			}
 		}

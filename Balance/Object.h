@@ -25,9 +25,36 @@ public:
 
 	//	解放
 	virtual void Release() = 0;
-
+	//死亡判定
 	virtual bool IsDead() = 0;
+	//当たった時の処理
+	virtual void Hit(Object& object) = 0;
 
+
+
+	//当たった方向に押し出し
+	void CurrentPosition(Object& other)
+	{
+		Direction dir = _direction;
+		Vector2 otherSize = other.Size();
+
+		switch (dir)
+		{
+		case(Direction::Top):
+			_position.y = other.Position().y + _size.y;
+			break;
+		case(Direction::Right):
+			_position.x = other.Position().x + _size.x;
+			break;
+		case(Direction::Left):
+			_position.x = other.Position().x - _size.x;
+			break;
+		case(Direction::Bottom):
+			_position.y = other.Position().y - _size.y;
+			break;
+
+		}
+	}
 	//	矩形対矩形の判定
 	bool RectCollision(const Object& rect)
 	{
@@ -57,17 +84,20 @@ public:
 		if (abs(x) > abs(y))
 		{
 			if (x < 0)
-			{
 				return Left;
-			}
-			return Right;
+			else
+				return Right;
 		}
-
-		if (y < 0)
+		else
 		{
-			return Bottom;
+			if (y < 0)
+				return Bottom;
+			else
+				return Top;
 		}
-		return Top;
+		return None;
+
+		
 	}
 
 	//	メンバ関数にconstを付与する事で
@@ -75,7 +105,7 @@ public:
 	Vector2 Position() const { return _position; }
 	Vector2 Size() const { return _size; }
 	int Grp() const { return _grp; }
-
+	Direction Dir() const { return _direction; }
 protected:
 	Vector2 _position;		//	座標
 	Vector2 _size;			//	サイズ
