@@ -26,4 +26,7 @@ public:
 	void StopJoypadVibration();
 	void StartJoypadVibration(int Power, int Time, int inputType);
 	void StopJoypadVibration(int inputType);
+
+	bool GetButtonTrigger(int key, int inputType);
+	bool GetButtonState(int key, int inputType);
 };
