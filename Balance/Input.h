@@ -1,6 +1,7 @@
 #pragma once
 #include <DxLib.h>
 #include <string>
+#include <map>
 #include "Vector2.h"
 
 #define INPUT_BUTTON_A 16
@@ -46,4 +47,7 @@ public:
 
 	bool GetButtonTrigger(int key, int inputType);
 	bool GetButtonState(int key, int inputType);
+
+private:
+	std::map<int, int> triggerMap;
 };
