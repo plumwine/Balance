@@ -53,7 +53,8 @@ void Player::Move()
 	GetJoypadAnalogInput(&input_x, &input_y, DX_INPUT_KEY_PAD1);
 	
 	float inputPercentage = (float)input_x / 1000;   //input‚ª-1000`1000‚ğ•Ô‚·‚½‚ß1000‚ÅŠ„‚Á‚ÄŠ„‡‚ğo‚·
-	_position.x += inputPercentage * speed;   //Player‚Í‰¡ˆÚ“®‚µ‚©‚µ‚È‚¢‚½‚ß
+	_velocity.x = inputPercentage * speed;
+	_position.x += _velocity.x;   //Player‚Í‰¡ˆÚ“®‚µ‚©‚µ‚È‚¢‚½‚ß
 	
 }
 

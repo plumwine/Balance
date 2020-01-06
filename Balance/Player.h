@@ -17,7 +17,6 @@ public:
 	void Release() override;           //‰ğ•ú
 	bool IsDead() override;            //€–S”»’è
 	void Hit(Object& object) override; //“–‚½‚Á‚½‚Ìˆ—
-
 	
 private:
 
@@ -28,7 +27,6 @@ private:
 	float speed;        //ˆÚ“®‘¬“x
 	int input_x;
 	int input_y;
-	Vector2 veclocity;
 	GameObjectManager* m_pObjectManager; 
 
 
