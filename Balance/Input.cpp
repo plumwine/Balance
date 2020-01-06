@@ -85,15 +85,20 @@ void Input::StopJoypadVibration(int inputType)
 
 bool Input::GetButtonTrigger(int key, int inputType)
 {
-	static int trigger = 0;
+	if (triggerMap.count(key) == 0)
+	{
+		triggerMap[key] = 0;
+	}
 
 	if ((GetInputState(inputType) & key) != 0)
 	{
-		trigger++;
+		triggerMap[key] += 1;
 	}
-	else trigger = 0;
+	else triggerMap[key] = 0;
 
-	if (trigger == 1)
+
+
+	if (triggerMap[key] == 1)
 	{
 		return true;
 	}
