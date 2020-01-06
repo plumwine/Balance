@@ -14,6 +14,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="EnemyGenerateManager.cpp" />
+    <ClCompile Include="WaveLine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cannon.h" />
@@ -31,5 +32,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="EnemyGenerateManager.h" />
+    <ClInclude Include="WaveLine.h" />
   </ItemGroup>
 </Project>
