@@ -1,9 +1,15 @@
 #include <DxLib.h>
 #include <memory>
-#include "GamePlayManager.h"
 #include "FPS.h"
 #include "GraphFactory.h"
-
+#include "Render.h"
+//オブジェクト関係
+#include "GamePlayManager.h"
+#include "Player.h"
+#include "Cannon.h"
+#include "Bullet.h"
+#include "Enemy.h"
+#include "Ground.h"
 
 //	クラスのインスタンスを取得
 GamePlayManager & GamePlayManager::Instance()
@@ -19,13 +25,13 @@ void GamePlayManager::Initialize()
 	GameObjectManager* p_pGameManager;
 	p_pGameManager = &m_pGameManager;
 	p_pGameManager = new GameObjectManager();
-	 //GameObjectManager* m_pGameManager2;
 
 
-	//m_pCannon = new Cannon(Vector2(100, 100), Vector2(32, 32), m_pGameManager, 0);
-	
-	m_pGameManager.Add(new Cannon(Vector2(100, 100), Vector2(32, 32), p_pGameManager, 0));
-	m_pGameManager.Add(new Bullet(Vector2(100, 100), Vector2(32, 32), Vector2(1,1)));
+	m_pGameManager.Add(new Player(Vector2(100, 500), p_pGameManager));
+	m_pGameManager.Add(new Cannon(Vector2(300, 0), p_pGameManager, 0));
+	m_pGameManager.Add(new Bullet(Vector2(100, 100), Vector2(1,1)));
+	m_pGameManager.Add(new Enemy(Vector2(800, 500), Vector2(-1,0)));
+	m_pGameManager.Add(new Ground(Vector2(0, 550)));
 	
 }
 
