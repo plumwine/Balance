@@ -110,16 +110,16 @@ void Cannon::Shot()
 {
 	//ゲームパッドの押されたボタンに合わせて反動をつける
 	//左
-	if (Input::Instance().GetButtonTrigger(XINPUT_BUTTON_LEFT_SHOULDER, DX_INPUT_PAD1))
+	if (Input::Instance().GetButtonTrigger(INPUT_BUTTON_LB, DX_INPUT_PAD1))
 	{
-		reaction = -1;
+		reaction = -3;
 		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(1, 0)));
 	}
 
 	//右
-	if (Input::Instance().GetButtonTrigger(XINPUT_BUTTON_RIGHT_SHOULDER, DX_INPUT_PAD1))
+	if (Input::Instance().GetButtonTrigger(INPUT_BUTTON_RB, DX_INPUT_PAD1))
 	{
-		reaction = 1;
+		reaction = 3;
 		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(-1, 0)));
 	}
 }
