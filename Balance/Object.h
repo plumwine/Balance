@@ -104,10 +104,12 @@ public:
 	//	その関数内でのメンバ変数の変更を禁止にする
 	Vector2 Position() const { return _position; }
 	Vector2 Size() const { return _size; }
+	Vector2 Velocity() const { return _velocity; }
 	int Grp() const { return _grp; }
 	Direction Dir() const { return _direction; }
 protected:
 	Vector2 _position;		//	座標
+	Vector2 _velocity;      //移動方向
 	Vector2 _size;			//	サイズ
 	int _grp;				//  画像ID
 	Direction _direction;   //  当たった方向

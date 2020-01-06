@@ -25,14 +25,14 @@ private:
 	
 
 private:
-	bool underTouch;                   //下方向に大砲があるかどうか
+	bool underTouch;                   //下方向に大砲かプレイヤーがあるかどうか
 	bool flipHorizontal;               //水平反転
 	bool isDeadFlag;
 
-	Vector2 velocity;                  //移動量
 	float reaction;                    //反動
 	float gravity;                     //重力
-
+	float centerPosX;                  //中心位置X
+	
 	int mListNum;                      //自分の番号
 	GameObjectManager* m_pObjectManager;  //GameObjectManagerのポインタ
 	
