@@ -9,19 +9,29 @@ class Fps {
 	static const int N = 60;//平均を取るサンプル数
 	static const int FPS = 60;	//設定したFPS
 
+	int backTime; //1フレーム前の時間
+	int deltaTime;
+
 public:
 	Fps() {
 		startTime = 0;
 		count = 0;
 		fps = 0;
+		backTime = 0;
+		deltaTime = 0;
 	}
 
 	bool Update() {
+		int nowTime = GetNowCount();
+
+		int deltaTime = nowTime - backTime;
+
+		backTime = nowTime;
 		if (count == 0) { //1フレーム目なら時刻を記憶
-			startTime = GetNowCount();
+			startTime = nowTime;
 		}
 		if (count == N) { //60フレーム目なら平均を計算する
-			int t = GetNowCount();
+			int t = nowTime;
 			fps = 1000.f / ((t - startTime) / (float)N);
 			count = 0;
 			startTime = t;
@@ -42,5 +52,9 @@ public:
 		if (waitTime > 0) {
 			Sleep(waitTime);	//待機
 		}
+	}
+
+	int DeltaTime() {
+		return deltaTime;
 	}
 };
