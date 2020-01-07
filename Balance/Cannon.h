@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "GameObjectManager.h"
+#include "Input.h"
 
 //大砲クラス
 class Cannon : public Object
@@ -33,6 +34,7 @@ private:
 	float gravity;                     //重力
 	float centerPosX;                  //中心位置X
 	int nowNum;                        //今のY座標
+	Input input;
 	
 	GameObjectManager* m_pObjectManager;  //GameObjectManagerのポインタ
 	
