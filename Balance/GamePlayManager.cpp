@@ -27,11 +27,13 @@ void GamePlayManager::Initialize()
 	p_pGameManager = new GameObjectManager();
 
 	//最初に生成するものを各Wave共通
-	m_pGameManager.Add(new Player(Vector2(100, 500), p_pGameManager));
-	m_pGameManager.Add(new Cannon(Vector2(300, 0), p_pGameManager, 0));
-	m_pGameManager.Add(new Bullet(Vector2(100, 100), Vector2(1,1)));
-	m_pGameManager.Add(new Enemy(Vector2(800, 500), Vector2(-1,0)));
-	m_pGameManager.Add(new Ground(Vector2(0, 550)));
+	m_pGameManager.Add(new Player(Vector2(100, 832)));
+	m_pGameManager.Add(new Cannon(Vector2(300, 000), p_pGameManager));
+	m_pGameManager.Add(new Cannon(Vector2(300, 100), p_pGameManager));
+	m_pGameManager.Add(new Cannon(Vector2(300, 200), p_pGameManager));
+	m_pGameManager.Add(new Cannon(Vector2(300, 300), p_pGameManager));
+	m_pGameManager.Add(new Cannon(Vector2(300, 400), p_pGameManager));
+	m_pGameManager.Add(new Ground(Vector2(0, 870)));
 	
 	//最初はSatge1
 	nowSatge = StageWave::Stage1;
@@ -49,7 +51,7 @@ void GamePlayManager::Update()
 		ClearDrawScreen();
 
 		//	シーンを更新する
-		GameUpdate(fps.DeltaTime);
+		GameUpdate(fps.DeltaTime());
 
 		//	更新
 		fps.Update();
@@ -104,4 +106,18 @@ void GamePlayManager::Wave_3(float deltaTime)
 void GamePlayManager::ChangeWave(StageWave wave)
 {
 	nowSatge = wave;
+}
+
+//カウントの管理
+void GamePlayManager::CountMnager()
+{
+	//エネミーを一定数倒したら、一回大砲を生成できるカウントを＋
+	if (enemyDeadCount >= 3)
+	{
+		enemyDeadCount = 0;
+		cannonGenerateCount++;
+	}
+	//ため込める大砲の数を取得
+	if (cannonGenerateCount >= 5)
+		cannonCount = 5;
 }

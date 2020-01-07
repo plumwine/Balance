@@ -6,6 +6,6 @@
 class WindowInfo
 {
 public:
-	static const int WindowWidth = 800;		//	‰æ–Ê‰¡•
-	static const int WindowHeight = 600;	//	‰æ–Êc•
+	static const int WindowWidth = 1920;		//	‰æ–Ê‰¡•
+	static const int WindowHeight = 1080;	//	‰æ–Êc•
 };

@@ -1,13 +1,11 @@
 #pragma once
 #include "Object.h"
-#include "GameObjectManager.h"
-#include "Input.h"
 
 //プレイヤークラス
 class Player : public Object
 {
 public:
-	Player(const Vector2 &position,GameObjectManager*objectManager);
+	Player(const Vector2 &position);
 	~Player();
 
 	//継承
@@ -21,13 +19,11 @@ public:
 private:
 
 	void Move();        //移動
-	void Generate();    //大砲を生成
 private:
 	bool isDead;        //死亡判定（必要かは分からない）
 	float speed;        //移動速度
 	int input_x;
 	int input_y;
-	GameObjectManager* m_pObjectManager; 
 
 
 };

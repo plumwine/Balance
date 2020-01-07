@@ -1,13 +1,12 @@
 #include "Player.h"
 #include "Cannon.h"
 #include "DxLib.h"
-
-Player::Player(const Vector2 &position, GameObjectManager*objectManager)
+#include "Input.h"
+Player::Player(const Vector2 &position)
 	:speed(5)
 {
 	_position = position;
 	_size = Vector2(38,38);
-	m_pObjectManager = objectManager;
 	_grp = LoadGraph("../Texture/kari/player_A.png");
 	Initialize();
 }
@@ -56,10 +55,4 @@ void Player::Move()
 	_velocity.x = inputPercentage * speed;
 	_position.x += _velocity.x;   //Player‚Í‰¡ˆÚ“®‚µ‚©‚µ‚È‚¢‚½‚ß
 	
-}
-
-//” ¶¬
-void Player::Generate()
-{
-	m_pObjectManager->Add(new Cannon(Vector2(100, 100), m_pObjectManager, 0));
 }
