@@ -1,19 +1,28 @@
 #pragma once
 #include "GameObjectManager.h"
+#include <list>
+
+#define TEXTURESIZEY 32
+#define PLAYERTEXTUREY 38
+#define GROUNDHEIGHT 150
+
 
 //エネミー生成
 class EnemyGenerateManager
 {
 public:
-	EnemyGenerateManager(GameObjectManager *objectManager);
+	EnemyGenerateManager();
 	~EnemyGenerateManager();
 
-	void Update(float deltaTime);
+	void Initialize(GameObjectManager *objectManager);
+	void Update(float deltaTime, int cannonCount);
 private:
-	void Generate(float deltaTime);
-
+	void Generate(int cannonCnt);
 private:
 
 	GameObjectManager* m_pGameObjectManager;
+
+	int cannonCount;
+	std::list<float> _generateTime;
 };
 
