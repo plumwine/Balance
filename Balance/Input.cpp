@@ -105,6 +105,28 @@ bool Input::GetButtonTrigger(int key, int inputType)
 	return false;
 }
 
+bool Input::GetButtonTriggerCannon(int key, int inputType, int myCannonCnt)
+{
+	if (triggerMap.count(key) == 0)
+	{
+		triggerMap[key] = 0;
+	}
+
+	if ((GetInputState(inputType) & key) != 0)
+	{
+		triggerMap[key] += 1;
+	}
+	else triggerMap[key] = 0;
+
+
+
+	if (triggerMap[key] == 1 + myCannonCnt)
+	{
+		return true;
+	}
+	return false;
+}
+
 bool Input::GetButtonState(int key, int inputType)
 {
 	if ((GetInputState(inputType) & key) != 0)
