@@ -71,12 +71,4 @@ void Bullet::DeadJudgment()
 	{
 		isDeadFlag = true;
 	}
-
-	////€–S”»’è‚ªŠm’è‚µ‚½‚çÁ‚·
-	//if (isDeadFlag)
-	//{
-	//	Release();
-	//}
-
-
 }

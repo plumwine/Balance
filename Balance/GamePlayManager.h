@@ -1,9 +1,5 @@
 #pragma once
 #include "GameObjectManager.h"
-#include <vector>
-
-
-
 enum StageWave
 {
 	Stage1,
@@ -42,6 +38,7 @@ private:
 	void Wave_2(float deltaTime);
 	void Wave_3(float deltaTime);
 	void ChangeWave(StageWave wave);
+	void CountMnager();
 
 private:
 	
@@ -50,4 +47,5 @@ private:
 	int cannonCount;                     //生成されている砲台をカウント
 	int cannonGenerateCount;             //大砲生成カウント
 	GameObjectManager m_pGameManager;    //ゲームオブジェクトマネージャー
+
 };
