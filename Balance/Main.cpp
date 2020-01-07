@@ -24,10 +24,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//	画面背景の色を設定する
 	SetBackgroundColor(0, 0, 0);
-
-	float a = 0;
 	//	実行
-	GamePlayManager::Instance().Update(a);
+	GamePlayManager::Instance().Update();
 
 	//	解放処理
 	DxLib_End();				// ＤＸライブラリ使用の終了処理

@@ -26,11 +26,14 @@ public:
 	void Initialize(); //初期化
 
 	//	ループ処理
-	void Update(float deltaTime);
+	void Update();
 
 	//  更新処理
 	void GameUpdate(float deltaTime);
-
+	void EnemyDeadCountUp() { enemyDeadCount++; };       //敵死亡カウントUP
+	 
+	int GetCannonCount() { return cannonCount; }         //砲台の生きている数
+private:
 	//Wave
 	void WaveUpdate(float deltaTime);
 
@@ -40,14 +43,11 @@ public:
 	void Wave_3(float deltaTime);
 	void ChangeWave(StageWave wave);
 
-	void EnemyDeadCountUp() { enemyDeadCount++; };       //敵死亡カウントUP
-	void EnemyDeadCountDown() { enemyDeadCount--; };     //敵死亡カウントDOWN
-	
-
 private:
 	
-	std::vector<int> cannonCount;
 	StageWave nowSatge;
-	int enemyDeadCount;                  //敵死亡カウント兼大砲生成カウント
+	int enemyDeadCount;                  //敵死亡カウント
+	int cannonCount;                     //生成されている砲台をカウント
+	int cannonGenerateCount;             //大砲生成カウント
 	GameObjectManager m_pGameManager;    //ゲームオブジェクトマネージャー
 };

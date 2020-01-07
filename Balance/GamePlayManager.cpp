@@ -39,7 +39,7 @@ void GamePlayManager::Initialize()
 }
 
 //	ループ処理
-void GamePlayManager::Update(float deltaTime)
+void GamePlayManager::Update()
 {
 	Fps fps;
 	//	メインループ
@@ -49,7 +49,7 @@ void GamePlayManager::Update(float deltaTime)
 		ClearDrawScreen();
 
 		//	シーンを更新する
-		GameUpdate(deltaTime);
+		GameUpdate(fps.DeltaTime);
 
 		//	更新
 		fps.Update();
@@ -64,6 +64,9 @@ void GamePlayManager::Update(float deltaTime)
 //	更新処理
 void GamePlayManager::GameUpdate(float deltaTime)
 {
+
+	WaveUpdate(deltaTime);
+
 	m_pGameManager.Update(deltaTime);
 	m_pGameManager.Draw();
 
@@ -97,7 +100,8 @@ void GamePlayManager::Wave_2(float deltaTime)
 void GamePlayManager::Wave_3(float deltaTime)
 {
 }
-
+//WAVEチェンジ
 void GamePlayManager::ChangeWave(StageWave wave)
 {
+	nowSatge = wave;
 }
