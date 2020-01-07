@@ -15,7 +15,7 @@ public:
 	~EnemyGenerateManager();
 
 	void Initialize(GameObjectManager *objectManager);
-	void Update(float deltaTime, int cannonCount);
+	void Update(float nowTime, int cannonCount);
 private:
 	void Generate(int cannonCnt);
 private:

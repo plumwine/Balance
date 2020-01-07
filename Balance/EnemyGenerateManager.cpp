@@ -49,10 +49,23 @@ void EnemyGenerateManager::Update(float nowTime, int cannonCnt)
 
 void EnemyGenerateManager::Generate(int cannonCnt)
 {
-	Vector2 generatePos = Vector2(
-		GetRand(1) * WindowInfo::WindowWidth,
-		WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - (GetRand(cannonCnt) * TEXTURESIZEY));
+	///ƒ‰ƒ“ƒ_ƒ€(0`ˆø”‚Ì”šŠÜ‚Ş”)()‚Ì’†‚Æ‰º‚Ì¶‚©‚ç‚Ì“G‚Ì”äŠr‰‰Zq‚Ì‰E•Ó‚Ì”’l‚ğ•Ï‚¦‚é‚±‚Æ‚Å”ä—¦‚ğ•ÏX‚Å‚«‚é
+	int randSpawnX = GetRand(5);
 
-	
+	//¶‚©‚ç”­Ë‚³‚ê‚é“G
+	if (randSpawnX <= 1)
+	{
+		Vector2 generatePos = Vector2(
+			0,
+			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - (GetRand(cannonCnt) * TEXTURESIZEY));
 		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0)));
+	}
+	//‰E‚©‚ç”­Ë‚³‚ê‚é“G
+	else
+	{
+		Vector2 generatePos = Vector2(
+			WindowInfo::WindowWidth,
+			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - (GetRand(cannonCnt) * TEXTURESIZEY));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0)));
+	}
 }
