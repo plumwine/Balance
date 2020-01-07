@@ -1,10 +1,8 @@
 #include "Input.h"
 
-Input & Input::Instance()
-{
-	static std::unique_ptr<Input> instance(new Input());
 
-	return *instance;
+Input::Input()
+{
 }
 
 int Input::GetInputState()

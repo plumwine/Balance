@@ -23,13 +23,9 @@
 
 class Input {
 
-private:
-	Input() {}
-	Input(const Input&) {}
-	Input& operator= (const Input&) {}
-
 public:
-	static Input& Instance();
+	Input();
+
 
 	int GetInputState();
 	int GetInputState(int inputType);
