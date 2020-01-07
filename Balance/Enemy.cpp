@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "GamePlayManager.h"
 
 
 Enemy::Enemy(const Vector2 & position, Vector2 velocity)
@@ -43,6 +44,7 @@ void Enemy::Hit(Object & object)
 {
 	//現状判定する予定が弾と大砲だけなので、当たった時点で終了
 	isDeadFlag = true;
+	GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
 }
 
 void Enemy::Move()
