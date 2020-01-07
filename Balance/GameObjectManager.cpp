@@ -1,6 +1,7 @@
 #include "GameObjectManager.h"
 #include "Object.h"
-
+#include <typeinfo.h>
+#include "Cannon.h"
 
 
 GameObjectManager::GameObjectManager()
@@ -17,14 +18,13 @@ GameObjectManager::~GameObjectManager()
 			delete object;
 	}
 	mObjects.clear();
-
 }
 
 void GameObjectManager::Update(float deltaTime)
 {
 	for (auto& object : mObjects)
 	{
-		
+
 		if (object == nullptr) continue;
 		if (!object->IsDead())
 		{
@@ -41,12 +41,9 @@ void GameObjectManager::Update(float deltaTime)
 					object_2->Hit(*object);
 
 				}
-
 			}
 		}
-			
 	}
-
 	auto itr = mObjects.begin();
 	while (itr != mObjects.end())
 	{
@@ -67,7 +64,7 @@ void GameObjectManager::Draw()
 	{
 		//オブジェクトがnullならcontinue
 		if (object == nullptr) continue;
-		
+
 
 		//オブジェクトが生きていたら描画する
 		if (!object->IsDead())
@@ -78,12 +75,14 @@ void GameObjectManager::Draw()
 		{
 			continue;
 		}
-			
+
 	}
 }
 //追加
 void GameObjectManager::Add(Object * pObject)
 {
 	mObjects.emplace_back(pObject);
+
 	pObject->Initialize();
 }
+

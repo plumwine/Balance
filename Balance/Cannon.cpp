@@ -5,12 +5,12 @@
 #include <typeinfo.h>
 #include "Input.h"
 #include "Player.h"
+#include "Ground.h"
 
 
 //コンストラクタ　初期化並び
-Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager, int listNum)
-	:mListNum(listNum),
-	underTouch(false),
+Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager)
+	:underTouch(false),
 	flipHorizontal(false),
 	isDeadFlag(false)
 {
@@ -59,7 +59,7 @@ void Cannon::Hit(Object & object)
 
 	CurrentPosition(object);  //当たった方向への押し出し
 	//当たったのが敵なら
-	if (typeid(object) == typeid(Enemy))
+	if (typeid(object) == typeid(Enemy) || typeid(object) == typeid(Ground))
 	{
 		isDeadFlag = true;
 	} 
@@ -69,13 +69,11 @@ void Cannon::Hit(Object & object)
 	if (_direction == Direction::Bottom &&
 		( typeid(object) == typeid(Cannon) || typeid(object) == typeid(Player)))
 	{
-
-		
-		_velocity.x = object.Velocity().x;
+		nowNum = (int)(_position.y-496 /10);
+		_velocity.x -= object.Velocity().x;
 		//一回触れていたらリターン
 		if (underTouch) return;
 		underTouch = true;
-		//centerPosX = (_position.x + _size.x / 2) - (object.Position().x + object.Size().x / 2);
 	}
 	
 
@@ -91,12 +89,9 @@ void Cannon::Move()
 		gravity = 0;
 	}
 	else
-	{
-		underTouch = false;  //下に何もなかったらfalse
+	{underTouch = false;  //下に何もなかったらfalse
 		gravity = 2.0f;
 	}
-
-
 	_velocity.x += reaction;  //横方向の移動（重力）
 	_velocity.y = gravity;   //縦方向への移動
 
@@ -108,18 +103,19 @@ void Cannon::Move()
 
 void Cannon::Shot()
 {
+	//if (!underTouch) return;
 	//ゲームパッドの押されたボタンに合わせて反動をつける
 	//左
 	if (Input::Instance().GetButtonTrigger(INPUT_BUTTON_LB, DX_INPUT_PAD1))
 	{
-		reaction = -3;
-		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(1, 0)));
+		reaction = 3;
+		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(-1, 0)));
 	}
 
 	//右
 	if (Input::Instance().GetButtonTrigger(INPUT_BUTTON_RB, DX_INPUT_PAD1))
 	{
-		reaction = 3;
-		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(-1, 0)));
+		reaction = -3;
+		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(1, 0)));
 	}
 }

@@ -14,8 +14,8 @@ public:
 	void Draw();
 	void Add(Object* pObject);
 
+
 private:
-	//GameObjectsManager* operator=(const GameObjectManager*) {}
 	std::vector<Object*> mObjects;
 };
 

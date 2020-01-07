@@ -7,7 +7,7 @@ Ground::Ground(const Vector2 &position)
 	:isGameEnd(false)
 {
 	_position = position; 
-	_size = Vector2(800, 50);
+	_size = Vector2(1920, 150);
 	_grp = LoadGraph("../Texture/kari/ground_A.png");
 	Initialize();
 }
