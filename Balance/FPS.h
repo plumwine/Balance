@@ -10,21 +10,26 @@ class Fps {
 	static const int FPS = 60;	//設定したFPS
 
 	int backTime; //1フレーム前の時間
-	int deltaTime;
+	float deltaTime;
+	float time;
+
+	bool timeFlag;
 
 public:
 	Fps() {
 		startTime = 0;
 		count = 0;
-		fps = 0;
-		backTime = 0;
+		fps = 60;
+		backTime = GetNowCount();
 		deltaTime = 0;
+		time = 0;
+		timeFlag = false;
 	}
 
 	bool Update() {
 		int nowTime = GetNowCount();
 
-		int deltaTime = nowTime - backTime;
+		deltaTime = (nowTime - backTime) / 1000.0;
 
 		backTime = nowTime;
 		if (count == 0) { //1フレーム目なら時刻を記憶
@@ -35,6 +40,11 @@ public:
 			fps = 1000.f / ((t - startTime) / (float)N);
 			count = 0;
 			startTime = t;
+		}
+
+		if (!timeFlag)
+		{
+			time += deltaTime;
 		}
 		count++;
 		return true;
@@ -54,7 +64,19 @@ public:
 		}
 	}
 
-	int DeltaTime() {
+	float DeltaTime() {
 		return deltaTime;
+	}
+
+	float GetTime() {
+		return time;
+	}
+
+	void TimeStop() {
+		timeFlag = true;
+	}
+
+	void TimeStart() {
+		timeFlag = false;
 	}
 };
