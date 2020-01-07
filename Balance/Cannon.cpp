@@ -6,10 +6,11 @@
 #include "Input.h"
 #include "Player.h"
 #include "Ground.h"
+#include "GamePlayManager.h"
 
 
 //コンストラクタ　初期化並び
-Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager)
+Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager,int num)
 	:underTouch(false),
 	flipHorizontal(false),
 	isDeadFlag(false)
@@ -19,6 +20,7 @@ Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager)
 	m_pObjectManager = objectManager;
 	_grp = LoadGraph("../Texture/kari/battery_A.png");
 	centerPosX = 0;      //最初は0で初期化
+	nowNum = num;
 	Initialize();//初期化
 }
 
@@ -69,13 +71,15 @@ void Cannon::Hit(Object & object)
 	if (_direction == Direction::Bottom &&
 		( typeid(object) == typeid(Cannon) || typeid(object) == typeid(Player)))
 	{
-		nowNum = (int)(_position.y-496 /10);
 		_velocity.x -= object.Velocity().x;
 		//一回触れていたらリターン
 		if (underTouch) return;
 		underTouch = true;
 	}
-	
+	else
+	{
+		underTouch = false;  //下に何もなかったらfalse
+	}
 
 
 }
@@ -89,7 +93,8 @@ void Cannon::Move()
 		gravity = 0;
 	}
 	else
-	{underTouch = false;  //下に何もなかったらfalse
+	{
+		
 		gravity = 2.0f;
 	}
 	_velocity.x += reaction;  //横方向の移動（重力）
@@ -103,17 +108,19 @@ void Cannon::Move()
 
 void Cannon::Shot()
 {
-	//if (!underTouch) return;
+	if (!underTouch) return;
+
+	int nowCountCannon = GamePlayManager::Instance().GetCannonCount();
 	//ゲームパッドの押されたボタンに合わせて反動をつける
 	//左
-	if (Input::Instance().GetButtonTrigger(INPUT_BUTTON_LB, DX_INPUT_PAD1))
+	if (Input::Instance().GetButtonTriggerCannon(INPUT_BUTTON_LB, DX_INPUT_PAD1, nowCountCannon - nowNum))
 	{
 		reaction = 3;
 		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(-1, 0)));
 	}
 
 	//右
-	if (Input::Instance().GetButtonTrigger(INPUT_BUTTON_RB, DX_INPUT_PAD1))
+	if (Input::Instance().GetButtonTriggerCannon(INPUT_BUTTON_RB, DX_INPUT_PAD1, nowCountCannon - nowNum))
 	{
 		reaction = -3;
 		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(1, 0)));

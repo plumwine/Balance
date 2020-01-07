@@ -28,11 +28,17 @@ void GamePlayManager::Initialize()
 
 	//ç≈èâÇ…ê∂ê¨Ç∑ÇÈÇ‡ÇÃÇäeWaveã§í 
 	m_pGameManager.Add(new Player(Vector2(100, 832)));
-	m_pGameManager.Add(new Cannon(Vector2(300, 000), p_pGameManager));
-	m_pGameManager.Add(new Cannon(Vector2(300, 100), p_pGameManager));
-	m_pGameManager.Add(new Cannon(Vector2(300, 200), p_pGameManager));
-	m_pGameManager.Add(new Cannon(Vector2(300, 300), p_pGameManager));
-	m_pGameManager.Add(new Cannon(Vector2(300, 400), p_pGameManager));
+	cannonCount++;
+	m_pGameManager.Add(new Cannon(Vector2(300, 000), p_pGameManager,cannonCount));
+	cannonCount++;
+	m_pGameManager.Add(new Cannon(Vector2(300, 100), p_pGameManager,cannonCount));
+	cannonCount++;
+	m_pGameManager.Add(new Cannon(Vector2(300, 200), p_pGameManager,cannonCount));
+	cannonCount++;
+	m_pGameManager.Add(new Cannon(Vector2(300, 300), p_pGameManager,cannonCount));
+	cannonCount++;
+	m_pGameManager.Add(new Cannon(Vector2(300, 400), p_pGameManager,cannonCount));
+	cannonCount++;
 	m_pGameManager.Add(new Ground(Vector2(0, 870)));
 	
 	//ç≈èâÇÕSatge1

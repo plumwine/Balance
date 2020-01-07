@@ -7,7 +7,7 @@ class Cannon : public Object
 {
 public:
 
-	Cannon(const Vector2 &position,GameObjectManager *objectManager);
+	Cannon(const Vector2 &position,GameObjectManager *objectManager,int num);
 	~Cannon();
 
 	//継承
@@ -32,7 +32,7 @@ private:
 	float reaction;                    //反動
 	float gravity;                     //重力
 	float centerPosX;                  //中心位置X
-	int nowNum;                       //今のY座標
+	int nowNum;                        //今のY座標
 	
 	GameObjectManager* m_pObjectManager;  //GameObjectManagerのポインタ
 	

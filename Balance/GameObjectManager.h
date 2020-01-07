@@ -14,6 +14,7 @@ public:
 	void Draw();
 	void Add(Object* pObject);
 
+	void Search();
 
 private:
 	std::vector<Object*> mObjects;
