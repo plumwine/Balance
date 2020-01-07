@@ -46,6 +46,7 @@ public:
 	void StopJoypadVibration(int inputType);
 
 	bool GetButtonTrigger(int key, int inputType);
+	bool GetButtonTriggerCannon(int key, int inputType,int myCannonCnt);
 	bool GetButtonState(int key, int inputType);
 
 private:
