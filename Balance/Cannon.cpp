@@ -3,7 +3,6 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include <typeinfo.h>
-#include "Input.h"
 #include "Player.h"
 #include "Ground.h"
 #include "GamePlayManager.h"
@@ -21,6 +20,7 @@ Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager,int num
 	_grp = LoadGraph("../Texture/kari/battery_A.png");
 	centerPosX = 0;      //最初は0で初期化
 	nowNum = num;
+	input = Input();
 	Initialize();//初期化
 }
 
@@ -108,19 +108,19 @@ void Cannon::Move()
 
 void Cannon::Shot()
 {
-	if (!underTouch) return;
+	//if (!underTouch) return;
 
 	int nowCountCannon = GamePlayManager::Instance().GetCannonCount();
 	//ゲームパッドの押されたボタンに合わせて反動をつける
 	//左
-	if (Input::Instance().GetButtonTriggerCannon(INPUT_BUTTON_LB, DX_INPUT_PAD1, nowCountCannon - nowNum))
+	if (input.GetButtonTrigger(INPUT_BUTTON_LB, DX_INPUT_PAD1))
 	{
 		reaction = 3;
 		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(-1, 0)));
 	}
 
 	//右
-	if (Input::Instance().GetButtonTriggerCannon(INPUT_BUTTON_RB, DX_INPUT_PAD1, nowCountCannon - nowNum))
+	if (input.GetButtonTrigger(INPUT_BUTTON_RB, DX_INPUT_PAD1))
 	{
 		reaction = -3;
 		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(1, 0)));
