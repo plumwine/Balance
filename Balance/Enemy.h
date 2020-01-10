@@ -17,8 +17,8 @@ public:
 	void Hit(Object& object) override; //当たった時の処理
 private:
 
-	void Move();                       //移動方法
-
+	void Move(float deltaTime);                       //移動方法
+	void DeadJudgment();              //死亡判定
 private:
 
 	Vector2 m_Velocity;     //向く方向生成時に確認する

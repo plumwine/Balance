@@ -7,7 +7,6 @@
 #include "Ground.h"
 #include "GamePlayManager.h"
 
-
 //コンストラクタ　初期化並び
 Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager,int num)
 	:underTouch(false),
@@ -41,10 +40,7 @@ void Cannon::Draw()
 void Cannon::Update(float deltaTime)
 {
 	Shot();
-	Move();
-	m_pObjectManager->Update(deltaTime);
-	m_pObjectManager->Draw();
-
+	Move(deltaTime);
 }
 //解放
 void Cannon::Release()
@@ -58,12 +54,14 @@ void Cannon::Hit(Object & object)
 {
 	//弾に関しては当たり判定を取らない
 	if (typeid(object) == typeid(Bullet)) return;
-
-	CurrentPosition(object);  //当たった方向への押し出し
+	
+	
 	//当たったのが敵なら
 	if (typeid(object) == typeid(Enemy) || typeid(object) == typeid(Ground))
 	{
+		GamePlayManager::Instance().DeadCannon();
 		isDeadFlag = true;
+		return;
 	} 
 	
 
@@ -71,20 +69,18 @@ void Cannon::Hit(Object & object)
 	if (_direction == Direction::Bottom &&
 		( typeid(object) == typeid(Cannon) || typeid(object) == typeid(Player)))
 	{
-		_velocity.x -= object.Velocity().x;
+		CurrentPosition(object);  //当たった方向への押し出し
+		nowNum = (int)((_position.y + _size.y / 2) - 496) / 32;
+		_velocity.x = (0.8f * object.Velocity().x) / (10 / nowNum);
 		//一回触れていたらリターン
 		if (underTouch) return;
 		underTouch = true;
 	}
-	else
-	{
-		underTouch = false;  //下に何もなかったらfalse
-	}
-
+	
 
 }
 //移動
-void Cannon::Move()
+void Cannon::Move(float deltaTime)
 {
 
 	//敵・弾以外のオブジェクトの上に乗ったら
@@ -94,35 +90,51 @@ void Cannon::Move()
 	}
 	else
 	{
-		
-		gravity = 2.0f;
+		gravity = 150.0f;
 	}
-	_velocity.x += reaction;  //横方向の移動（重力）
-	_velocity.y = gravity;   //縦方向への移動
+	
+	_velocity.x += reaction;  //横方向の移動
+	_velocity.y = gravity;    //縦方向への移動（重力）
 
 
-	_position += _velocity;
+	_position += _velocity * deltaTime;
+	
 	_velocity = Vector2(0, 0);
-	reaction = 0;
+
+	if (reaction >11)
+	{
+		reaction -= 10;
+	}
+	if (reaction < -11)
+	{
+		reaction += 10;
+	}
+	if (reaction >= -10 && reaction <= 10)
+	{
+		reaction = 0;
+	}
 }
 
 void Cannon::Shot()
 {
-	//if (!underTouch) return;
+	if (!underTouch) return;
 
-	int nowCountCannon = GamePlayManager::Instance().GetCannonCount();
 	//ゲームパッドの押されたボタンに合わせて反動をつける
 	//左
 	if (input.GetButtonTrigger(INPUT_BUTTON_LB, DX_INPUT_PAD1))
 	{
-		reaction = 3;
-		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(-1, 0)));
+		Vector2 kariPos = _position;
+		flipHorizontal = true;
+		reaction = 10 * nowNum;
+		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8,8), Vector2(-1, 0)));
 	}
 
 	//右
 	if (input.GetButtonTrigger(INPUT_BUTTON_RB, DX_INPUT_PAD1))
 	{
-		reaction = -3;
-		m_pObjectManager->Add(new Bullet(_position + Vector2(16, 16), Vector2(1, 0)));
+		Vector2 kariPos = _position;
+		flipHorizontal = false;
+		reaction = -10 * nowNum;
+		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8, 8), Vector2(1, 0)));
 	}
 }
