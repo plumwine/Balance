@@ -53,9 +53,10 @@ bool Cannon::IsDead()
 void Cannon::Hit(Object & object)
 {
 	//’e‚ÉŠÖ‚µ‚Ä‚Í“–‚½‚è”»’è‚ðŽæ‚ç‚È‚¢
-	if (typeid(object) == typeid(Bullet)) return;
-	
-	
+	if (typeid(object) == typeid(Bullet))
+	{
+		return;
+	}
 	//“–‚½‚Á‚½‚Ì‚ª“G‚È‚ç
 	if (typeid(object) == typeid(Enemy) || typeid(object) == typeid(Ground))
 	{
@@ -125,7 +126,7 @@ void Cannon::Shot()
 	{
 		Vector2 kariPos = _position;
 		flipHorizontal = true;
-		reaction = 10 * nowNum;
+		reaction = (float)(10 / nowNum);
 		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8,8), Vector2(-1, 0)));
 	}
 
@@ -134,7 +135,7 @@ void Cannon::Shot()
 	{
 		Vector2 kariPos = _position;
 		flipHorizontal = false;
-		reaction = -10 * nowNum;
+		reaction = (float)(-10 / nowNum);
 		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8, 8), Vector2(1, 0)));
 	}
 }

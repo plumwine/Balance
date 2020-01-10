@@ -69,3 +69,5 @@ void EnemyGenerateManager::Generate(int cannonCnt)
 		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0)));
 	}
 }
+
+//ƒRƒƒ“ƒgby‘å—F
