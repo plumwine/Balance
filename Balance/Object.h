@@ -58,6 +58,10 @@ public:
 	//	矩形対矩形の判定
 	bool RectCollision(const Object& rect)
 	{
+		if (&rect == nullptr)
+		{
+			return false;
+		}
 		Vector2 rectAPos = Position();
 		Vector2 rectBPos = rect.Position();
 		Vector2 rectASize = Size();
@@ -96,8 +100,6 @@ public:
 				return Top;
 		}
 		return None;
-
-		
 	}
 
 	//	メンバ関数にconstを付与する事で

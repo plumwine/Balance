@@ -1,7 +1,7 @@
 #include "Ground.h"
 #include <typeinfo.h>
 #include "Cannon.h"
-
+#include "GamePlayManager.h"
 
 Ground::Ground(const Vector2 &position)
 	:isGameEnd(false)
@@ -46,6 +46,7 @@ void Ground::Hit(Object & object)
 	if (typeid(object) == typeid(Cannon))
 	{
 		isGameEnd = true;
+		GamePlayManager::Instance().endGame();
 	}
 }
 

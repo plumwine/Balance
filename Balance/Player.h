@@ -18,7 +18,7 @@ public:
 	
 private:
 
-	void Move();        //移動
+	void Move(float deltaTime);        //移動
 private:
 	bool isDead;        //死亡判定（必要かは分からない）
 	float speed;        //移動速度

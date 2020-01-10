@@ -1,10 +1,14 @@
 #include "Enemy.h"
 #include "GamePlayManager.h"
+#include <typeinfo.h>
+#include "Cannon.h"
+#include "Bullet.h"
+#include "WindowInfo.h"
 
 
 Enemy::Enemy(const Vector2 & position, Vector2 velocity)
 	:isDeadFlag(false),
-	speed(5)
+	speed(100)
 {
 	_position = position;
 	_size = Vector2(32,32);
@@ -28,7 +32,9 @@ void Enemy::Draw()
 //更新
 void Enemy::Update(float deltaTime)
 {
-	Move();
+	Move(deltaTime);
+	DeadJudgment();
+
 }
 
 void Enemy::Release()
@@ -42,12 +48,35 @@ bool Enemy::IsDead()
 
 void Enemy::Hit(Object & object)
 {
+
 	//現状判定する予定が弾と大砲だけなので、当たった時点で終了
-	isDeadFlag = true;
-	GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
+	if (typeid(object) == typeid(Cannon) ||
+		typeid(object) == typeid(Bullet))
+	{
+		GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
+		isDeadFlag = true;
+		
+	}
+	
 }
 
-void Enemy::Move()
+void Enemy::DeadJudgment()
 {
-	_position += m_Velocity * speed;
+
+	//ウィンドウ範囲外に出たら消す
+	if (_position.x < -100 ||
+		_position.x > WindowInfo::WindowWidth+100)
+	{
+		isDeadFlag = true;
+	}
+	if (_position.y < -100 ||
+		_position.y > WindowInfo::WindowHeight+100)
+	{
+		isDeadFlag = true;
+	}
+}
+
+void Enemy::Move(float deltaTime)
+{
+	_position += m_Velocity * speed* deltaTime;
 }

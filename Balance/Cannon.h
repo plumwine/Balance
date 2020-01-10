@@ -21,7 +21,7 @@ public:
 	void Shot();                       //’e‚ðŒ‚‚Â
 private:
 
-	void Move();                       //ˆÚ“®ŠÖŒW
+	void Move(float deltaTime);                       //ˆÚ“®ŠÖŒW
 
 	
 

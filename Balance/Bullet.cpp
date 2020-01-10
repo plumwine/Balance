@@ -1,13 +1,14 @@
 #include "DxLib.h"
 #include "Bullet.h"
 #include "WindowInfo.h"
-
-
-
+#include "Enemy.h"
+#include <typeinfo.h>
+#include "Player.h"
+#include "Cannon.h"
 
 Bullet::Bullet(const Vector2 &position, Vector2 velocity)
 	:mVelocity(velocity),
-	speed(5),
+	speed(500),
 	isDeadFlag(false)
 {
 	_position = position;
@@ -32,13 +33,12 @@ void Bullet::Initialize()
 
 void Bullet::Draw()
 {
-	//Render::Instance().RectDraw(*this);
-	DrawTurnGraph((int)(_position.x - _size.x / 2), (int)(_position.y - _size.y / 2), _grp, false);
+	Render::Instance().RectDraw(*this);
 }
 
 void Bullet::Update(float deltaTime)
 {
-	Move();
+	Move(deltaTime);
 	DeadJudgment();
 
 }
@@ -49,12 +49,21 @@ void Bullet::Release()
 
 void Bullet::Hit(Object & object)
 {
-	CurrentPosition(object);  //ìñÇΩÇ¡ÇΩï˚å¸Ç÷ÇÃâüÇµèoÇµ
+	
+	/*if (typeid(object) == typeid(Cannon) ||
+		typeid(object) == typeid(Player) ||
+		typeid(object) == typeid(Bullet))
+		return;*/
+	if (typeid(object) == typeid(Enemy))
+	{
+		isDeadFlag = true;
+	}
+
 }
 
-void Bullet::Move()
+void Bullet::Move(float deltaTime)
 {
-	_position += mVelocity * speed;
+	_position += mVelocity * speed * deltaTime;
 }
 
 void Bullet::DeadJudgment()

@@ -1,6 +1,5 @@
 #pragma once
 #include "Object.h"
-#include "Vector2.h"
 
 //’eƒNƒ‰ƒX
 class Bullet:public Object
@@ -21,7 +20,7 @@ public:
 private:
 
 
-	void Move();                      //ˆÚ“®
+	void Move(float deltaTime);                      //ˆÚ“®
 	void DeadJudgment();              //Ž€–S”»’è
 	
 
