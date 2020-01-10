@@ -34,6 +34,7 @@ void GamePlayManager::Initialize()
 
 	//Å‰‚É¶¬‚·‚é‚à‚Ì‚ðŠeWave‹¤’Ê
 	m_pGameManager->Add(new Player(Vector2(900, 832)));
+
 	cannonCount++;
 	m_pGameManager->Add(new Cannon(Vector2(960, 000), m_pGameManager,cannonCount));
 	cannonCount++;
@@ -44,7 +45,7 @@ void GamePlayManager::Initialize()
 	m_pGameManager->Add(new Cannon(Vector2(960, 300), m_pGameManager,cannonCount));
 	cannonCount++;
 	m_pGameManager->Add(new Cannon(Vector2(960, 400), m_pGameManager,cannonCount));
-	cannonCount++;
+
 	m_pGameManager->Add(new Ground(Vector2(0, 870)));
 	
 	//Å‰‚ÍSatge1
@@ -84,11 +85,12 @@ void GamePlayManager::Update()
 //	XVˆ—
 void GamePlayManager::GameUpdate(float deltaTime)
 {
+	m_pGameManager->Update(deltaTime);
+	m_pGameManager->Draw();
 
 	WaveUpdate(deltaTime);
 	CountMnager();
-	m_pGameManager->Update(deltaTime);
-	m_pGameManager->Draw();
+	
 
 }
 
@@ -99,7 +101,7 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 	case TitleScene:
 		Title();
 		break;
-	case Stage2:
+	case GamePlayScene:
 		GameUpdate(deltaTime);
 		break;
 	case EndScene:

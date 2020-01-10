@@ -7,12 +7,13 @@
 #include "Cannon.h"
 
 Bullet::Bullet(const Vector2 &position, Vector2 velocity)
-	:mVelocity(velocity),
-	speed(500),
-	isDeadFlag(false)
+	:isDeadFlag(false),
+	speed(500)
 {
+
 	_position = position;
 	_size = Vector2(16, 16);
+	mVelocity = velocity;
 	_grp = LoadGraph("../Texture/kari/bullet_A.png");
 	Initialize();
 }
@@ -49,11 +50,13 @@ void Bullet::Release()
 
 void Bullet::Hit(Object & object)
 {
-	
-	/*if (typeid(object) == typeid(Cannon) ||
+	if (typeid(object) == typeid(Cannon) ||
 		typeid(object) == typeid(Player) ||
 		typeid(object) == typeid(Bullet))
-		return;*/
+	{
+		return;
+	}
+		
 	if (typeid(object) == typeid(Enemy))
 	{
 		isDeadFlag = true;

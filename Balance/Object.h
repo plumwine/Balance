@@ -36,7 +36,6 @@ public:
 	void CurrentPosition(Object& other)
 	{
 		Direction dir = _direction;
-		Vector2 otherSize = other.Size();
 
 		switch (dir)
 		{
@@ -77,7 +76,7 @@ public:
 		_direction = None;
 		return false;
 	}
-
+	//当たった方向を返す
 	Direction ColDirection(Vector2 dir, Vector2 otherSize)
 	{
 		Vector2 AddSize = _size + otherSize;
@@ -111,7 +110,7 @@ public:
 	Direction Dir() const { return _direction; }
 protected:
 	Vector2 _position;		//	座標
-	Vector2 _velocity;      //移動方向
+	Vector2 _velocity;      //  移動方向
 	Vector2 _size;			//	サイズ
 	int _grp;				//  画像ID
 	Direction _direction;   //  当たった方向

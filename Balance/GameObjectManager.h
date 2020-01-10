@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
-
-class Object;
+#include "Object.h"
 
 class GameObjectManager
 {
@@ -17,5 +16,6 @@ public:
 
 private:
 	std::vector<Object*> mObjects;
+	std::vector<Object*> m_addObjectList;
 };
 

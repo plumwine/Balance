@@ -7,7 +7,6 @@ class Player : public Object
 public:
 	Player(const Vector2 &position);
 	~Player();
-
 	//Œp³
 	void Initialize() override;        //‰Šú‰»
 	void Draw() override;              //•`‰æ
