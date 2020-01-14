@@ -41,6 +41,8 @@ int GraphFactory::LoadGraph(PictString pict, bool TMasFKari)
 		filepath.append("kari/");
 	}
 
+	std::string name = STR(pict);
+	name = name.substr(12);
 	filepath.append(STR(pict));
 	filepath.append(".png");
 

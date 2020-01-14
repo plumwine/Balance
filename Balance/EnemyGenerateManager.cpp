@@ -60,11 +60,15 @@ void EnemyGenerateManager::Update(float nowTime, int cannonCnt)
 	}
 
 	itr++;
-
-	for (auto i = 0; i < *itr; i++)
+	if (_generate.size() == 2)
 	{
-		Generate(cannonCount);
+		for (auto i = 0; i < *itr; i++)
+		{
+			Generate(cannonCount);
+		}
 	}
+
+
 
 	if (_generateItr == _generateTime.end())
 	{
@@ -83,6 +87,26 @@ void EnemyGenerateManager::Generate(int cannonCnt)
 
 	//¶‚©‚ç”­Ë‚³‚ê‚é“G
 	if (randSpawnX <= 1)
+	{
+		Vector2 generatePos = Vector2(
+			0,
+			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * TEXTURESIZEY));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0)));
+	}
+	//‰E‚©‚ç”­Ë‚³‚ê‚é“G
+	else
+	{
+		Vector2 generatePos = Vector2(
+			WindowInfo::WindowWidth,
+			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * TEXTURESIZEY));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0)));
+	}
+}
+
+void EnemyGenerateManager::Generate(int cannonCnt, int R0L1)
+{
+	//¶‚©‚ç”­Ë‚³‚ê‚é“G
+	if (R0L1 == 1)
 	{
 		Vector2 generatePos = Vector2(
 			0,
