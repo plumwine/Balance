@@ -18,6 +18,10 @@ public:
 	void Release() override;           //‰ğ•ú
 	bool IsDead() override;            //€–S”»’è
 	void Hit(Object& object) override; //“–‚½‚Á‚½‚Ìˆ—
+	void AreaHit(Object & object) override;
+
+	int GetNowNum();                     //Œ»İ‚Ì‡”Ô
+
 	void Shot();                       //’e‚ğŒ‚‚Â
 private:
 

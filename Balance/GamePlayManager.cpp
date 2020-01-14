@@ -1,6 +1,5 @@
 #include <DxLib.h>
 #include <memory>
-#include "FPS.h"
 #include "GraphFactory.h"
 #include "Render.h"
 //オブジェクト関係
@@ -19,46 +18,42 @@ GamePlayManager & GamePlayManager::Instance()
 	return *instance;
 }
 
+GamePlayManager::~GamePlayManager()
+{
+	delete m_pGameManager;
+
+}
+
 void GamePlayManager::Initialize()
 {
 	m_pGameManager = new GameObjectManager();
 
 	m_EnemyManager =  EnemyGenerateManager();
 	m_EnemyManager.Initialize(m_pGameManager);
+	fps =  Fps();
+
 
 	input = Input();
+	nowScene = Scene::TitleScene;
+	//最初はSatge1
+	nowSatge = StageWave::Stage1;
+
+
 
 	endGr = LoadGraph("../Texture/kari/sipai_A.png");
 	golGr = LoadGraph("../Texture/kari/seikou_A.png");
+
 	gameEnd = false;
+	cannonCount = 0;
 
-	//最初に生成するものを各Wave共通
-	m_pGameManager->Add(new Player(Vector2(900, 832)));
-
-	cannonCount++;
-	m_pGameManager->Add(new Cannon(Vector2(960, 000), m_pGameManager,cannonCount));
-	cannonCount++;
-	m_pGameManager->Add(new Cannon(Vector2(960, 100), m_pGameManager,cannonCount));
-	cannonCount++;
-	m_pGameManager->Add(new Cannon(Vector2(960, 200), m_pGameManager,cannonCount));
-	cannonCount++;
-	m_pGameManager->Add(new Cannon(Vector2(960, 300), m_pGameManager,cannonCount));
-	cannonCount++;
-	m_pGameManager->Add(new Cannon(Vector2(960, 400), m_pGameManager,cannonCount));
-
-	m_pGameManager->Add(new Ground(Vector2(0, 870)));
 	
-	//最初はSatge1
-	nowSatge = StageWave::Stage1;
-	nowScene = Scene::GamePlayScene;
 	
-
 }
 
 //	ループ処理
 void GamePlayManager::Update()
 {
-	Fps fps;
+	
 	fps.TimeStart();
 
 	//	メインループ
@@ -107,28 +102,58 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 	case EndScene:
 		Ending();
 		break;
-	case InitScene:
-		Init();
-		break;
 	}
 
 }
-
+//タイトル
 void GamePlayManager::Title()
 {
+	
+	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
+	{
+		Initialize();
+		Init();
+		fps.TimeStart();
+		ChangeScene(Scene::GamePlayScene);
+	}
 
 }
+//エンディング
 void GamePlayManager::Ending()
 {
+	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
+	{
+		ChangeScene(Scene::TitleScene);
+	}
+	if (gameEnd || (cannonCount <= 0))
+	{
+		DrawTurnGraph(600, 200, endGr, 1);
+	}
+	if (cannonCount >= 10)
+	{
+		DrawTurnGraph(600, 200, golGr, 0);
+	}
 }
 
-void GamePlayManager::CangeScene(Scene scene)
+void GamePlayManager::ChangeScene(Scene scene)
 {
 	nowScene = scene;
 }
 
 void GamePlayManager::Init()
 {
+	
+	gameEnd = false;
+	cannonCount = 0;
+	cannonGenerateCount = 0;
+	enemyDeadCount = 0;
+	//最初に生成するものを各Wave共通
+	m_pGameManager->Add(new Player(Vector2(960, 832)));
+	//キャノンを追加するときはcannnonCountを足す
+	cannonCount++;
+	m_pGameManager->Add(new Cannon(Vector2(960, 800), m_pGameManager, cannonCount));
+
+	m_pGameManager->Add(new Ground(Vector2(0, 870)));
 }
 
 //ウェイブ管理
@@ -150,6 +175,7 @@ void GamePlayManager::WaveUpdate(float deltaTime)
 
 void GamePlayManager::Wave_1(float deltaTime)
 {
+
 }
 
 void GamePlayManager::Wave_2(float deltaTime)
@@ -185,18 +211,22 @@ void GamePlayManager::CountMnager()
 		{
 			cannonGenerateCount--;
 			cannonCount++;
-			m_pGameManager->Add(new Cannon(Vector2(960, 200), m_pGameManager, cannonCount));
+			m_pGameManager->Add(new Cannon(Vector2(m_pGameManager->TopCannon(), 200), m_pGameManager, cannonCount));
 		}
 
 	}
 
 	//箱が床に落ちたら終了
-	if (gameEnd)
+	if (gameEnd || (cannonCount <=0))
 	{
+		fps.Wait();
+		ChangeScene(Scene::EndScene);
 		DrawTurnGraph(600, 200, endGr,1);
 	}
 	if (cannonCount>=10)
 	{
+		fps.Wait();
+		ChangeScene(Scene::EndScene);
 		DrawTurnGraph(600, 200, golGr, 0);
 	}
 

@@ -14,6 +14,7 @@ public:
 	void Release() override;           //‰ğ•ú
 	bool IsDead() override;            //€–S”»’è
 	void Hit(Object& object) override; //“–‚½‚Á‚½‚Ìˆ—
+	void AreaHit(Object & object) override;
 	
 private:
 

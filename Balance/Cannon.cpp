@@ -80,6 +80,14 @@ void Cannon::Hit(Object & object)
 	
 
 }
+void Cannon::AreaHit(Object & object)
+{
+}
+int Cannon::GetNowNum()
+{
+
+	return nowNum;
+}
 //ˆÚ“®
 void Cannon::Move(float deltaTime)
 {

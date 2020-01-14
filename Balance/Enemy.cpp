@@ -60,6 +60,10 @@ void Enemy::Hit(Object & object)
 	
 }
 
+void Enemy::AreaHit(Object & object)
+{
+}
+
 void Enemy::DeadJudgment()
 {
 

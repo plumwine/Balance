@@ -2,6 +2,7 @@
 #include "GameObjectManager.h"
 #include "Input.h"
 #include "EnemyGenerateManager.h"
+#include "FPS.h"
 
 //ゲーム循環enum
 enum Scene
@@ -9,7 +10,6 @@ enum Scene
 	TitleScene,
 	GamePlayScene,
 	EndScene,
-	InitScene,
 };
 
 
@@ -33,6 +33,7 @@ public:
 
 	//	インスタンスを取得
 	static GamePlayManager& Instance();
+	~GamePlayManager();
 
 	void Initialize(); //初期化
 
@@ -52,7 +53,7 @@ private:
 	void SceneUpdate(float deltaTime);
 	void Title();
 	void Ending();
-	void CangeScene(Scene scene);
+	void ChangeScene(Scene scene);
 	void Init();
 
 	//Wave
@@ -69,8 +70,8 @@ private:
 	
 	int endGr;
 	int golGr;
-	Scene nowScene;                     //現在のシーン
-	bool gameEnd;                       //ゲームエンド（仮）
+	Scene nowScene;                      //現在のシーン
+	bool gameEnd;                        //ゲームエンド（仮）
 	Input input; 
 	StageWave nowSatge;
 	int enemyDeadCount;                  //敵死亡カウント
@@ -78,6 +79,8 @@ private:
 	int cannonGenerateCount;             //大砲生成カウント
 
 	EnemyGenerateManager m_EnemyManager; //敵生成クラス
-	GameObjectManager* m_pGameManager;    //ゲームオブジェクトマネージャー
+	GameObjectManager* m_pGameManager;   //ゲームオブジェクトマネージャー
+
+	Fps fps;                             //ゲーム時間管理
 
 };
