@@ -16,19 +16,30 @@ EnemyGenerateManager::~EnemyGenerateManager()
 
 void EnemyGenerateManager::Initialize(GameObjectManager *objectManager)
 {
+	generateFlag = true;
+
 	m_pGameObjectManager = objectManager;
 	//マップを読み込む
 	std::ifstream ifs("data\\generateTime.csv");
 
 	//ファイルの読み込みに成功したら
+	
 	if (ifs)
 	{
-		std::string s;
-		while (!ifs.eof())
+		//文字列を一行ずつ読み込む
+		std::string line;
+		while (getline(ifs, line))
 		{
-			std::getline(ifs, s);
-			_generateTime.push_back(atoi(s.c_str()));
+			//読み込んだ文字列をカンマ区切りで分割
+			std::vector<float> data = Split(line);
+
+			//マップ情報を格納
+			_generateTime.push_back(data);
 		}
+
+		_generateItr = _generateTime.begin();
+
+		_generate = *_generateItr;
 	}
 }
 
@@ -36,21 +47,33 @@ void EnemyGenerateManager::Update(float nowTime, int cannonCnt)
 {
 	cannonCount = cannonCnt;
 
-	if (cannonCount == 0)
+	if (cannonCount == 0 || _generateTime.empty() || !generateFlag)
 	{
 		return;
 	}
 
-	if (_generateTime.empty())
+	auto itr = _generate.begin();
+
+	if (*itr > nowTime)
 	{
 		return;
 	}
-	float time = _generateTime.front();
-	if (time < nowTime)
+
+	itr++;
+
+	for (auto i = 0; i < *itr; i++)
 	{
 		Generate(cannonCount);
-		_generateTime.pop_front();
 	}
+
+	if (_generateItr == _generateTime.end())
+	{
+		generateFlag = false;
+		return;
+	}
+
+	_generateItr++;
+	_generate = *_generateItr;
 }
 
 void EnemyGenerateManager::Generate(int cannonCnt)
@@ -74,4 +97,21 @@ void EnemyGenerateManager::Generate(int cannonCnt)
 			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * TEXTURESIZEY));
 		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0)));
 	}
+}
+
+
+std::vector<float> EnemyGenerateManager::Split(const std::string & str, char delim)
+{
+	//文字列操作を行うため文字列ストリームを宣言
+	std::stringstream iss(str);
+	std::string tmp;
+	std::vector<float> enemyRow;
+
+	//文字列をカンマ区切りで読み込む
+	while (getline(iss, tmp, delim))
+	{//atoi->文字列を数字に
+		enemyRow.push_back(std::atoi(tmp.c_str()));
+	}
+
+	return enemyRow;
 }
