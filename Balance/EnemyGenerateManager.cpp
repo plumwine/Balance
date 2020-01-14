@@ -35,6 +35,12 @@ void EnemyGenerateManager::Initialize(GameObjectManager *objectManager)
 void EnemyGenerateManager::Update(float nowTime, int cannonCnt)
 {
 	cannonCount = cannonCnt;
+
+	if (cannonCount == 0)
+	{
+		return;
+	}
+
 	if (_generateTime.empty())
 	{
 		return;
@@ -57,7 +63,7 @@ void EnemyGenerateManager::Generate(int cannonCnt)
 	{
 		Vector2 generatePos = Vector2(
 			0,
-			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - (GetRand(cannonCnt) * TEXTURESIZEY));
+			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * TEXTURESIZEY));
 		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0)));
 	}
 	//‰E‚©‚ç”­Ë‚³‚ê‚é“G
@@ -65,9 +71,7 @@ void EnemyGenerateManager::Generate(int cannonCnt)
 	{
 		Vector2 generatePos = Vector2(
 			WindowInfo::WindowWidth,
-			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - (GetRand(cannonCnt) * TEXTURESIZEY));
+			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * TEXTURESIZEY));
 		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0)));
 	}
 }
-
-//ƒRƒƒ“ƒgby‘å—F
