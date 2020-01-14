@@ -89,6 +89,19 @@ void Render::StringDraw(Vector2 pos, const TCHAR* str, unsigned int color)
 		(int)pos.x, (int)pos.y, str, color);
 }
 
+void Render::NumberDraw(Vector2 pos, int number, int grp)
+{
+	DrawRectGraph(
+		pos.x,
+		pos.y,
+		number * 16,
+		0,
+		16,
+		16,
+		grp, TRUE
+	);
+}
+
 //‰¡•ûŒü‚É—h‚ç‚·
 void Render::DrawShake(Object & object)
 {
