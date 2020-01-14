@@ -17,11 +17,17 @@ public:
 	void Update(float deltaTime) override;            //XV
 	void Release() override;           //‰ğ•ú
 	void Hit(Object& object) override; //“–‚½‚Á‚½‚Ìˆ—
+	void AreaHit(Object & object) override;
+
+public:
+
+
+
 private:
 
 
-	void Move(float deltaTime);                      //ˆÚ“®
-	void DeadJudgment();              //€–S”»’è
+	void Move(float deltaTime);        //ˆÚ“®
+	void DeadJudgment();               //€–S”»’è
 	
 
 private:

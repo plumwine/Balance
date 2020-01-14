@@ -63,6 +63,16 @@ void Bullet::Hit(Object & object)
 
 }
 
+void Bullet::AreaHit(Object & object)
+{
+	Vector2 a = (_position - object.Position());
+	mVelocity = a.Normalized();
+
+
+
+}
+
+
 void Bullet::Move(float deltaTime)
 {
 	_position += mVelocity * speed * deltaTime;

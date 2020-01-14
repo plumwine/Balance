@@ -1,5 +1,9 @@
 #include "GameObjectManager.h"
 #include <typeinfo.h>
+#include "Enemy.h"
+#include "Bullet.h"
+#include "Cannon.h"
+#include "Player.h"
 
 
 GameObjectManager::GameObjectManager()
@@ -37,6 +41,8 @@ void GameObjectManager::Update(float deltaTime)
 	}
 	m_addObjectList.clear();
 
+
+	//オブジェクト管理
 	for (auto object : mObjects)
 	{
 		if (object == nullptr) continue;
@@ -60,6 +66,16 @@ void GameObjectManager::Update(float deltaTime)
 		}
 	}
 
+	//enemyDir();
+	
+		
+	
+
+
+	TopCannon();
+
+
+	//削除
 	auto itr = mObjects.begin();
 	while (itr != mObjects.end())
 	{
@@ -102,5 +118,59 @@ void GameObjectManager::Add(Object * pObject)
 {
 	m_addObjectList.emplace_back(pObject);
 
-	//pObject->Initialize();
+}
+
+void GameObjectManager::enemyDir()
+{
+	//敵以外ならcontinue
+	for (auto enemies : mObjects)
+	{
+		int dis = 1000;
+		if (enemies == nullptr) continue;
+		if (enemies->IsDead()) continue;
+		Enemy* ene = dynamic_cast<Enemy*>(enemies);
+		//弾の方向
+		for (auto bullets : mObjects)
+		{
+		    if (bullets == nullptr) continue;
+		    if (bullets->IsDead()) continue;
+			Bullet* bul = dynamic_cast<Bullet *>(bullets);
+
+		    
+		    float dis_2 = bul->Position().x - ene->Position().x + bul->Position().y - ene->Position().y;
+		    
+		    if (dis >= dis_2)
+		    {
+		    	dis = dis_2;
+		    	//敵の検知
+		    	bul->AreaHit(*ene);
+		    }
+		}
+	}
+}
+
+
+//一番上のCannonのX座標の取得
+float GameObjectManager::TopCannon()
+{
+
+	int Topnum = 1;
+	float Top_X = 900;
+	for (auto cannon : mObjects)
+	{
+		if (cannon == nullptr) continue;
+		if (cannon->IsDead()) continue;
+
+		//型をキャストして、nullにならなかったものがtopとする
+		Cannon* a = dynamic_cast<Cannon*>(cannon);
+		if (a != nullptr)
+		{
+			if (Topnum <= a->GetNowNum())
+			{
+				Topnum = a->GetNowNum();
+				Top_X = a->Position().x;
+			}
+		}
+	}
+	return Top_X;
 }

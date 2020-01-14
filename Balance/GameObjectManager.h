@@ -13,6 +13,8 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 	void Add(Object* pObject);
+	void enemyDir();
+	float TopCannon();
 
 private:
 	std::vector<Object*> mObjects;

@@ -50,6 +50,10 @@ void Ground::Hit(Object & object)
 	}
 }
 
+void Ground::AreaHit(Object & object)
+{
+}
+
 bool Ground::IsGameSet()
 {
 	return isGameEnd;

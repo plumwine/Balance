@@ -44,6 +44,10 @@ void Player::Hit(Object & object)
 	//CurrentPosition(object);  //“–‚½‚Á‚½•ûŒü‚Ö‚Ì‰Ÿ‚µo‚µ
 }
 
+void Player::AreaHit(Object & object)
+{
+}
+
 
 //ˆÚ“®
 void Player::Move(float deltaTime)

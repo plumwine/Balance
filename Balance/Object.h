@@ -2,6 +2,7 @@
 #include "Vector2.h"
 #include "Render.h"
 #include <typeinfo.h>
+#include "GraphFactory.h"
 
 
 
@@ -32,6 +33,8 @@ public:
 	virtual bool IsDead() = 0;
 	//当たった時の処理
 	virtual void Hit(Object& object) = 0;
+
+	virtual void AreaHit(Object& object) = 0;
 
 #pragma region 元々の機能
 
@@ -105,21 +108,6 @@ public:
 		return None;
 	}
 
-
-	//敵検知
-	bool EnemyDetection(Object* object)
-	{
-
-
-
-
-
-
-		return false;
-	}
-
-
-
 #pragma endregion
 
 	//	メンバ関数にconstを付与する事で
@@ -135,4 +123,5 @@ protected:
 	Vector2 _size;			//	サイズ
 	int _grp;				//  画像ID
 	Direction _direction;   //  当たった方向
+
 };
