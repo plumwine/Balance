@@ -27,9 +27,15 @@ int Music::LoadSound(MusicString music, Type dataType)
 {
 	std::string filePath = "../Music/";
 
-	filePath.append(STR(music));
+	std::string name = STR(music);
+	name = name.substr(13);
+	filePath.append(name);
+
 	filePath.append(".");
-	filePath.append(STR(dataType));
+
+	name = STR(dataType);
+	name = name.substr(6);
+	filePath.append(name);
 
 	int mem = LoadSoundMem(filePath.data());
 

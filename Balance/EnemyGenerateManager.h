@@ -18,6 +18,7 @@ public:
 	void Update(float nowTime, int cannonCount);
 private:
 	void Generate(int cannonCnt);
+	void Generate(int cannonCnt,int R0L1);
 	//•¶š—ñ‚Ì•ªŠ„‚ğs‚¤
 	std::vector<float> Split(const std::string& str, char delim = ',');
 private:
