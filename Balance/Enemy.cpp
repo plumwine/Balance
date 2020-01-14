@@ -11,7 +11,7 @@ Enemy::Enemy(const Vector2 & position, Vector2 velocity)
 	speed(100)
 {
 	_position = position;
-	_size = Vector2(32,32);
+	_size = Vector2(30,30);
 	m_Velocity = velocity;
 	_grp = LoadGraph("../Texture/kari/enemy_A.png");
 	Initialize();

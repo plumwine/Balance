@@ -1,6 +1,9 @@
 #pragma once
 #include "Vector2.h"
 #include "Render.h"
+#include <typeinfo.h>
+
+
 
 enum Direction
 {
@@ -30,6 +33,7 @@ public:
 	//当たった時の処理
 	virtual void Hit(Object& object) = 0;
 
+#pragma region 元々の機能
 
 
 	//当たった方向に押し出し
@@ -100,6 +104,23 @@ public:
 		}
 		return None;
 	}
+
+
+	//敵検知
+	bool EnemyDetection(Object* object)
+	{
+
+
+
+
+
+
+		return false;
+	}
+
+
+
+#pragma endregion
 
 	//	メンバ関数にconstを付与する事で
 	//	その関数内でのメンバ変数の変更を禁止にする
