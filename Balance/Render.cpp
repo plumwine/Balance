@@ -1,6 +1,6 @@
 #include "Render.h"
 
-////Render::Instance()::メソッド名();で使える
+////Render::Instance().メソッド名();で使える
 
 
 //インスタンス生成メソッド
@@ -60,7 +60,7 @@ void Render::RectParticle(Vector2 pos, int particleNumber, int particleSize, int
 		particleNumber * particleSize,
 		particleSize,
 		particleSize,
-		grp, TRUE,reverse
+		grp, TRUE, reverse
 	);
 }
 
@@ -87,4 +87,58 @@ void Render::StringDraw(Vector2 pos, const TCHAR* str, unsigned int color)
 {
 	DrawString(
 		(int)pos.x, (int)pos.y, str, color);
+}
+
+//横方向に揺らす
+void Render::DrawShake(Object & object)
+{
+	DrawRectGraph(
+		(int)object.Position().x + shake,
+		(int)object.Position().y,
+		0, 0,
+		(int)object.Size().x,
+		(int)object.Size().y,
+		object.Grp(), TRUE
+	);
+}
+
+//横方向に揺らす(反転)
+void Render::DrawShake(Object & object, bool reverse)
+{
+	DrawRectGraph(
+		(int)object.Position().x + shake,
+		(int)object.Position().y,
+		0, 0,
+		(int)object.Size().x,
+		(int)object.Size().y,
+		object.Grp(), TRUE, reverse
+	);
+}
+
+//揺らしている間呼ぶ
+void Render::ShakeChange()
+{
+	if (shake > 20)
+	{
+		change = false;
+	}
+	else if (shake < -20)
+	{
+		change = true;
+	}
+
+	if (!change)
+	{
+		shake -= 15;
+	}
+	else
+	{
+		shake += 15;
+	}
+}
+
+//揺らすのを止める
+void Render::ShakeStop()
+{
+	shake = 0;
 }
