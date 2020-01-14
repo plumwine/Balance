@@ -126,7 +126,7 @@ void Cannon::Shot()
 	{
 		Vector2 kariPos = _position;
 		flipHorizontal = true;
-		reaction = (float)(10 / nowNum);
+		reaction = (float)(15 *( 20 - nowNum));   //‘å–C‚Ì’²ß
 		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8,8), Vector2(-1, 0)));
 	}
 
@@ -135,7 +135,7 @@ void Cannon::Shot()
 	{
 		Vector2 kariPos = _position;
 		flipHorizontal = false;
-		reaction = (float)(-10 / nowNum);
+		reaction = (float)(-15 *( 20 - nowNum));  //‘å–C‚Ì’²ß
 		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8, 8), Vector2(1, 0)));
 	}
 }

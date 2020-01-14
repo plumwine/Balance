@@ -2,7 +2,6 @@
 #include "Bullet.h"
 #include "WindowInfo.h"
 #include "Enemy.h"
-#include <typeinfo.h>
 #include "Player.h"
 #include "Cannon.h"
 
