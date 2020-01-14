@@ -62,7 +62,7 @@ void GamePlayManager::Update()
 	fps.TimeStart();
 
 	//	メインループ
-	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
+	while (ProcessMessage() == 0 && !(CheckHitKey(KEY_INPUT_ESCAPE) == 1 || input.GetButtonState(INPUT_BUTTON_BACK, DX_INPUT_PAD1)))
 	{
 		//	背景をクリアする
 		ClearDrawScreen();
