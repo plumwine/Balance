@@ -19,6 +19,8 @@ public:
 
 	void RectDraw(Object& object);
 	void RectDraw(Object& object, bool reverse);
+	void RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp);
+	void RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp,  bool reverse);
 	void LineDraw(Vector2 start, Vector2 end, unsigned int color);
 	void StringDraw(Vector2 pos, const TCHAR* str);
 	void StringDraw(Vector2 pos, const TCHAR* str, unsigned int color);

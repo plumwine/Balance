@@ -38,6 +38,32 @@ void Render::RectDraw(Object& object, bool reverse)
 	);
 }
 
+void Render::RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp)
+{
+	DrawRectGraph(
+		(int)pos.x,
+		(int)pos.y,
+		particleNumber * particleSize,
+		particleNumber * particleSize,
+		particleSize,
+		particleSize,
+		grp, TRUE
+	);
+}
+
+void Render::RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp, bool reverse)
+{
+	DrawRectGraph(
+		(int)pos.x,
+		(int)pos.y,
+		particleNumber * particleSize,
+		particleNumber * particleSize,
+		particleSize,
+		particleSize,
+		grp, TRUE,reverse
+	);
+}
+
 //線の描画
 //1.始点　2.終点　3.色
 void Render::LineDraw(Vector2 start, Vector2 end, unsigned int color)

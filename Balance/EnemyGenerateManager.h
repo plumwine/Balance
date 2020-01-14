@@ -4,7 +4,7 @@
 
 #define TEXTURESIZEY 32
 #define PLAYERTEXTUREY 38
-#define GROUNDHEIGHT 150
+#define GROUNDHEIGHT 210
 
 
 //エネミー生成
