@@ -24,4 +24,14 @@ public:
 	void LineDraw(Vector2 start, Vector2 end, unsigned int color);
 	void StringDraw(Vector2 pos, const TCHAR* str);
 	void StringDraw(Vector2 pos, const TCHAR* str, unsigned int color);
+
+
+	void DrawShake(Object& object);
+	void DrawShake(Object& object, bool reverse);
+	void ShakeChange();
+	void ShakeStop();
+
+private:
+	int shake = 0;
+	bool change = false;
 };
