@@ -113,6 +113,9 @@
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>C:\K018A1462\ゲームプログラミング１\DirectX\DxLib\DxLib_VC3_20f\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
     </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -153,6 +156,9 @@
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>C:\K018A1462\ゲームプログラミング１\DirectX\DxLib\DxLib_VC3_20f\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
     </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
