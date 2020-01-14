@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObjectManager.h"
-#include <list>
+#include <vector>
 
 #define TEXTURESIZEY 32
 #define PLAYERTEXTUREY 38
@@ -18,11 +18,19 @@ public:
 	void Update(float nowTime, int cannonCount);
 private:
 	void Generate(int cannonCnt);
+	void Generate(int cannonCnt,int R0L1);
+	//•¶š—ñ‚Ì•ªŠ„‚ğs‚¤
+	std::vector<float> Split(const std::string& str, char delim = ',');
 private:
 
 	GameObjectManager* m_pGameObjectManager;
 
 	int cannonCount;
-	std::list<float> _generateTime;
+	std::vector < std::vector<float>> _generateTime;
+	std::vector < std::vector<float>>::iterator _generateItr;
+
+	std::vector<float> _generate;
+
+	bool generateFlag;
 };
 

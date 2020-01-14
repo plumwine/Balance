@@ -4,7 +4,7 @@
 #include <memory>
 #include <unordered_map>
 
-//‰æ‘œ–¼—ñ‹“(.png‚Æ‚©‚Ü‚Å“ü‚ê‚Ä‚­‚¾‚³‚¢)
+//‰æ‘œ–¼—ñ‹“
 enum PictString
 {
 
