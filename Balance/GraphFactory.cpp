@@ -43,7 +43,7 @@ int GraphFactory::LoadGraph(PictString pict, bool TMasFKari)
 
 	std::string name = STR(pict);
 	name = name.substr(12);
-	filepath.append(STR(pict));
+	filepath.append(name);
 	filepath.append(".png");
 
 	//	グラフィックハンドルがキャッシュされていなければ画像を読み込む
