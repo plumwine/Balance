@@ -251,7 +251,7 @@ void Render::NumberDraw(Vector2 pos, int number, int grp)
 	while (number != 0)
 	{
 		DrawRectGraph(
-			pos.x + (count * 16),
+			pos.x - (count * 16),
 			pos.y,
 			(number % 10) * 16,
 			0,
