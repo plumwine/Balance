@@ -11,6 +11,34 @@ Render & Render::Instance()
 	return *instance;
 }
 
+void Render::Draw(Vector2 pos, Vector2 size, int grp)
+{
+	DrawRectGraph(
+		(int)pos.x,
+		(int)pos.y,
+		0, 0,
+		(int)size.x,
+		(int)size.y,
+		grp, TRUE
+	);
+}
+
+void Render::FlagDraw(Vector2 pos, Vector2 size, int grp, bool dr, int alpha = 255)
+{
+	if (dr)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+		DrawRectGraph(
+			(int)pos.x,
+			(int)pos.y,
+			0, 0,
+			(int)size.x,
+			(int)size.y,
+			grp, TRUE
+		);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
+}
 //通常矩形描画
 void Render::RectDraw(Object& object)
 {
@@ -37,6 +65,62 @@ void Render::RectDraw(Object& object, bool reverse)
 		object.Grp(), TRUE, reverse
 	);
 }
+
+void Render::FlagDraw(Object & object, bool dr, int alpha = 255)
+{
+	if (dr)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+		DrawRectGraph(
+			(int)object.Position().x,
+			(int)object.Position().y,
+			0, 0,
+			(int)object.Size().x,
+			(int)object.Size().y,
+			object.Grp(), TRUE
+		);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
+}
+
+
+//pos=>始点座標 extendPos=>終点座標
+void Render::ExtendDraw(Vector2 pos, Vector2 extendPos, int grp)
+{
+	DrawExtendGraph(
+		(int)pos.x, (int)pos.y,
+		(int)extendPos.x, (int)extendPos.y,
+		grp, TRUE
+	);
+}
+//extendに何倍にするか入れる
+void Render::ExtendDraw(Vector2 pos, Vector2 size, Vector2 extend, int grp)
+{
+	DrawExtendGraph(
+		(int)pos.x, (int)pos.y,
+		(int)(pos.x + size.x * extend.x), (int)(pos.y + size.y * extend.y),
+		grp, TRUE
+	);
+}
+//extendPosは終点の座標
+void Render::ExtendDrawRefPos(Object & object, Vector2 extendPos)
+{
+	DrawExtendGraph(
+		(int)object.Position().x, (int)object.Position().y,
+		(int)extendPos.x, (int)extendPos.y,
+		object.Grp(), TRUE
+	);
+}
+//extendは何倍か
+void Render::ExtendDrawRefMul(Object & object, Vector2 extend)
+{
+	DrawExtendGraph(
+		(int)object.Position().x, (int)object.Position().y,
+		(int)(object.Position().x + object.Size().x * extend.x), (int)(object.Position().y + object.Size().y * extend.y),
+		object.Grp(), TRUE
+	);
+}
+
 
 void Render::RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp)
 {

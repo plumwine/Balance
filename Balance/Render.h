@@ -17,10 +17,19 @@ private:
 public:
 	static Render& Instance();
 
+	void Draw(Vector2 pos, Vector2 size, int grp);
+	void FlagDraw(Vector2 pos, Vector2 size, int grp, bool dr, int alpha);
 	void RectDraw(Object& object);
 	void RectDraw(Object& object, bool reverse);
+	void FlagDraw(Object& object, bool dr, int alpha);
+
+	void ExtendDraw(Vector2 pos, Vector2 extendPos, int grp);
+	void ExtendDraw(Vector2 pos, Vector2 size, Vector2 extend, int grp);
+	void ExtendDrawRefPos(Object& object, Vector2 extendPos);
+	void ExtendDrawRefMul(Object& object, Vector2 extend);
+
 	void RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp);
-	void RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp,  bool reverse);
+	void RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp, bool reverse);
 	void LineDraw(Vector2 start, Vector2 end, unsigned int color);
 	void StringDraw(Vector2 pos, const TCHAR* str);
 	void StringDraw(Vector2 pos, const TCHAR* str, unsigned int color);
