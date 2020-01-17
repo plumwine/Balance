@@ -1,4 +1,6 @@
 #include "Render.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 ////Render::Instance().メソッド名();で使える
 
@@ -123,6 +125,18 @@ void Render::ExtendDrawRefMul(Object & object, Vector2 extend)
 	);
 }
 
+void Render::RotaDraw(Vector2 centerPos, float extend, float angle, int grp, bool reverse)
+{
+	float ang = angle * 180 / M_PI;
+
+	DrawRotaGraph(
+		(int)centerPos.x,
+		(int)centerPos.y,
+		extend, ang, grp,
+		TRUE, reverse
+	);
+}
+
 
 void Render::BrightDraw(Vector2 pos, Vector2 size, int grp, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse)
 {
@@ -204,8 +218,8 @@ void Render::NumberDraw(Vector2 pos, int number, int grp)
 			pos.y,
 			0,
 			0,
-			16,
-			16,
+			NUMBER_SIZE,
+			NUMBER_SIZE,
 			grp, TRUE
 		);
 	}
@@ -213,12 +227,12 @@ void Render::NumberDraw(Vector2 pos, int number, int grp)
 	while (number != 0)
 	{
 		DrawRectGraph(
-			pos.x - (count * 16),
+			pos.x - (count * NUMBER_SIZE),
 			pos.y,
-			(number % 10) * 16,
+			(number % 10) * NUMBER_SIZE,
 			0,
-			16,
-			16,
+			NUMBER_SIZE,
+			NUMBER_SIZE,
 			grp, TRUE
 		);
 		number /= 10;
