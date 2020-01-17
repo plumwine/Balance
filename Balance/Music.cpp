@@ -31,7 +31,7 @@ void Music::SoundFileStart(int mem)
 	{
 		return;
 	}
-	PlaySoundMem(mem, DX_PLAYTYPE_NORMAL);
+	PlaySoundMem(mem, DX_PLAYTYPE_BACK);
 }
 
 //âπäyÇç≈èâÇ©ÇÁçƒê∂Ç∑ÇÈ
@@ -51,7 +51,7 @@ void Music::SoundFileStartMid(int mem)
 	{
 		return;
 	}
-	PlaySoundMem(mem, DX_PLAYTYPE_NORMAL, FALSE);
+	PlaySoundMem(mem, DX_PLAYTYPE_BACK, FALSE);
 }
 
 void Music::SoundFileStartMid(int mem, int PlayType)

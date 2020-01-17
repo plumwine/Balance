@@ -39,8 +39,8 @@ void GamePlayManager::Initialize()
 	back_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Haikei.png");
 	numberGr = GraphFactory::Instance().LoadGraph("../Texture/master/Renban.png");
 
-	boyon1 = Music::Instance().LoadSound("boyon1");
-	hyun1 = Music::Instance().LoadSound("hyun1");
+	boyon1 = Music::Instance().LoadSound("../Music/boyon1.wav");
+	hyun1 = Music::Instance().LoadSound("../Music/hyun1.wav");
 
 	gameEnd = false;
 	cannonCount = 0;
@@ -84,7 +84,7 @@ void GamePlayManager::GameUpdate(float deltaTime)
 
 	Render::Instance().NumberDraw(Vector2(100, 100), fps.GetTime(), numberGr);
 
-	Music::Instance().SoundFileStart(boyon1);
+	//Music::Instance().SoundFileStart(boyon1);
 	CountMnager();
 }
 
