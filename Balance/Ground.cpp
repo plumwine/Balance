@@ -8,7 +8,7 @@ Ground::Ground(const Vector2 &position)
 {
 	_position = position; 
 	_size = Vector2(1920, 150);
-	_grp = LoadGraph("../Texture/master/kusa.png");
+	//_grp = LoadGraph("../Texture/master/kusa.png");
 	Initialize();
 }
 
@@ -23,7 +23,7 @@ void Ground::Initialize()
 
 void Ground::Draw()
 {
-	DrawExtendGraph(_position.x, _position.y, 1920, 1080, _grp, false);
+	//DrawExtendGraph(_position.x, _position.y, 1920, 1080, _grp, false);
 }
 
 void Ground::Update(float deltaTime)
