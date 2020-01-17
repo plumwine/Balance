@@ -28,6 +28,8 @@ public:
 	void ExtendDrawRefPos(Object& object, Vector2 extendPos);
 	void ExtendDrawRefMul(Object& object, Vector2 extend);
 
+	void RotaDraw(Vector2 centerPos, Vector2 extendPos, int grp);
+
 	void BrightDraw(Vector2 pos, Vector2 size, int grp, int BrightColorR = 255, int BrightColorG = 255, int BrightColorB = 255, bool reverse = FALSE);
 
 	void BrightDraw(Object & object, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse = FALSE);

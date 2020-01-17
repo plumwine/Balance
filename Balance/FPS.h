@@ -72,6 +72,10 @@ public:
 		return time;
 	}
 
+	void TimeReset() {
+		time = 0;
+	}
+
 	void TimeStop() {
 		timeFlag = true;
 	}
