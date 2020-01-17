@@ -150,6 +150,38 @@ void Render::ExtendDrawRefMul(Object & object, Vector2 extend)
 }
 
 
+void Render::BrightDraw(Vector2 pos, Vector2 size, int grp, int BrightColorR = 255, int BrightColorG = 255, int BrightColorB = 255, bool reverse = FALSE)
+{
+	SetDrawBright(BrightColorR, BrightColorG, BrightColorB);
+
+	DrawRectGraph(
+		(int)pos.x,
+		(int)pos.y,
+		0, 0,
+		(int)size.x,
+		(int)size.y,
+		grp, TRUE, reverse
+	);
+
+	SetDrawBright(255, 255, 255);
+}
+
+void Render::BrightDraw(Object & object, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse = FALSE)
+{
+	SetDrawBright(BrightColorR, BrightColorG, BrightColorB);
+
+	DrawRectGraph(
+		(int)object.Position().x,
+		(int)object.Position().y,
+		0, 0,
+		(int)object.Size().x,
+		(int)object.Size().y,
+		object.Grp(), TRUE, reverse
+	);
+
+	SetDrawBright(255, 255, 255);
+}
+
 void Render::RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp)
 {
 	DrawRectGraph(
@@ -215,18 +247,20 @@ void Render::NumberDraw(Vector2 pos, int number, int grp)
 			grp, TRUE
 		);
 	}
+	int count = 0;
 	while (number != 0)
 	{
 		DrawRectGraph(
-			pos.x,
+			pos.x + (count * 16),
 			pos.y,
-			number % 10 * 16,
+			(number % 10) * 16,
 			0,
 			16,
 			16,
 			grp, TRUE
 		);
 		number /= 10;
+		count++;
 	}
 }
 
