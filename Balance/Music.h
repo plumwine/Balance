@@ -10,10 +10,6 @@ enum MusicString
 
 };
 
-enum Type
-{
-	mp3,wav
-};
 
 class Music
 {
@@ -25,8 +21,7 @@ private:
 public:
 	static Music& Instance();
 
-	int LoadSound(char *filePath);
-	int LoadSound(MusicString music,Type dataType);
+	int LoadSound(std::string filePath);
 	void SoundFileStart(int mem);
 	void SoundFileStart(int mem, int PlayType);
 	void SoundFileStartMid(int mem);
