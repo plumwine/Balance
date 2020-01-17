@@ -10,6 +10,7 @@ enum Scene
 	TitleScene,
 	GamePlayScene,
 	EndScene,
+	LoadScene,
 };
 
 
@@ -69,10 +70,12 @@ private:
 
 private:
 	
-	int back_Gr;                         //背景絵
+	//画像関係
+	int back_Gr;                         //背景絵^
+	int endGr;                           //エンディング
+	int golGr;                           //エンディング2
+	int numberGr;                          //数字
 
-	int endGr;
-	int golGr;
 	Scene nowScene;                      //現在のシーン
 	bool gameEnd;                        //ゲームエンド（仮）
 	Input input; 

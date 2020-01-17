@@ -2,6 +2,7 @@
 #include <memory>
 #include "GraphFactory.h"
 #include "Render.h"
+#include "Music.h"
 //オブジェクト関係
 #include "GamePlayManager.h"
 #include "Player.h"
@@ -21,35 +22,27 @@ GamePlayManager & GamePlayManager::Instance()
 GamePlayManager::~GamePlayManager()
 {
 	delete m_pGameManager;
-
 }
 
 void GamePlayManager::Initialize()
 {
 	m_pGameManager = new GameObjectManager();
-
 	m_EnemyManager =  EnemyGenerateManager();
 	m_EnemyManager.Initialize(m_pGameManager);
 	fps =  Fps();
-
-
 	input = Input();
 	nowScene = Scene::TitleScene;
 	//最初はSatge1
 	nowSatge = StageWave::Stage1;
+	endGr = GraphFactory::Instance().LoadGraph("../Texture/kari/sipai_A.png");
+	golGr = GraphFactory::Instance().LoadGraph("../Texture/kari/seikou_A.png");
+	back_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Haikei.png");
+	numberGr = GraphFactory::Instance().LoadGraph("../Texture/master/Renban.png");
 
-
-
-	endGr = LoadGraph("../Texture/kari/sipai_A.png");
-	golGr = LoadGraph("../Texture/kari/seikou_A.png");
-
-	back_Gr = LoadGraph("../Texture/master/Haikei.png");
+	//int a = Music::Instance().LoadSound("boyon1", Type::wav);
 
 	gameEnd = false;
 	cannonCount = 0;
-
-	
-	
 }
 
 //	ループ処理
@@ -87,6 +80,8 @@ void GamePlayManager::GameUpdate(float deltaTime)
 	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
 	m_pGameManager->Update(deltaTime);
 	m_pGameManager->Draw();
+
+	//Render::Instance().NumberDraw(Vector2(100, 100), fps.GetTime(), numberGr);
 
 	CountMnager();
 }
@@ -245,9 +240,7 @@ void GamePlayManager::CountMnager()
 			cannonCount++;
 			m_pGameManager->Add(new Cannon(Vector2(m_pGameManager->TopCannon(), 200), m_pGameManager, cannonCount));
 		}
-
 	}
-
 	//箱が床に落ちたら終了
 	if (gameEnd || (cannonCount <=0))
 	{
