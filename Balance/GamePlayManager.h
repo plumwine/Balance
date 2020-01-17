@@ -48,6 +48,7 @@ public:
 	void DeadCannon() { cannonCount--; }
 	int GetCannonCount() { return cannonCount; }         //–C‘ä‚Ì¶‚«‚Ä‚¢‚é”
 
+	StageWave GetWave();
 private:
 	//ƒV[ƒ“ŠÇ—
 	void SceneUpdate(float deltaTime);
@@ -68,6 +69,8 @@ private:
 
 private:
 	
+	int back_Gr;                         //”wŒiŠG
+
 	int endGr;
 	int golGr;
 	Scene nowScene;                      //Œ»İ‚ÌƒV[ƒ“

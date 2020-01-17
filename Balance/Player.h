@@ -14,7 +14,6 @@ public:
 	void Release() override;           //解放
 	bool IsDead() override;            //死亡判定
 	void Hit(Object& object) override; //当たった時の処理
-	void AreaHit(Object & object) override;
 	
 private:
 
@@ -24,6 +23,13 @@ private:
 	float speed;        //移動速度
 	int input_x;
 	int input_y;
+	
+	//アニメーション用
+	float animTime;
+	float maxAnimTime;
+	int animNum;
+	int maxAnimNum;
+
 
 
 };

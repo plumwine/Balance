@@ -5,7 +5,7 @@
 class Enemy : public Object
 {
 public:
-	Enemy(const Vector2& position, Vector2 velocity);
+	Enemy(const Vector2& position, Vector2 velocity,int damage);
 	~Enemy();
 
 
@@ -15,18 +15,20 @@ public:
 	void Release() override;           //‰ğ•ú
 	bool IsDead() override;            //€–S”»’è
 	void Hit(Object& object) override; //“–‚½‚Á‚½‚Ìˆ—
-	void AreaHit(Object & object) override;
 
 private:
 
 	void Move(float deltaTime);                       //ˆÚ“®•û–@
 	void DeadJudgment();              //€–S”»’è
+	void HpManager();
 private:
 
 	Vector2 m_Velocity;     //Œü‚­•ûŒü¶¬‚ÉŠm”F‚·‚é
 	float speed;          //ˆÚ“®‘¬“x
 	bool isDeadFlag;        //€–S”»’è
 
+	int m_Hp;
+	int m_Damage;
 
 };
 

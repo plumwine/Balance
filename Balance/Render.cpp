@@ -44,7 +44,7 @@ void Render::RectParticle(Vector2 pos, int particleNumber, int particleSize, int
 		(int)pos.x,
 		(int)pos.y,
 		particleNumber * particleSize,
-		particleNumber * particleSize,
+		0,//particleNumber * particleSize,
 		particleSize,
 		particleSize,
 		grp, TRUE
@@ -57,7 +57,7 @@ void Render::RectParticle(Vector2 pos, int particleNumber, int particleSize, int
 		(int)pos.x,
 		(int)pos.y,
 		particleNumber * particleSize,
-		particleNumber * particleSize,
+		0,//particleNumber * particleSize,
 		particleSize,
 		particleSize,
 		grp, TRUE, reverse

@@ -34,8 +34,6 @@ public:
 	//“–‚½‚Á‚½‚Ìˆ—
 	virtual void Hit(Object& object) = 0;
 
-	virtual void AreaHit(Object& object) = 0;
-
 #pragma region Œ³X‚Ì‹@”\
 
 

@@ -9,11 +9,10 @@ Bullet::Bullet(const Vector2 &position, Vector2 velocity)
 	:isDeadFlag(false),
 	speed(500)
 {
-
 	_position = position;
 	_size = Vector2(16, 16);
 	mVelocity = velocity;
-	_grp = LoadGraph("../Texture/kari/bullet_A.png");
+	_grp = LoadGraph("../Texture/master/Hane.png");
 	Initialize();
 }
 
@@ -63,14 +62,6 @@ void Bullet::Hit(Object & object)
 
 }
 
-void Bullet::AreaHit(Object & object)
-{
-	Vector2 a = (_position - object.Position());
-	mVelocity = a.Normalized();
-
-
-
-}
 
 
 void Bullet::Move(float deltaTime)

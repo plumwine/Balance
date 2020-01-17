@@ -6,7 +6,7 @@
 #include "WindowInfo.h"
 
 
-Enemy::Enemy(const Vector2 & position, Vector2 velocity)
+Enemy::Enemy(const Vector2 & position, Vector2 velocity, int damage)
 	:isDeadFlag(false),
 	speed(100)
 {
@@ -14,6 +14,8 @@ Enemy::Enemy(const Vector2 & position, Vector2 velocity)
 	_size = Vector2(30,30);
 	m_Velocity = velocity;
 	_grp = LoadGraph("../Texture/kari/enemy_A.png");
+	m_Damage = damage + 1;     //012なので補正
+	m_Hp = (damage + 1) * 2 - 1;//2n+1で135と上がっていく
 	Initialize();
 }
 
@@ -34,6 +36,7 @@ void Enemy::Update(float deltaTime)
 {
 	Move(deltaTime);
 	DeadJudgment();
+	HpManager();
 
 }
 
@@ -53,15 +56,10 @@ void Enemy::Hit(Object & object)
 	if (typeid(object) == typeid(Cannon) ||
 		typeid(object) == typeid(Bullet))
 	{
-		GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
-		isDeadFlag = true;
-		
+		//自分のHPを減らす
+		m_Hp -= m_Damage;
 	}
 	
-}
-
-void Enemy::AreaHit(Object & object)
-{
 }
 
 void Enemy::DeadJudgment()
@@ -69,13 +67,23 @@ void Enemy::DeadJudgment()
 
 	//ウィンドウ範囲外に出たら消す
 	if (_position.x < -100 ||
-		_position.x > WindowInfo::WindowWidth+100)
+		_position.x > WindowInfo::WindowWidth + 100)
 	{
 		isDeadFlag = true;
 	}
 	if (_position.y < -100 ||
-		_position.y > WindowInfo::WindowHeight+100)
+		_position.y > WindowInfo::WindowHeight + 100)
 	{
+		isDeadFlag = true;
+	}
+}
+
+void Enemy::HpManager()
+{
+	//HPがなくなったら死亡
+	if (m_Hp <= 0)
+	{
+		GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
 		isDeadFlag = true;
 	}
 }
