@@ -11,7 +11,7 @@ Player::Player(const Vector2 &position)
 
 {
 	_position = position;
-	_size = Vector2(64,64);
+	_size = Vector2(128,128);
 	_grp = LoadGraph("../Texture/master/PlayMove.png");
 	Initialize();
 }
@@ -29,7 +29,7 @@ void Player::Initialize()
 
 void Player::Draw()
 {
-	Render::Instance().RectParticle(_position,animNum,64,_grp);
+	Render::Instance().RectParticle(_position,animNum,128,_grp);
 }
 
 void Player::Update(float deltaTime)

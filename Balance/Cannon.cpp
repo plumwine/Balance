@@ -21,8 +21,7 @@ Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager,int num
 	m_pObjectManager = objectManager;
 	_grp = LoadGraph("../Texture/master/Hiyoko.png");
 	centerPosX = 0;      //Å‰‚Í0‚Å‰Šú‰»
-	shot_se = Music::Instance().LoadSound("boyon1");
-	Music::Instance().SoundChangeVolume(255,shot_se);
+	shot_se = Music::Instance().LoadSound("../Music/boyon1.wav");
 	nowNum = num;
 	input = Input();
 	Initialize();//‰Šú‰»
@@ -149,7 +148,7 @@ void Cannon::Shot()
 	//‰E
 	if (input.GetButtonTrigger(INPUT_BUTTON_RB, DX_INPUT_PAD1))
 	{
-		Music::Instance().SoundFileStart(shot_se);
+		//Music::Instance().SoundFileStart(shot_se);
 		Vector2 kariPos = _position;
 		flipHorizontal = false;
 		reaction = (float)(-15 *( 20 - nowNum));  //‘å–C‚Ì’²ß
