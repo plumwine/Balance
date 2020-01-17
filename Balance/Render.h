@@ -18,32 +18,28 @@ public:
 	static Render& Instance();
 
 	void Draw(Vector2 pos, Vector2 size, int grp);
-	void FlagDraw(Vector2 pos, Vector2 size, int grp, bool dr, int alpha);
-	void RectDraw(Object& object);
-	void RectDraw(Object& object, bool reverse);
-	void AlphaDraw(Object& object, int alpha);
-	void AlphaDraw(Object& object, bool reverse, int alpha);
-	void FlagDraw(Object& object, bool dr, int alpha);
+	void FlagDraw(Vector2 pos, Vector2 size, int grp, bool dr, int alpha = 255);
+	void RectDraw(Object& object, bool reverse = FALSE);
+	void AlphaDraw(Object& object, bool reverse = FALSE, int alpha = 255);
+	void FlagDraw(Object& object, bool dr, int alpha = 255);
 
 	void ExtendDraw(Vector2 pos, Vector2 extendPos, int grp);
 	void ExtendDraw(Vector2 pos, Vector2 size, Vector2 extend, int grp);
 	void ExtendDrawRefPos(Object& object, Vector2 extendPos);
 	void ExtendDrawRefMul(Object& object, Vector2 extend);
 
-	void BrightDraw(Vector2 pos, Vector2 size, int grp, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse);
+	void BrightDraw(Vector2 pos, Vector2 size, int grp, int BrightColorR = 255, int BrightColorG = 255, int BrightColorB = 255, bool reverse = FALSE);
 
-	void BrightDraw(Object & object, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse);
+	void BrightDraw(Object & object, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse = FALSE);
 
-	void RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp);
-	void RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp, bool reverse);
+	void RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp, bool reverse = FALSE);
 	void LineDraw(Vector2 start, Vector2 end, unsigned int color);
 	void StringDraw(Vector2 pos, const TCHAR* str);
 	void StringDraw(Vector2 pos, const TCHAR* str, unsigned int color);
 	void NumberDraw(Vector2 pos, int number, int grp);
 
 
-	void DrawShake(Object& object);
-	void DrawShake(Object& object, bool reverse);
+	void DrawShake(Object& object, bool reverse = 255);
 	void ShakeChange();
 	void ShakeStop();
 
