@@ -30,6 +30,10 @@ public:
 	void ExtendDrawRefPos(Object& object, Vector2 extendPos);
 	void ExtendDrawRefMul(Object& object, Vector2 extend);
 
+	void BrightDraw(Vector2 pos, Vector2 size, int grp, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse);
+
+	void BrightDraw(Object & object, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse);
+
 	void RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp);
 	void RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp, bool reverse);
 	void LineDraw(Vector2 start, Vector2 end, unsigned int color);
