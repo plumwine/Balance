@@ -74,7 +74,13 @@ private:
 	int back_Gr;                         //背景絵^
 	int endGr;                           //エンディング
 	int golGr;                           //エンディング2
-	int numberGr;                          //数字
+	int numberGr;                        //数字
+	//音源管理
+	//SE
+	int boyon1;
+	int hyun1;
+	//BGM
+
 
 	Scene nowScene;                      //現在のシーン
 	bool gameEnd;                        //ゲームエンド（仮）

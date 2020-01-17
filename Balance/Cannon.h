@@ -38,7 +38,10 @@ private:
 	int nowNum;                        //今のY座標
 	Input input;
 	Vector2 enemyDir;                  //敵の方向
-	
+	//音
+	int shot_se;                       //撃つときの音
+
+
 	Object* m_pObj;
 	GameObjectManager* m_pObjectManager;  //GameObjectManagerのポインタ
 };
