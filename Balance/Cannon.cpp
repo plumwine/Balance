@@ -11,12 +11,14 @@
 Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager,int num)
 	:underTouch(false),
 	flipHorizontal(false),
-	isDeadFlag(false)
+	isDeadFlag(false),
+	enemyDir(Vector2(1,0))
+
 {
 	_position = position;
 	_size = Vector2(32, 32);
 	m_pObjectManager = objectManager;
-	_grp = LoadGraph("../Texture/kari/battery_A.png");
+	_grp = LoadGraph("../Texture/master/Hiyoko.png");
 	centerPosX = 0;      //Å‰‚Í0‚Å‰Šú‰»
 	nowNum = num;
 	input = Input();
@@ -77,16 +79,18 @@ void Cannon::Hit(Object & object)
 		if (underTouch) return;
 		underTouch = true;
 	}
-	
 
-}
-void Cannon::AreaHit(Object & object)
-{
 }
 int Cannon::GetNowNum()
 {
-
 	return nowNum;
+}
+void Cannon::GetObj(Object * obj)
+{
+	if (obj == nullptr) return;
+	m_pObj = obj;
+	enemyDir =  m_pObj->Position() - _position;
+	enemyDir.Normalized();
 }
 //ˆÚ“®
 void Cannon::Move(float deltaTime)
@@ -135,7 +139,7 @@ void Cannon::Shot()
 		Vector2 kariPos = _position;
 		flipHorizontal = true;
 		reaction = (float)(15 *( 20 - nowNum));   //‘å–C‚Ì’²ß
-		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8,8), Vector2(-1, 0)));
+		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8, 8), Vector2(-1,0)));// enemyDir));
 	}
 
 	//‰E
@@ -144,6 +148,6 @@ void Cannon::Shot()
 		Vector2 kariPos = _position;
 		flipHorizontal = false;
 		reaction = (float)(-15 *( 20 - nowNum));  //‘å–C‚Ì’²ß
-		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8, 8), Vector2(1, 0)));
+		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8, 8), Vector2(1, 0)));//enemyDir));
 	}
 }

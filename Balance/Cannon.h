@@ -14,20 +14,18 @@ public:
 	//継承
 	void Initialize() override;        //初期化
 	void Draw() override;              //描画
-	void Update(float deltaTime) override;            //更新
+	void Update(float deltaTime) override;  //更新
 	void Release() override;           //解放
 	bool IsDead() override;            //死亡判定
 	void Hit(Object& object) override; //当たった時の処理
-	void AreaHit(Object & object) override;
 
-	int GetNowNum();                     //現在の順番
+	int GetNowNum();                   //現在の順番
+	void GetObj(Object* obj);
 
 	void Shot();                       //弾を撃つ
 private:
 
-	void Move(float deltaTime);                       //移動関係
-
-	
+	void Move(float deltaTime);        //移動関係
 
 private:
 	bool underTouch;                   //下方向に大砲かプレイヤーがあるかどうか
@@ -39,7 +37,8 @@ private:
 	float centerPosX;                  //中心位置X
 	int nowNum;                        //今のY座標
 	Input input;
+	Vector2 enemyDir;                  //敵の方向
 	
+	Object* m_pObj;
 	GameObjectManager* m_pObjectManager;  //GameObjectManagerのポインタ
-	
 };

@@ -17,7 +17,6 @@ public:
 	void Update(float deltaTime) override;            //XV
 	void Release() override;           //‰ğ•ú
 	void Hit(Object& object) override; //“–‚½‚Á‚½‚Ìˆ—
-	void AreaHit(Object & object) override;
 
 public:
 
@@ -34,4 +33,5 @@ private:
 	Vector2 mVelocity; //ˆÚ“®•ûŒü
 	float speed;       //‘¬‚³
 	bool isDeadFlag;   //€‚ñ‚Å‚¢‚é‚©
+	float dis = 1000.0f;
 };

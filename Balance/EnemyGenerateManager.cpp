@@ -3,6 +3,7 @@
 #include <sstream>
 #include "Enemy.h"
 #include "WindowInfo.h"
+#include "GamePlayManager.h"
 
 
 EnemyGenerateManager::EnemyGenerateManager()
@@ -91,7 +92,7 @@ void EnemyGenerateManager::Generate(int cannonCnt)
 		Vector2 generatePos = Vector2(
 			0,
 			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * TEXTURESIZEY));
-		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0)));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0), GamePlayManager::Instance().GetWave()));
 	}
 	//‰E‚©‚ç”­ŽË‚³‚ê‚é“G
 	else
@@ -99,7 +100,7 @@ void EnemyGenerateManager::Generate(int cannonCnt)
 		Vector2 generatePos = Vector2(
 			WindowInfo::WindowWidth,
 			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * TEXTURESIZEY));
-		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0)));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0),GamePlayManager::Instance().GetWave()));
 	}
 }
 
@@ -111,7 +112,7 @@ void EnemyGenerateManager::Generate(int cannonCnt, int R0L1)
 		Vector2 generatePos = Vector2(
 			0,
 			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * TEXTURESIZEY));
-		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0)));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0), GamePlayManager::Instance().GetWave()));
 	}
 	//‰E‚©‚ç”­ŽË‚³‚ê‚é“G
 	else
@@ -119,7 +120,7 @@ void EnemyGenerateManager::Generate(int cannonCnt, int R0L1)
 		Vector2 generatePos = Vector2(
 			WindowInfo::WindowWidth,
 			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * TEXTURESIZEY));
-		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0)));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0), GamePlayManager::Instance().GetWave()));
 	}
 }
 

@@ -8,7 +8,7 @@ Ground::Ground(const Vector2 &position)
 {
 	_position = position; 
 	_size = Vector2(1920, 150);
-	_grp = LoadGraph("../Texture/kari/ground_A.png");
+	_grp = LoadGraph("../Texture/master/kusa.png");
 	Initialize();
 }
 
@@ -23,7 +23,7 @@ void Ground::Initialize()
 
 void Ground::Draw()
 {
-	Render::Instance().RectDraw(*this);
+	DrawExtendGraph(_position.x, _position.y, 1920, 1080, _grp, false);
 }
 
 void Ground::Update(float deltaTime)
@@ -49,11 +49,6 @@ void Ground::Hit(Object & object)
 		GamePlayManager::Instance().endGame();
 	}
 }
-
-void Ground::AreaHit(Object & object)
-{
-}
-
 bool Ground::IsGameSet()
 {
 	return isGameEnd;

@@ -14,8 +14,7 @@ public:
 	void Update(float deltaTime) override;            //更新
 	void Release() override;           //解放
 	bool IsDead() override;            //死亡判定
-	void Hit(Object& object) override; //当たった時の処理0
-	void AreaHit(Object & object) override;
+	void Hit(Object& object) override; //当たった時の処理
 
 	bool IsGameSet();                  //ゲーム終了フラグ
 

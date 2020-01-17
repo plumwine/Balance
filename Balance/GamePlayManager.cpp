@@ -43,6 +43,8 @@ void GamePlayManager::Initialize()
 	endGr = LoadGraph("../Texture/kari/sipai_A.png");
 	golGr = LoadGraph("../Texture/kari/seikou_A.png");
 
+	back_Gr = LoadGraph("../Texture/master/Haikei.png");
+
 	gameEnd = false;
 	cannonCount = 0;
 
@@ -80,13 +82,13 @@ void GamePlayManager::Update()
 //	XVˆ—
 void GamePlayManager::GameUpdate(float deltaTime)
 {
+	//•`‰æ‡‚ñ‚ÍŒã‚ª‚‚­‚È‚é
+	//”wŒi•`‰æ
+	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
 	m_pGameManager->Update(deltaTime);
 	m_pGameManager->Draw();
 
-	WaveUpdate(deltaTime);
 	CountMnager();
-	
-
 }
 
 void GamePlayManager::SceneUpdate(float deltaTime)
@@ -97,7 +99,8 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 		Title();
 		break;
 	case GamePlayScene:
-		GameUpdate(deltaTime);
+		WaveUpdate(deltaTime);
+		
 		break;
 	case EndScene:
 		Ending();
@@ -142,18 +145,20 @@ void GamePlayManager::ChangeScene(Scene scene)
 
 void GamePlayManager::Init()
 {
-	
+	m_pGameManager->Clear();
+	m_EnemyManager.Initialize(m_pGameManager);
+
 	gameEnd = false;
-	cannonCount = 0;
+	//ƒLƒƒƒmƒ“‚ð’Ç‰Á‚·‚é‚Æ‚«‚ÍcannnonCount‚ð‘«‚·
+	cannonCount = 1;
 	cannonGenerateCount = 0;
 	enemyDeadCount = 0;
 	//Å‰‚É¶¬‚·‚é‚à‚Ì‚ðŠeWave‹¤’Ê
-	m_pGameManager->Add(new Player(Vector2(960, 832)));
-	//ƒLƒƒƒmƒ“‚ð’Ç‰Á‚·‚é‚Æ‚«‚ÍcannnonCount‚ð‘«‚·
-	cannonCount++;
-	m_pGameManager->Add(new Cannon(Vector2(960, 800), m_pGameManager, cannonCount));
 
 	m_pGameManager->Add(new Ground(Vector2(0, 870)));
+	m_pGameManager->Add(new Player(Vector2(960, 832)));
+	m_pGameManager->Add(new Cannon(Vector2(960, 800), m_pGameManager, cannonCount));
+
 }
 
 //ƒEƒFƒCƒuŠÇ—
@@ -175,15 +180,42 @@ void GamePlayManager::WaveUpdate(float deltaTime)
 
 void GamePlayManager::Wave_1(float deltaTime)
 {
-
+	GameUpdate(deltaTime);
+	if (cannonCount >= 10)
+	{
+		fps.Wait();
+		ChangeWave(StageWave::Stage2);
+		Init();
+		fps.TimeStart();
+	}
 }
 
 void GamePlayManager::Wave_2(float deltaTime)
 {
+	GameUpdate(deltaTime);
+	if (cannonCount >= 10)
+	{
+		fps.Wait();
+		ChangeWave(StageWave::Stage3);
+		Init();
+		fps.TimeStart();
+	}
 }
 
 void GamePlayManager::Wave_3(float deltaTime)
 {
+	GameUpdate(deltaTime);
+	if (cannonCount >= 10)
+	{
+		fps.Wait();
+		ChangeScene(Scene::EndScene);
+		Init();
+		DrawTurnGraph(600, 200, golGr, 0);
+	}
+}
+StageWave GamePlayManager::GetWave()
+{
+	return nowSatge;
 }
 //WAVEƒ`ƒFƒ“ƒW
 void GamePlayManager::ChangeWave(StageWave wave)
@@ -223,12 +255,4 @@ void GamePlayManager::CountMnager()
 		ChangeScene(Scene::EndScene);
 		DrawTurnGraph(600, 200, endGr,1);
 	}
-	if (cannonCount>=10)
-	{
-		fps.Wait();
-		ChangeScene(Scene::EndScene);
-		DrawTurnGraph(600, 200, golGr, 0);
-	}
-
-
 }

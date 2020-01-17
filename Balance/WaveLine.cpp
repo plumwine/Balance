@@ -54,10 +54,6 @@ void WaveLine::Hit(Object & object)
 	}
 }
 
-void WaveLine::AreaHit(Object & object)
-{
-}
-
 //êGÇ¡ÇΩÇ©Ç«Ç§Ç©
 bool WaveLine::GetTouch()
 {
