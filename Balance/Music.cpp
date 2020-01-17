@@ -11,9 +11,9 @@ Music & Music::Instance()
 	return *instance;
 }
 
-int Music::LoadSound(char * filePath)
+int Music::LoadSound(std::string filepath)
 {
-	int mem = LoadSoundMem(filePath);
+	int mem = LoadSoundMem(filepath.c_str());
 
 	if (mem == -1)
 	{
@@ -23,29 +23,6 @@ int Music::LoadSound(char * filePath)
 	return mem;
 }
 
-int Music::LoadSound(MusicString music, Type dataType)
-{
-	std::string filePath = "../Music/";
-
-	std::string name = STR(music);
-	name = name.substr(13);
-	filePath.append(name);
-
-	filePath.append(".");
-
-	name = STR(dataType);
-	name = name.substr(6);
-	filePath.append(name);
-
-	int mem = LoadSoundMem(filePath.data());
-
-	if (mem == -1)
-	{
-		return NULL;
-	}
-
-	return mem;
-}
 
 //‰¹Šy‚ğÅ‰‚©‚çÄ¶‚·‚é
 void Music::SoundFileStart(int mem)
