@@ -66,6 +66,34 @@ void Render::RectDraw(Object& object, bool reverse)
 	);
 }
 
+void Render::AlphaDraw(Object & object, int alpha = 255)
+{
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+	DrawRectGraph(
+		(int)object.Position().x,
+		(int)object.Position().y,
+		0, 0,
+		(int)object.Size().x,
+		(int)object.Size().y,
+		object.Grp(), TRUE
+	);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+
+void Render::AlphaDraw(Object & object, bool reverse, int alpha = 255)
+{
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+	DrawRectGraph(
+		(int)object.Position().x,
+		(int)object.Position().y,
+		0, 0,
+		(int)object.Size().x,
+		(int)object.Size().y,
+		object.Grp(), TRUE, reverse
+	);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+
 void Render::FlagDraw(Object & object, bool dr, int alpha = 255)
 {
 	if (dr)
@@ -175,15 +203,31 @@ void Render::StringDraw(Vector2 pos, const TCHAR* str, unsigned int color)
 
 void Render::NumberDraw(Vector2 pos, int number, int grp)
 {
-	DrawRectGraph(
-		pos.x,
-		pos.y,
-		number * 16,
-		0,
-		16,
-		16,
-		grp, TRUE
-	);
+	if (number == 0)
+	{
+		DrawRectGraph(
+			pos.x,
+			pos.y,
+			0,
+			0,
+			16,
+			16,
+			grp, TRUE
+		);
+	}
+	while (number != 0)
+	{
+		DrawRectGraph(
+			pos.x,
+			pos.y,
+			number % 10 * 16,
+			0,
+			16,
+			16,
+			grp, TRUE
+		);
+		number /= 10;
+	}
 }
 
 //‰¡•ûŒü‚É—h‚ç‚·

@@ -21,6 +21,8 @@ public:
 	void FlagDraw(Vector2 pos, Vector2 size, int grp, bool dr, int alpha);
 	void RectDraw(Object& object);
 	void RectDraw(Object& object, bool reverse);
+	void AlphaDraw(Object& object, int alpha);
+	void AlphaDraw(Object& object, bool reverse, int alpha);
 	void FlagDraw(Object& object, bool dr, int alpha);
 
 	void ExtendDraw(Vector2 pos, Vector2 extendPos, int grp);
@@ -34,6 +36,7 @@ public:
 	void StringDraw(Vector2 pos, const TCHAR* str);
 	void StringDraw(Vector2 pos, const TCHAR* str, unsigned int color);
 	void NumberDraw(Vector2 pos, int number, int grp);
+
 
 	void DrawShake(Object& object);
 	void DrawShake(Object& object, bool reverse);
