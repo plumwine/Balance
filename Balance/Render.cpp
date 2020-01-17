@@ -23,7 +23,7 @@ void Render::Draw(Vector2 pos, Vector2 size, int grp)
 	);
 }
 
-void Render::FlagDraw(Vector2 pos, Vector2 size, int grp, bool dr, int alpha = 255)
+void Render::FlagDraw(Vector2 pos, Vector2 size, int grp, bool dr, int alpha)
 {
 	if (dr)
 	{
@@ -38,18 +38,6 @@ void Render::FlagDraw(Vector2 pos, Vector2 size, int grp, bool dr, int alpha = 2
 		);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
-}
-//í èÌãÈå`ï`âÊ
-void Render::RectDraw(Object& object)
-{
-	DrawRectGraph(
-		(int)object.Position().x,
-		(int)object.Position().y,
-		0, 0,
-		(int)object.Size().x,
-		(int)object.Size().y,
-		object.Grp(), TRUE
-	);
 }
 
 //ãÈå`ï`âÊ(îΩì]ëŒâû)
@@ -66,21 +54,7 @@ void Render::RectDraw(Object& object, bool reverse)
 	);
 }
 
-void Render::AlphaDraw(Object & object, int alpha = 255)
-{
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-	DrawRectGraph(
-		(int)object.Position().x,
-		(int)object.Position().y,
-		0, 0,
-		(int)object.Size().x,
-		(int)object.Size().y,
-		object.Grp(), TRUE
-	);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-}
-
-void Render::AlphaDraw(Object & object, bool reverse, int alpha = 255)
+void Render::AlphaDraw(Object & object, bool reverse, int alpha)
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 	DrawRectGraph(
@@ -94,7 +68,7 @@ void Render::AlphaDraw(Object & object, bool reverse, int alpha = 255)
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-void Render::FlagDraw(Object & object, bool dr, int alpha = 255)
+void Render::FlagDraw(Object & object, bool dr, int alpha)
 {
 	if (dr)
 	{
@@ -150,7 +124,7 @@ void Render::ExtendDrawRefMul(Object & object, Vector2 extend)
 }
 
 
-void Render::BrightDraw(Vector2 pos, Vector2 size, int grp, int BrightColorR = 255, int BrightColorG = 255, int BrightColorB = 255, bool reverse = FALSE)
+void Render::BrightDraw(Vector2 pos, Vector2 size, int grp, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse)
 {
 	SetDrawBright(BrightColorR, BrightColorG, BrightColorB);
 
@@ -166,7 +140,7 @@ void Render::BrightDraw(Vector2 pos, Vector2 size, int grp, int BrightColorR = 2
 	SetDrawBright(255, 255, 255);
 }
 
-void Render::BrightDraw(Object & object, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse = FALSE)
+void Render::BrightDraw(Object & object, int BrightColorR, int BrightColorG, int BrightColorB, bool reverse)
 {
 	SetDrawBright(BrightColorR, BrightColorG, BrightColorB);
 
@@ -182,18 +156,6 @@ void Render::BrightDraw(Object & object, int BrightColorR, int BrightColorG, int
 	SetDrawBright(255, 255, 255);
 }
 
-void Render::RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp)
-{
-	DrawRectGraph(
-		(int)pos.x,
-		(int)pos.y,
-		particleNumber * particleSize,
-		0,//particleNumber * particleSize,
-		particleSize,
-		particleSize,
-		grp, TRUE
-	);
-}
 
 void Render::RectParticle(Vector2 pos, int particleNumber, int particleSize, int grp, bool reverse)
 {
@@ -262,19 +224,6 @@ void Render::NumberDraw(Vector2 pos, int number, int grp)
 		number /= 10;
 		count++;
 	}
-}
-
-//â°ï˚å¸Ç…óhÇÁÇ∑
-void Render::DrawShake(Object & object)
-{
-	DrawRectGraph(
-		(int)object.Position().x + shake,
-		(int)object.Position().y,
-		0, 0,
-		(int)object.Size().x,
-		(int)object.Size().y,
-		object.Grp(), TRUE
-	);
 }
 
 //â°ï˚å¸Ç…óhÇÁÇ∑(îΩì])
