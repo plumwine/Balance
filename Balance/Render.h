@@ -7,6 +7,8 @@
 
 class Object;
 
+#define NUMBER_SIZE 64
+
 class Render
 {
 private:
@@ -28,7 +30,7 @@ public:
 	void ExtendDrawRefPos(Object& object, Vector2 extendPos);
 	void ExtendDrawRefMul(Object& object, Vector2 extend);
 
-	void RotaDraw(Vector2 centerPos, Vector2 extendPos, int grp);
+	void RotaDraw(Vector2 centerPos, float extend, float angle, int grp, bool reverse = FALSE);
 
 	void BrightDraw(Vector2 pos, Vector2 size, int grp, int BrightColorR = 255, int BrightColorG = 255, int BrightColorB = 255, bool reverse = FALSE);
 
