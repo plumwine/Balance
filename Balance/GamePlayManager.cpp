@@ -34,10 +34,14 @@ void GamePlayManager::Initialize()
 	nowScene = Scene::TitleScene;
 	//ç≈èâÇÕSatge1
 	nowSatge = StageWave::Stage1;
-	endGr = GraphFactory::Instance().LoadGraph("../Texture/kari/sipai_A.png");
-	golGr = GraphFactory::Instance().LoadGraph("../Texture/kari/seikou_A.png");
-	back_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Haikei.png");
-	numberGr = GraphFactory::Instance().LoadGraph("../Texture/master/Renban.png");
+
+	//âÊëúìoò^
+	title_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Shake.png");        //É^ÉCÉgÉã
+	endGr    = GraphFactory::Instance().LoadGraph("../Texture/master/sipai_A.png");      //é∏îsâº
+	golGr    = GraphFactory::Instance().LoadGraph("../Texture/master/seikou_A.png");     //ê¨å˜âº
+	back_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Haikei.png");        //îwåi
+	numberGr = GraphFactory::Instance().LoadGraph("../Texture/master/Renban.png");       //êîéö
+	gage_Gr  = GraphFactory::Instance().LoadGraph("../Texture/master/zouka.png");        //ÉQÅ[ÉW
 
 	boyon1 = Music::Instance().LoadSound("../Music/boyon1.wav");
 	hyun1 = Music::Instance().LoadSound("../Music/hyun1.wav");
@@ -83,8 +87,8 @@ void GamePlayManager::GameUpdate(float deltaTime)
 	m_pGameManager->Draw();
 
 	Render::Instance().NumberDraw(Vector2(100, 100), fps.GetTime(), numberGr);
-
-	//Music::Instance().SoundFileStart(boyon1);
+	Render::Instance().RectParticle(Vector2(0, 900), enemyDeadCount * 3, 192, false); //ÉQÅ[ÉW
+	Render::Instance().RectParticle(Vector2(0, 900), cannonCount, 64, false); //ÉQÅ[ÉW
 	CountMnager();
 }
 
@@ -108,7 +112,7 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 //É^ÉCÉgÉã
 void GamePlayManager::Title()
 {
-	
+	Render::Instance().Draw(Vector2(300, 300),Vector2(500,500),title_Gr);
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
 	{
 		Initialize();

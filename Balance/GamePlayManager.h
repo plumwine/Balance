@@ -71,10 +71,12 @@ private:
 private:
 	
 	//画像関係
+	int title_Gr;                        //タイトル
 	int back_Gr;                         //背景絵^
 	int endGr;                           //エンディング
 	int golGr;                           //エンディング2
 	int numberGr;                        //数字
+	int gage_Gr;                            //ゲージ
 	//音源管理
 	//SE
 	int boyon1;
