@@ -50,6 +50,9 @@ public:
 	int GetCannonCount() { return cannonCount; }         //砲台の生きている数
 
 	StageWave GetWave();
+	//スコア
+	void ScoreUp();
+	void GetPlayerPos(Vector2 pos);
 private:
 	//シーン管理
 	void SceneUpdate(float deltaTime);
@@ -69,14 +72,18 @@ private:
 	void ChangeWave(StageWave wave);
 	void CountMnager();
 
+	
+
 private:
 	
 	//画像関係
 	int title_Gr;                        //タイトル
 	int back_Gr;                         //背景絵^
+	int result;                          //リザルト背景
 	int endGr;                           //エンディング
 	int golGr;                           //エンディング2
 	int numberGr;                        //数字
+	int subNumGr;                        //数字
 	int gage_Gr;
 	//音源管理
 	//SE
@@ -96,6 +103,8 @@ private:
 	int cannonCount;                     //生成されている砲台をカウント
 	int cannonGenerateCount;             //大砲生成カウント
 
+	int score;                           //スコア
+	Vector2 playerPos;                   //プレイヤーの位置
 
 	EnemyGenerateManager m_EnemyManager; //敵生成クラス
 	GameObjectManager* m_pGameManager;   //ゲームオブジェクトマネージャー

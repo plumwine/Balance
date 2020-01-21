@@ -40,7 +40,9 @@ void GamePlayManager::Initialize()
 	endGr = GraphFactory::Instance().LoadGraph("../Texture/kari/sipai_A.png");
 	golGr = GraphFactory::Instance().LoadGraph("../Texture/kari/seikou_A.png");
 	back_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Haikei.png");
+	result = GraphFactory::Instance().LoadGraph("../Texture/master/result.png");
 	numberGr = GraphFactory::Instance().LoadGraph("../Texture/master/Renban.png");
+	subNumGr = GraphFactory::Instance().LoadGraph("../Texture/master/subNum.png");
 
 	boyon1 = Music::Instance().LoadSound("../Music/boyon1.wav");
 	hyun1 = Music::Instance().LoadSound("../Music/hyun1.wav");
@@ -48,6 +50,7 @@ void GamePlayManager::Initialize()
 
 	stageBGM = Music::Instance().LoadSound("../Music/stageBGM.wav");
 
+	playerPos = Vector2(960, 808);
 	gameEnd = false;
 	cannonCount = 0;
 	waveline_Y = 100;
@@ -83,18 +86,24 @@ void GamePlayManager::Update()
 //	更新処理
 void GamePlayManager::GameUpdate(float deltaTime)
 {
+	Ending();
 	//描画順んは後が高くなる
 	//背景描画
 	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
 	m_pGameManager->Update(deltaTime);
 	m_pGameManager->Draw();
+	if (gameEnd) return;
+	
+	
 
 	Render::Instance().RectParticle(Vector2(10, 900), enemyDeadCount * 3, 192, gage_Gr, false);   //ゲージ
-	Render::Instance().NumberDraw(Vector2(10, 900), cannonGenerateCount, numberGr);          //大砲生成可能数
+	Render::Instance().NumberDraw_Small(Vector2(40, 940), cannonGenerateCount, subNumGr);          //大砲生成可能数
 	
 	Render::Instance().NumberDraw(Vector2(100, 100), fps.GetTime(), numberGr);
+	Render::Instance().NumberDraw(Vector2(1700, 950), score, numberGr);
 	topCannon_Y = 808;   //頂点のYを取得
 
+	
 	CountMnager();
 }
 
@@ -112,8 +121,6 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 			Music::Instance().SoundFileStart(stageBGM, DX_PLAYTYPE_LOOP);
 		}
 		break;
-	case EndScene:
-		Ending();
 	case LoadScene:
 		Load();
 		break;
@@ -122,6 +129,7 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 }
 void GamePlayManager::Load()
 {
+	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
 	Initialize();
 	//キャノンを追加するときはcannnonCountを足す
 	cannonCount = 1;
@@ -133,13 +141,14 @@ void GamePlayManager::Load()
 	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
 	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
 	
-	fps.Wait();
 	ChangeScene(Scene::TitleScene);
 
 }
 //タイトル
 void GamePlayManager::Title(float deltaTime)
 {
+	fps.Wait();
+	fps.TimeStop();
 	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
 	Render::Instance().Draw(Vector2(400, 20), Vector2(1020, 560), title_Gr);
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
@@ -148,25 +157,29 @@ void GamePlayManager::Title(float deltaTime)
 		Initialize();
 		Init();
 		fps.TimeStart();
+		score = 0;//スコアを初期値に設定
 		ChangeScene(Scene::GamePlayScene);
 	}
 	m_pGameManager->Update(deltaTime);
 	m_pGameManager->Draw();
+
+	
+
 }
 //エンディング
 void GamePlayManager::Ending()
 {
+	if (!gameEnd) return;
+	DrawTurnGraph(300, 200, result, 0);
+	Render::Instance().NumberDraw(Vector2(700, 500), score, numberGr);
+	
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
 	{
-		ChangeScene(Scene::TitleScene);
-	}
-	if (gameEnd || (cannonCount <= 0))
-	{
-		DrawTurnGraph(600, 200, endGr, 1);
-	}
-	if (cannonCount >= 10)
-	{
-		DrawTurnGraph(600, 200, golGr, 0);
+		Initialize();
+		Init();
+		fps.TimeStart();
+		score = 0;//スコアを初期値に設定
+		ChangeScene(Scene::LoadScene);
 	}
 }
 
@@ -239,10 +252,8 @@ void GamePlayManager::Wave_3(float deltaTime)
 	GameUpdate(deltaTime);
 	if (topCannon_Y <= waveline_Y)
 	{
+		gameEnd = true;
 		fps.Wait();
-		ChangeScene(Scene::EndScene);
-		Init();
-		DrawTurnGraph(600, 200, golGr, 0);
 	}
 }
 StageWave GamePlayManager::GetWave()
@@ -275,14 +286,22 @@ void GamePlayManager::CountMnager()
 		{
 			cannonGenerateCount--;
 			cannonCount++;
-			m_pGameManager->Add(new Cannon(Vector2(m_pGameManager->TopCannon(), 200), m_pGameManager,cannonCount));
+			m_pGameManager->Add(new Cannon(Vector2(playerPos.x, -100), m_pGameManager, cannonCount));
 		}
 	}
-	//箱が床に落ちるか砲台が０個になったら終了
-	if (gameEnd || (cannonCount <=0))
+	if (cannonCount <= 0)
 	{
-		fps.Wait();
-		ChangeScene(Scene::EndScene);
-		DrawTurnGraph(600, 200, endGr,1);
+		gameEnd = true;
 	}
+}
+
+//得点を足す
+void GamePlayManager::ScoreUp()
+{
+	score += 10;
+}
+
+void GamePlayManager::GetPlayerPos(Vector2 pos)
+{
+	playerPos = pos;
 }

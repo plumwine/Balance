@@ -2,7 +2,7 @@
 #include "GameObjectManager.h"
 #include <vector>
 
-#define TEXTURESIZEY 96
+#define TEXTURESIZEY 90
 #define PLAYERTEXTUREY 128
 #define GROUNDHEIGHT 144
 

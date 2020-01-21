@@ -41,6 +41,7 @@ public:
 	void StringDraw(Vector2 pos, const TCHAR* str);
 	void StringDraw(Vector2 pos, const TCHAR* str, unsigned int color);
 	void NumberDraw(Vector2 pos, int number, int grp);
+	void NumberDraw_Small (Vector2 pos, int number, int grp);
 
 
 	void DrawShake(Object& object, bool reverse = 255);

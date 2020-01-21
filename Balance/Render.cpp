@@ -240,6 +240,37 @@ void Render::NumberDraw(Vector2 pos, int number, int grp)
 	}
 }
 
+void Render::NumberDraw_Small(Vector2 pos, int number, int grp)
+{
+	if (number == 0)
+	{
+		DrawRectGraph(
+			pos.x,
+			pos.y,
+			0,
+			0,
+			16,
+			16,
+			grp, TRUE
+		);
+	}
+	int count = 0;
+	while (number != 0)
+	{
+		DrawRectGraph(
+			pos.x - (count * 16),
+			pos.y,
+			(number % 10) * 16,
+			0,
+			16,
+			16,
+			grp, TRUE
+		);
+		number /= 10;
+		count++;
+	}
+}
+
 //‰¡•ûŒü‚É—h‚ç‚·(”½“])
 void Render::DrawShake(Object & object, bool reverse)
 {
