@@ -103,7 +103,7 @@ void Cannon::Hit(Object & object)
 			nowNum = 1;
 		}
 
-		_velocity.x = (0.5f * object.Velocity().x) / (10 / nowNum);
+		_velocity.x = (0.2f * object.Velocity().x) / (10 / nowNum);
 		//ˆê‰ñG‚ê‚Ä‚¢‚½‚çƒŠƒ^[ƒ“
 		if (underTouch) return;
 		underTouch = true;

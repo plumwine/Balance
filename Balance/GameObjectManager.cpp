@@ -124,7 +124,7 @@ float GameObjectManager::TopCannon()
 {
 
 	int Topnum = 1;
-	float Top_X = 900;
+	float Top_Y = 808;
 	for (auto cannon : mObjects)
 	{
 		if (cannon == nullptr) continue;
@@ -137,9 +137,9 @@ float GameObjectManager::TopCannon()
 			if (Topnum <= a->GetNowNum())
 			{
 				Topnum = a->GetNowNum();
-				Top_X = a->Position().x;
+				Top_Y = a->Position().y;
 			}
 		}
 	}
-	return Top_X;
+	return Top_Y;
 }

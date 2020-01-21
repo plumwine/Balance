@@ -78,13 +78,21 @@ private:
 	
 	//画像関係
 	int title_Gr;                        //タイトル
-	int back_Gr;                         //背景絵^
+	int back_Gr_1;                         //背景　朝
+	int back_Gr_2;                         //背景　昼
+	int back_Gr_3;                         //背景　夜
 	int result;                          //リザルト背景
 	int endGr;                           //エンディング
 	int golGr;                           //エンディング2
-	int numberGr;                        //数字
-	int subNumGr;                        //数字
-	int gage_Gr;
+	//テキスト
+	int gameplay_Text;                   //ゲームプレイ
+	int pushstart_Text;
+	int title_Text;
+	int score_Text;
+
+	int numberGr;                        //数字大
+	int subNumGr;                        //数字小
+	int gage_Gr;                         //ゲージ
 	//音源管理
 	//SE
 	int boyon1;
