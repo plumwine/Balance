@@ -29,6 +29,11 @@ void Ranking::Write()
 	for (auto i = 0; i < ranking.size(); i++)
 	{
 		ofs << ranking[i] << std::endl;
+
+		if (i == 2)
+		{
+			break;
+		}
 	}
 #ifdef _DEBUG
 	printfDx("%s‘‚«‚İI‚í‚è‚Ü‚µ‚½", fileName);
@@ -57,6 +62,12 @@ void Ranking::AddWrite(std::string str)
 #endif // _DEBUG
 }
 
+void Ranking::AddRanking(int add)
+{
+	ranking.push_back(add);
+	Sort();
+}
+
 void Ranking::SetRanking(std::vector<int> rank)
 {
 	ranking = rank;
@@ -64,7 +75,7 @@ void Ranking::SetRanking(std::vector<int> rank)
 
 void Ranking::ReadRanking()
 {
-	const char *fileName = "../test.txt";
+	const char *fileName = "../ƒ‰ƒ“ƒLƒ“ƒO.txt";
 	std::ifstream ifs(fileName);
 
 	if (!ifs)

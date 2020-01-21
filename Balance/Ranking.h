@@ -19,6 +19,8 @@ public:
 	void Write();
 	void AddWrite(std::string str);
 
+	void AddRanking(int add);
+
 	void SetRanking(std::vector<int> rank);
 
 	void ReadRanking();
