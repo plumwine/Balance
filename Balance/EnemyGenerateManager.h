@@ -3,11 +3,13 @@
 #include <vector>
 
 #define TEXTURESIZEY 90
+#define CANNONTEXTURESIZEY 96
 #define PLAYERTEXTUREY 128
 #define GROUNDHEIGHT 144
+#define THISTEXTURESIZEY 32
 
 
-//ƒGƒlƒ~[¶¬
+//ã‚¨ãƒãƒŸãƒ¼ç”Ÿæˆ
 class EnemyGenerateManager
 {
 public:
@@ -19,7 +21,7 @@ public:
 private:
 	void Generate(int cannonCnt);
 	void Generate(int cannonCnt,int R0L1);
-	//•¶Žš—ñ‚Ì•ªŠ„‚ðs‚¤
+	//æ–‡å­—åˆ—ã®åˆ†å‰²ã‚’è¡Œã†
 	std::vector<float> Split(const std::string& str, char delim = ',');
 private:
 

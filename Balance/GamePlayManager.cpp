@@ -3,7 +3,7 @@
 #include "GraphFactory.h"
 #include "Render.h"
 #include "Music.h"
-//ƒIƒuƒWƒFƒNƒgŠÖŒW
+//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé–¢ä¿‚
 #include "GamePlayManager.h"
 #include "Player.h"
 #include "Cannon.h"
@@ -12,7 +12,7 @@
 #include "Ground.h"
 #include "WaveLine.h"
 
-//	ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
+//	ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
 GamePlayManager & GamePlayManager::Instance()
 {
 	static std::unique_ptr<GamePlayManager> instance(new GamePlayManager);
@@ -28,15 +28,15 @@ GamePlayManager::~GamePlayManager()
 void GamePlayManager::Initialize()
 {
 	m_pGameManager = new GameObjectManager();
-	m_EnemyManager =  EnemyGenerateManager();
+	m_EnemyManager = EnemyGenerateManager();
 	m_EnemyManager.Initialize(m_pGameManager);
-	fps =  Fps();
+	fps = Fps();
 	input = Input();
 	nowScene = Scene::LoadScene;
-	//Å‰‚ÍSatge1
+	//æœ€åˆã¯Satge1
 	nowSatge = StageWave::Stage1;
-	title_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Shake.png");      //ƒ^ƒCƒgƒ‹
-	gage_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/zouka.png");       //ƒQ[ƒW
+	title_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Shake.png");      //ã‚¿ã‚¤ãƒˆãƒ«
+	gage_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/zouka.png");       //ã‚²ãƒ¼ã‚¸
 	endGr = GraphFactory::Instance().LoadGraph("../Texture/kari/sipai_A.png");
 	golGr = GraphFactory::Instance().LoadGraph("../Texture/kari/seikou_A.png");
 	back_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Haikei.png");
@@ -49,6 +49,8 @@ void GamePlayManager::Initialize()
 	button = Music::Instance().LoadSound("../Music/button.wav");
 
 	stageBGM = Music::Instance().LoadSound("../Music/stageBGM.wav");
+	titleBGM = Music::Instance().LoadSound("../Music/title.ogg");
+	resultBGM = Music::Instance().LoadSound("../Music/MusMusResult.ogg");
 
 	playerPos = Vector2(960, 808);
 	gameEnd = false;
@@ -56,26 +58,26 @@ void GamePlayManager::Initialize()
 	waveline_Y = 100;
 }
 
-//	ƒ‹[ƒvˆ—
+//	ãƒ«ãƒ¼ãƒ—å‡¦ç†
 void GamePlayManager::Update()
 {
-	
+
 	fps.TimeStart();
 
-	//	ƒƒCƒ“ƒ‹[ƒv
+	//	ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
 	while (ProcessMessage() == 0 && !(CheckHitKey(KEY_INPUT_ESCAPE) == 1 || input.GetButtonState(INPUT_BUTTON_BACK, DX_INPUT_PAD1)))
 	{
-		//	”wŒi‚ğƒNƒŠƒA‚·‚é
+		//	èƒŒæ™¯ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 		ClearDrawScreen();
 
-		//	ƒV[ƒ“‚ğXV‚·‚é
+		//	ã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
 		SceneUpdate(fps.DeltaTime());
-		//	XV
+		//	æ›´æ–°
 		fps.Update();
 		fps.Draw();
-		//•ÏX“_
-		m_EnemyManager.Update(fps.GetTime(),cannonCount);
-		
+		//å¤‰æ›´ç‚¹
+		m_EnemyManager.Update(fps.GetTime(), cannonCount);
+
 
 		ScreenFlip();
 
@@ -83,12 +85,12 @@ void GamePlayManager::Update()
 	}
 }
 
-//	XVˆ—
+//	æ›´æ–°å‡¦ç†
 void GamePlayManager::GameUpdate(float deltaTime)
 {
 	Ending();
-	//•`‰æ‡‚ñ‚ÍŒã‚ª‚‚­‚È‚é
-	//”wŒi•`‰æ
+	//æç”»é †ã‚“ã¯å¾ŒãŒé«˜ããªã‚‹
+	//èƒŒæ™¯æç”»
 	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
 	m_pGameManager->Update(deltaTime);
 	m_pGameManager->Draw();
@@ -96,12 +98,11 @@ void GamePlayManager::GameUpdate(float deltaTime)
 	
 	
 
-	Render::Instance().RectParticle(Vector2(10, 900), enemyDeadCount * 3, 192, gage_Gr, false);   //ƒQ[ƒW
-	Render::Instance().NumberDraw_Small(Vector2(40, 940), cannonGenerateCount, subNumGr);          //‘å–C¶¬‰Â”\”
-	
+	Render::Instance().RectParticle(Vector2(10, 900), enemyDeadCount * 3, 192, gage_Gr, false);   //ã‚²ãƒ¼ã‚¸
+	Render::Instance().NumberDraw_Small(Vector2(40, 940), cannonGenerateCount, subNumGr);          //å¤§ç ²ç”Ÿæˆå¯èƒ½æ•°
 	Render::Instance().NumberDraw(Vector2(100, 100), fps.GetTime(), numberGr);
 	Render::Instance().NumberDraw(Vector2(1700, 950), score, numberGr);
-	topCannon_Y = 808;   //’¸“_‚ÌY‚ğæ“¾
+	topCannon_Y = 808;   //é ‚ç‚¹ã®Yã‚’å–å¾—
 
 	
 	CountMnager();
@@ -131,33 +132,37 @@ void GamePlayManager::Load()
 {
 	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
 	Initialize();
-	//ƒLƒƒƒmƒ“‚ğ’Ç‰Á‚·‚é‚Æ‚«‚ÍcannnonCount‚ğ‘«‚·
+	//ã‚­ãƒ£ãƒãƒ³ã‚’è¿½åŠ ã™ã‚‹ã¨ãã¯cannnonCountã‚’è¶³ã™
 	cannonCount = 1;
 	cannonGenerateCount = 0;
 	enemyDeadCount = 0;
-	//Å‰‚É¶¬‚·‚é‚à‚Ì‚ğŠeWave‹¤’Ê
+	//æœ€åˆã«ç”Ÿæˆã™ã‚‹ã‚‚ã®ã‚’å„Waveå…±é€š
 
 	m_pGameManager->Add(new Ground(Vector2(0, 936)));
 	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
 	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
-	
 	ChangeScene(Scene::TitleScene);
 
 }
-//ƒ^ƒCƒgƒ‹
+//ã‚¿ã‚¤ãƒˆãƒ«
 void GamePlayManager::Title(float deltaTime)
 {
 	fps.Wait();
 	fps.TimeStop();
+	if (!Music::Instance().CheckSound(titleBGM))
+	{
+		Music::Instance().SoundFileStart(titleBGM, DX_PLAYTYPE_LOOP);
+	}
 	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
 	Render::Instance().Draw(Vector2(400, 20), Vector2(1020, 560), title_Gr);
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
 	{
-		Music::Instance().SoundFileStart(button,DX_PLAYTYPE_NORMAL);
+		Music::Instance().SoundStop(titleBGM);
+		Music::Instance().SoundFileStart(button, DX_PLAYTYPE_NORMAL);
 		Initialize();
 		Init();
 		fps.TimeStart();
-		score = 0;//ƒXƒRƒA‚ğ‰Šú’l‚Éİ’è
+		score = 0;//ã‚¹ã‚³ã‚¢ã‚’åˆæœŸå€¤ã«è¨­å®š
 		ChangeScene(Scene::GamePlayScene);
 	}
 	m_pGameManager->Update(deltaTime);
@@ -166,7 +171,7 @@ void GamePlayManager::Title(float deltaTime)
 	
 
 }
-//ƒGƒ“ƒfƒBƒ“ƒO
+//ã‚¨ãƒ³ãƒ‡ã‚£ãƒ³ã‚°
 void GamePlayManager::Ending()
 {
 	if (!gameEnd) return;
@@ -178,8 +183,24 @@ void GamePlayManager::Ending()
 		Initialize();
 		Init();
 		fps.TimeStart();
-		score = 0;//ƒXƒRƒA‚ğ‰Šú’l‚Éİ’è
+		score = 0;//ã‚¹ã‚³ã‚¢ã‚’åˆæœŸå€¤ã«è¨­å®š
 		ChangeScene(Scene::LoadScene);
+	if (Music::Instance().CheckSound(stageBGM))
+	{
+		Music::Instance().SoundStop(stageBGM);
+	}
+	if (!Music::Instance().CheckSound(resultBGM))
+	{
+		Music::Instance().SoundFileStart(resultBGM,DX_PLAYTYPE_LOOP);
+	}
+	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
+	{
+		if (Music::Instance().CheckSound(resultBGM))
+		{
+			Music::Instance().SoundStop(resultBGM);
+		}
+		ChangeScene(Scene::TitleScene);
+	}
 	}
 }
 
@@ -194,32 +215,32 @@ void GamePlayManager::Init()
 	m_EnemyManager.Initialize(m_pGameManager);
 
 	gameEnd = false;
-	//ƒLƒƒƒmƒ“‚ğ’Ç‰Á‚·‚é‚Æ‚«‚ÍcannnonCount‚ğ‘«‚·
+	//ã‚­ãƒ£ãƒãƒ³ã‚’è¿½åŠ ã™ã‚‹ã¨ãã¯cannnonCountã‚’è¶³ã™
 	cannonCount = 1;
 	cannonGenerateCount = 0;
 	enemyDeadCount = 0;
-	//Å‰‚É¶¬‚·‚é‚à‚Ì‚ğŠeWave‹¤’Ê
+	//æœ€åˆã«ç”Ÿæˆã™ã‚‹ã‚‚ã®ã‚’å„Waveå…±é€š
 
 	m_pGameManager->Add(new Ground(Vector2(0, 936)));
 	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
-	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager,cannonCount)); //Canon
+	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
 	m_pGameManager->Add(new WaveLine(Vector2(0, 100)));
 }
 
-//ƒEƒFƒCƒuŠÇ—
+//ã‚¦ã‚§ã‚¤ãƒ–ç®¡ç†
 void GamePlayManager::WaveUpdate(float deltaTime)
 {
 	switch (nowSatge)
 	{
-		case Stage1:
-			Wave_1(deltaTime);
-			break;
-		case Stage2:
-			Wave_2(deltaTime);
-			break;
-		case Stage3:
-			Wave_3(deltaTime);
-			break;
+	case Stage1:
+		Wave_1(deltaTime);
+		break;
+	case Stage2:
+		Wave_2(deltaTime);
+		break;
+	case Stage3:
+		Wave_3(deltaTime);
+		break;
 	}
 }
 
@@ -260,28 +281,28 @@ StageWave GamePlayManager::GetWave()
 {
 	return nowSatge;
 }
-//WAVEƒ`ƒFƒ“ƒW
+//WAVEãƒã‚§ãƒ³ã‚¸
 void GamePlayManager::ChangeWave(StageWave wave)
 {
 	nowSatge = wave;
 }
 
-//ƒJƒEƒ“ƒg‚ÌŠÇ—
+//ã‚«ã‚¦ãƒ³ãƒˆã®ç®¡ç†
 void GamePlayManager::CountMnager()
 {
-	//ƒGƒlƒ~[‚ğˆê’è”“|‚µ‚½‚çAˆê‰ñ‘å–C‚ğ¶¬‚Å‚«‚éƒJƒEƒ“ƒg‚ğ{
+	//ã‚¨ãƒãƒŸãƒ¼ã‚’ä¸€å®šæ•°å€’ã—ãŸã‚‰ã€ä¸€å›å¤§ç ²ã‚’ç”Ÿæˆã§ãã‚‹ã‚«ã‚¦ãƒ³ãƒˆã‚’ï¼‹
 	if (enemyDeadCount >= 3)
 	{
 		enemyDeadCount = 0;
 		cannonGenerateCount++;
 	}
-	//‚½‚ß‚ß‚é‘å–C‚Ì”§ŒÀ
+	//ãŸã‚è¾¼ã‚ã‚‹å¤§ç ²ã®æ•°åˆ¶é™
 	if (cannonGenerateCount >= 5)
 		cannonGenerateCount = 5;
-	//o‚¹‚é‘å–C‚ª‚PŒÂˆÈã‚ ‚é‚Æ¶¬‚Å‚«‚é
+	//å‡ºã›ã‚‹å¤§ç ²ãŒï¼‘å€‹ä»¥ä¸Šã‚ã‚‹ã¨ç”Ÿæˆã§ãã‚‹
 	if (cannonGenerateCount >= 1)
 	{
-		//Aƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚çCannon‚ğ¶¬
+		//Aãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã‚‰Cannonã‚’ç”Ÿæˆ
 		if (input.GetButtonTrigger(INPUT_BUTTON_A, DX_INPUT_PAD1))
 		{
 			cannonGenerateCount--;
@@ -292,10 +313,11 @@ void GamePlayManager::CountMnager()
 	if (cannonCount <= 0)
 	{
 		gameEnd = true;
+		}
 	}
 }
 
-//“¾“_‚ğ‘«‚·
+//å¾—ç‚¹ã‚’è¶³ã™
 void GamePlayManager::ScoreUp()
 {
 	score += 10;
