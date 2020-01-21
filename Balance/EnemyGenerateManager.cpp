@@ -17,7 +17,6 @@ EnemyGenerateManager::~EnemyGenerateManager()
 
 void EnemyGenerateManager::Initialize(GameObjectManager *objectManager)
 {
-	generateFlag = true;
 
 	m_pGameObjectManager = objectManager;
 	//マップを読み込む
@@ -27,20 +26,12 @@ void EnemyGenerateManager::Initialize(GameObjectManager *objectManager)
 	
 	if (ifs)
 	{
-		//文字列を一行ずつ読み込む
-		std::string line;
-		while (getline(ifs, line))
+		std::string s;
+		while (!ifs.eof())
 		{
-			//読み込んだ文字列をカンマ区切りで分割
-			std::vector<float> data = Split(line);
-
-			//マップ情報を格納
-			_generateTime.push_back(data);
+			std::getline(ifs, s);
+			_generateTime.push_back(atoi(s.c_str()));
 		}
-
-		_generateItr = _generateTime.begin();
-
-		_generate = *_generateItr;
 	}
 }
 
@@ -48,37 +39,17 @@ void EnemyGenerateManager::Update(float nowTime, int cannonCnt)
 {
 	cannonCount = cannonCnt;
 
-	if (cannonCount == 0 || _generateTime.empty() || !generateFlag)
+	if (cannonCount == 0 || _generateTime.empty())
 	{
 		return;
 	}
 
-	auto itr = _generate.begin();
-
-	if (*itr > nowTime)
+	float time = _generateTime.front();
+	if (time < nowTime)
 	{
-		return;
+		Generate(cannonCount);
+		_generateTime.pop_front();
 	}
-
-	itr++;
-	if (_generate.size() == 2)
-	{
-		for (auto i = 0; i < *itr; i++)
-		{
-			Generate(cannonCount);
-		}
-	}
-
-
-
-	if (_generateItr == _generateTime.end())
-	{
-		generateFlag = false;
-		return;
-	}
-
-	_generateItr++;
-	_generate = *_generateItr;
 }
 
 void EnemyGenerateManager::Generate(int cannonCnt)
@@ -123,21 +94,4 @@ void EnemyGenerateManager::Generate(int cannonCnt, int R0L1)
 			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * CANNONTEXTURESIZEY) + (CANNONTEXTURESIZEY / 2 - THISTEXTURESIZEY / 2));
 		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0), GamePlayManager::Instance().GetWave()));
 	}
-}
-
-
-std::vector<float> EnemyGenerateManager::Split(const std::string & str, char delim)
-{
-	//文字列操作を行うため文字列ストリームを宣言
-	std::stringstream iss(str);
-	std::string tmp;
-	std::vector<float> enemyRow;
-
-	//文字列をカンマ区切りで読み込む
-	while (getline(iss, tmp, delim))
-	{//atoi->文字列を数字に
-		enemyRow.push_back(std::atoi(tmp.c_str()));
-	}
-
-	return enemyRow;
 }
