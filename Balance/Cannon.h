@@ -41,7 +41,11 @@ private:
 	//音
 	int shot_se;                       //撃つときの音
 
-
+	//アニメーション用
+	float animTime;
+	float maxAnimTime;
+	int animNum;
+	int maxAnimNum;
 	Object* m_pObj;
 	GameObjectManager* m_pObjectManager;  //GameObjectManagerのポインタ
 };

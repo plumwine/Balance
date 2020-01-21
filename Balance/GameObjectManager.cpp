@@ -24,15 +24,6 @@ GameObjectManager::~GameObjectManager()
 	}
 	m_addObjectList.clear();
 
-	////弾
-	//for (auto ptr : m_Cannon)
-	//{
-	//	if (ptr != nullptr)
-	//	{
-	//		delete ptr;
-	//	}
-	//}
-	//m_Cannon.clear();
 
 	//オブジェクトがnullになったらそのメモリを開放する
 	for (auto object : mObjects)
@@ -55,18 +46,10 @@ void GameObjectManager::Update(float deltaTime)
 	for (auto ptr : m_addObjectList)
 	{
 		mObjects.emplace_back(ptr);
-		//m_Cannon.emplace_back(ptr);
 		ptr->Initialize();
 	}
 	m_addObjectList.clear();
 
-
-	/*for (auto ptr : m_Cannon)
-	{
-		mObjects.emplace_back(ptr);
-		ptr->Initialize();
-	}
-	m_Cannon.clear();*/
 
 
 	//オブジェクト管理
@@ -110,19 +93,6 @@ void GameObjectManager::Update(float deltaTime)
 			itr++;
 		}
 	}
-	/*auto c_itr =m_Cannon.begin();
-	while (c_itr != m_Cannon.end())
-	{
-		if (*c_itr == nullptr || (*c_itr)->IsDead())
-		{
-			c_itr = m_Cannon.erase(c_itr);
-
-		}
-		else
-		{
-			c_itr++;
-		}
-	}*/
 }
 
 void GameObjectManager::Draw()
@@ -149,17 +119,6 @@ void GameObjectManager::Add(Object * pObject)
 	m_addObjectList.emplace_back(pObject);
 
 }
-
-void GameObjectManager::enemyDir()
-{
-	////敵以外ならcontinue
-	//for (auto enemies : mObjects)
-	//{
-	//	
-	//}
-}
-
-
 //一番上のCannonのX座標の取得
 float GameObjectManager::TopCannon()
 {

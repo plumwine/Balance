@@ -17,7 +17,7 @@ Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager,int num
 
 {
 	_position = position;
-	_size = Vector2(32, 32);
+	_size = Vector2(72, 96);
 	m_pObjectManager = objectManager;
 	_grp = LoadGraph("../Texture/master/Hiyoko.png");
 	centerPosX = 0;      //最初は0で初期化
@@ -38,13 +38,33 @@ void Cannon::Initialize()
 void Cannon::Draw()
 {
 	//最初は右方向
-	Render::Instance().RectDraw(*this, flipHorizontal);
+	DrawRectGraph(
+		(int)_position.x,
+		(int)_position.y,
+		animNum * _size.x,
+		0,
+		_size.x,
+		_size.y,
+		_grp, TRUE, false
+	);
 }
 //更新
 void Cannon::Update(float deltaTime)
 {
 	Shot();
 	Move(deltaTime);
+
+	//アニメーション
+	animTime += 0.1;
+	if (animTime >= maxAnimTime)
+	{
+		animTime = 0;
+		animNum++;
+		if (animNum > maxAnimNum)
+		{
+			animNum = 0;
+		}
+	}
 }
 //解放
 void Cannon::Release()
@@ -75,8 +95,14 @@ void Cannon::Hit(Object & object)
 		( typeid(object) == typeid(Cannon) || typeid(object) == typeid(Player)))
 	{
 		CurrentPosition(object);  //当たった方向への押し出し
-		nowNum = (int)((_position.y + _size.y / 2) - 496) / 32;
-		_velocity.x = (0.8f * object.Velocity().x) / (10 / nowNum);
+		nowNum = (int)((_position.y + _size.y / 2) + 248) / 96;
+
+		if (nowNum <= 1)
+		{
+			nowNum = 1;
+		}
+
+		_velocity.x = (0.5f * object.Velocity().x) / (10 / nowNum);
 		//一回触れていたらリターン
 		if (underTouch) return;
 		underTouch = true;
@@ -116,6 +142,8 @@ void Cannon::Move(float deltaTime)
 	
 	_velocity = Vector2(0, 0);
 
+
+	//大砲の完成の減速
 	if (reaction >11)
 	{
 		reaction -= 10;
@@ -129,7 +157,7 @@ void Cannon::Move(float deltaTime)
 		reaction = 0;
 	}
 }
-
+//弾の発射
 void Cannon::Shot()
 {
 	if (!underTouch) return;
@@ -141,8 +169,8 @@ void Cannon::Shot()
 		Music::Instance().SoundFileStart(shot_se);
 		Vector2 kariPos = _position;
 		flipHorizontal = true;
-		reaction = (float)(15 *( 20 - nowNum));   //大砲の調節
-		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8, 8), Vector2(-1,0)));// enemyDir));
+		reaction = (float)(30 *( 20 - nowNum));   //大砲の調節
+		m_pObjectManager->Add(new Bullet(kariPos + Vector2(16, 16), Vector2(-1,0)));// enemyDir));
 	}
 
 	//右
@@ -151,7 +179,7 @@ void Cannon::Shot()
 		//Music::Instance().SoundFileStart(shot_se);
 		Vector2 kariPos = _position;
 		flipHorizontal = false;
-		reaction = (float)(-15 *( 20 - nowNum));  //大砲の調節
-		m_pObjectManager->Add(new Bullet(kariPos + Vector2(8, 8), Vector2(1, 0)));//enemyDir));
+		reaction = (float)(-30 *( 20 - nowNum));  //大砲の調節
+		m_pObjectManager->Add(new Bullet(kariPos + Vector2(16, 16), Vector2(1, 0)));//enemyDir));
 	}
 }

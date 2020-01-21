@@ -4,11 +4,13 @@
 #include "Cannon.h"
 #include "Bullet.h"
 #include "WindowInfo.h"
+#include "Ground.h"
 
 
 Enemy::Enemy(const Vector2 & position, Vector2 velocity, int damage)
 	:isDeadFlag(false),
-	speed(100)
+	speed(100),
+	gravity(3)
 {
 	_position = position;
 	_size = Vector2(30,30);
@@ -34,9 +36,10 @@ void Enemy::Draw()
 //更新
 void Enemy::Update(float deltaTime)
 {
+	HpManager();
 	Move(deltaTime);
 	DeadJudgment();
-	HpManager();
+	
 
 }
 
@@ -51,7 +54,7 @@ bool Enemy::IsDead()
 
 void Enemy::Hit(Object & object)
 {
-
+	
 	//現状判定する予定が弾と大砲だけなので、当たった時点で終了
 	if (typeid(object) == typeid(Cannon) ||
 		typeid(object) == typeid(Bullet))
@@ -59,6 +62,12 @@ void Enemy::Hit(Object & object)
 		//自分のHPを減らす
 		m_Hp -= m_Damage;
 	}
+	if (typeid(object) == typeid(Ground))
+	{
+		isDeadFlag = true;
+		GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
+	}
+
 	
 }
 
@@ -69,26 +78,44 @@ void Enemy::DeadJudgment()
 	if (_position.x < -100 ||
 		_position.x > WindowInfo::WindowWidth + 100)
 	{
+		GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
 		isDeadFlag = true;
 	}
 	if (_position.y < -100 ||
 		_position.y > WindowInfo::WindowHeight + 100)
-	{
-		isDeadFlag = true;
-	}
-}
-
-void Enemy::HpManager()
-{
-	//HPがなくなったら死亡
-	if (m_Hp <= 0)
 	{
 		GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
 		isDeadFlag = true;
 	}
 }
 
+void Enemy::HpManager()
+{
+	
+}
+
 void Enemy::Move(float deltaTime)
 {
-	_position += m_Velocity * speed* deltaTime;
+	//HPがなくなったら死亡
+	if (m_Hp <= 0)
+	{
+		if (_direction == Direction::Left)
+		{
+			b_velocity = Vector2(50, -100);
+		}
+
+		if (_direction == Direction::Right)
+		{
+			b_velocity = Vector2(-50, -100);
+		}
+		//当たってるところを無しにする
+		_direction = None;
+		_position += b_velocity * speed * deltaTime;
+		b_velocity.y += gravity;
+	}
+	else
+	{
+		_position += m_Velocity * speed* deltaTime;
+	}
+	
 }

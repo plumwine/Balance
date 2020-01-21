@@ -10,13 +10,11 @@ Bullet::Bullet(const Vector2 &position, Vector2 velocity)
 	speed(500)
 {
 	_position = position;
-	_size = Vector2(16, 16);
+	_size = Vector2(64, 64);
 	mVelocity = velocity;
 	_grp = LoadGraph("../Texture/master/Hane.png");
 	Initialize();
 }
-
-
 Bullet::~Bullet()
 {
 }
@@ -59,11 +57,7 @@ void Bullet::Hit(Object & object)
 	{
 		isDeadFlag = true;
 	}
-
 }
-
-
-
 void Bullet::Move(float deltaTime)
 {
 	_position += mVelocity * speed * deltaTime;
@@ -71,7 +65,6 @@ void Bullet::Move(float deltaTime)
 
 void Bullet::DeadJudgment()
 {
-
 	//ウィンドウ範囲外に出たら消す
 	if (_position.x < 0 ||
 		_position.x > WindowInfo::WindowWidth)

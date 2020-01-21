@@ -53,7 +53,8 @@ public:
 private:
 	//シーン管理
 	void SceneUpdate(float deltaTime);
-	void Title();
+	void Load();
+	void Title(float deltaTime);
 	void Ending();
 	void ChangeScene(Scene scene);
 	void Init();
@@ -71,10 +72,12 @@ private:
 private:
 	
 	//画像関係
+	int title_Gr;                        //タイトル
 	int back_Gr;                         //背景絵^
 	int endGr;                           //エンディング
 	int golGr;                           //エンディング2
 	int numberGr;                        //数字
+	int gage_Gr;
 	//音源管理
 	//SE
 	int boyon1;
@@ -85,11 +88,14 @@ private:
 
 	Scene nowScene;                      //現在のシーン
 	bool gameEnd;                        //ゲームエンド（仮）
+	float waveline_Y;                    //WaveLineのYを勝手に宣言
+	float topCannon_Y;                   //現在の一番上のYを取得
 	Input input; 
 	StageWave nowSatge;
 	int enemyDeadCount;                  //敵死亡カウント
 	int cannonCount;                     //生成されている砲台をカウント
 	int cannonGenerateCount;             //大砲生成カウント
+
 
 	EnemyGenerateManager m_EnemyManager; //敵生成クラス
 	GameObjectManager* m_pGameManager;   //ゲームオブジェクトマネージャー

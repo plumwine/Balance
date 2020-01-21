@@ -24,11 +24,13 @@ private:
 private:
 
 	Vector2 m_Velocity;     //向く方向生成時に確認する
+	Vector2 b_velocity;     //吹っ飛ぶ方向
 	float speed;          //移動速度
 	bool isDeadFlag;        //死亡判定
-
 	int m_Hp;
 	int m_Damage;
 
+	
+	float gravity;       //重力
 };
 
