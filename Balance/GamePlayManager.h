@@ -79,6 +79,7 @@ private:
 	//SE
 	int boyon1;
 	int hyun1;
+	int button;
 	//BGM
 	int stageBGM;
 

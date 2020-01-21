@@ -41,6 +41,7 @@ void GamePlayManager::Initialize()
 
 	boyon1 = Music::Instance().LoadSound("../Music/boyon1.wav");
 	hyun1 = Music::Instance().LoadSound("../Music/hyun1.wav");
+	button = Music::Instance().LoadSound("../Music/button.wav");
 
 	stageBGM = Music::Instance().LoadSound("../Music/stageBGM.wav");
 
@@ -116,6 +117,7 @@ void GamePlayManager::Title()
 	
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
 	{
+		Music::Instance().SoundFileStart(button,DX_PLAYTYPE_NORMAL);
 		Initialize();
 		Init();
 		fps.TimeStart();
