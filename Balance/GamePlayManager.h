@@ -85,6 +85,7 @@ private:
 	int button;
 	//BGM
 	int stageBGM;
+	int titleBGM;
 
 	Scene nowScene;                      //現在のシーン
 	bool gameEnd;                        //ゲームエンド（仮）
