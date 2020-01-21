@@ -42,6 +42,8 @@ void GamePlayManager::Initialize()
 	boyon1 = Music::Instance().LoadSound("../Music/boyon1.wav");
 	hyun1 = Music::Instance().LoadSound("../Music/hyun1.wav");
 
+	stageBGM = Music::Instance().LoadSound("../Music/stageBGM.wav");
+
 	gameEnd = false;
 	cannonCount = 0;
 }
@@ -97,7 +99,10 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 		break;
 	case GamePlayScene:
 		WaveUpdate(deltaTime);
-		
+		if (!Music::Instance().CheckSound(stageBGM))
+		{
+			Music::Instance().SoundFileStart(stageBGM, DX_PLAYTYPE_LOOP);
+		}
 		break;
 	case EndScene:
 		Ending();

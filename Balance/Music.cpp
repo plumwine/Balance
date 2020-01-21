@@ -82,7 +82,7 @@ void Music::SoundChangeVolume(int volume, int mem)
 	ChangeVolumeSoundMem(volume, mem);
 }
 
-bool Music::CheckSoundMem(int mem)
+bool Music::CheckSound(int mem)
 {
 	int check = CheckSoundMem(mem);
 

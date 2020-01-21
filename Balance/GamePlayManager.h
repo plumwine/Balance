@@ -80,7 +80,7 @@ private:
 	int boyon1;
 	int hyun1;
 	//BGM
-
+	int stageBGM;
 
 	Scene nowScene;                      //現在のシーン
 	bool gameEnd;                        //ゲームエンド（仮）
