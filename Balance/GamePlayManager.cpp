@@ -10,6 +10,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Ground.h"
+#include "WaveLine.h"
 
 //	クラスのインスタンスを取得
 GamePlayManager & GamePlayManager::Instance()
@@ -31,9 +32,11 @@ void GamePlayManager::Initialize()
 	m_EnemyManager.Initialize(m_pGameManager);
 	fps =  Fps();
 	input = Input();
-	nowScene = Scene::TitleScene;
+	nowScene = Scene::LoadScene;
 	//最初はSatge1
 	nowSatge = StageWave::Stage1;
+	title_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Shake.png");      //タイトル
+	gage_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/zouka.png");       //ゲージ
 	endGr = GraphFactory::Instance().LoadGraph("../Texture/kari/sipai_A.png");
 	golGr = GraphFactory::Instance().LoadGraph("../Texture/kari/seikou_A.png");
 	back_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Haikei.png");
@@ -44,6 +47,7 @@ void GamePlayManager::Initialize()
 
 	gameEnd = false;
 	cannonCount = 0;
+	waveline_Y = 100;
 }
 
 //	ループ処理
@@ -64,7 +68,7 @@ void GamePlayManager::Update()
 		fps.Update();
 		fps.Draw();
 		//変更点
-		m_EnemyManager.Update(fps.GetTime(), cannonCount);
+		m_EnemyManager.Update(fps.GetTime(),cannonCount);
 		
 
 		ScreenFlip();
@@ -82,9 +86,12 @@ void GamePlayManager::GameUpdate(float deltaTime)
 	m_pGameManager->Update(deltaTime);
 	m_pGameManager->Draw();
 
+	Render::Instance().RectParticle(Vector2(10, 900), enemyDeadCount * 3, 192, gage_Gr, false);   //ゲージ
+	Render::Instance().NumberDraw(Vector2(10, 900), cannonGenerateCount, numberGr);          //大砲生成可能数
+	
 	Render::Instance().NumberDraw(Vector2(100, 100), fps.GetTime(), numberGr);
+	topCannon_Y = 808;   //頂点のYを取得
 
-	//Music::Instance().SoundFileStart(boyon1);
 	CountMnager();
 }
 
@@ -93,7 +100,7 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 	switch (nowScene)
 	{
 	case TitleScene:
-		Title();
+		Title(deltaTime);
 		break;
 	case GamePlayScene:
 		WaveUpdate(deltaTime);
@@ -101,14 +108,34 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 		break;
 	case EndScene:
 		Ending();
+	case LoadScene:
+		Load();
 		break;
 	}
 
 }
-//タイトル
-void GamePlayManager::Title()
+void GamePlayManager::Load()
 {
+	Initialize();
+	//キャノンを追加するときはcannnonCountを足す
+	cannonCount = 1;
+	cannonGenerateCount = 0;
+	enemyDeadCount = 0;
+	//最初に生成するものを各Wave共通
+
+	m_pGameManager->Add(new Ground(Vector2(0, 936)));
+	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
+	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
 	
+	fps.Wait();
+	ChangeScene(Scene::TitleScene);
+
+}
+//タイトル
+void GamePlayManager::Title(float deltaTime)
+{
+	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
+	Render::Instance().Draw(Vector2(400, 20), Vector2(1020, 560), title_Gr);
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
 	{
 		Initialize();
@@ -116,7 +143,8 @@ void GamePlayManager::Title()
 		fps.TimeStart();
 		ChangeScene(Scene::GamePlayScene);
 	}
-
+	m_pGameManager->Update(deltaTime);
+	m_pGameManager->Draw();
 }
 //エンディング
 void GamePlayManager::Ending()
@@ -152,10 +180,10 @@ void GamePlayManager::Init()
 	enemyDeadCount = 0;
 	//最初に生成するものを各Wave共通
 
-	m_pGameManager->Add(new Ground(Vector2(0, 870)));
-	m_pGameManager->Add(new Player(Vector2(960, 832)));
-	m_pGameManager->Add(new Cannon(Vector2(960, 800), m_pGameManager, cannonCount));
-
+	m_pGameManager->Add(new Ground(Vector2(0, 936)));
+	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
+	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager,cannonCount)); //Canon
+	m_pGameManager->Add(new WaveLine(Vector2(0, 100)));
 }
 
 //ウェイブ管理
@@ -178,7 +206,7 @@ void GamePlayManager::WaveUpdate(float deltaTime)
 void GamePlayManager::Wave_1(float deltaTime)
 {
 	GameUpdate(deltaTime);
-	if (cannonCount >= 10)
+	if (topCannon_Y <= waveline_Y)
 	{
 		fps.Wait();
 		ChangeWave(StageWave::Stage2);
@@ -190,7 +218,7 @@ void GamePlayManager::Wave_1(float deltaTime)
 void GamePlayManager::Wave_2(float deltaTime)
 {
 	GameUpdate(deltaTime);
-	if (cannonCount >= 10)
+	if (topCannon_Y <= waveline_Y)
 	{
 		fps.Wait();
 		ChangeWave(StageWave::Stage3);
@@ -202,7 +230,7 @@ void GamePlayManager::Wave_2(float deltaTime)
 void GamePlayManager::Wave_3(float deltaTime)
 {
 	GameUpdate(deltaTime);
-	if (cannonCount >= 10)
+	if (topCannon_Y <= waveline_Y)
 	{
 		fps.Wait();
 		ChangeScene(Scene::EndScene);
@@ -229,7 +257,7 @@ void GamePlayManager::CountMnager()
 		enemyDeadCount = 0;
 		cannonGenerateCount++;
 	}
-	//ため込める大砲の数を取得
+	//ため込める大砲の数制限
 	if (cannonGenerateCount >= 5)
 		cannonGenerateCount = 5;
 	//出せる大砲が１個以上あると生成できる
@@ -240,10 +268,10 @@ void GamePlayManager::CountMnager()
 		{
 			cannonGenerateCount--;
 			cannonCount++;
-			m_pGameManager->Add(new Cannon(Vector2(m_pGameManager->TopCannon(), 200), m_pGameManager, cannonCount));
+			m_pGameManager->Add(new Cannon(Vector2(m_pGameManager->TopCannon(), 200), m_pGameManager,cannonCount));
 		}
 	}
-	//箱が床に落ちたら終了
+	//箱が床に落ちるか砲台が０個になったら終了
 	if (gameEnd || (cannonCount <=0))
 	{
 		fps.Wait();

@@ -2,9 +2,9 @@
 #include "GameObjectManager.h"
 #include <vector>
 
-#define TEXTURESIZEY 32
-#define PLAYERTEXTUREY 38
-#define GROUNDHEIGHT 210
+#define TEXTURESIZEY 96
+#define PLAYERTEXTUREY 128
+#define GROUNDHEIGHT 144
 
 
 //エネミー生成
