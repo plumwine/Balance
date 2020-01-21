@@ -29,11 +29,6 @@ void Ranking::Write()
 	for (auto i = 0; i < ranking.size(); i++)
 	{
 		ofs << ranking[i] << std::endl;
-
-		if (i == 2)
-		{
-			break;
-		}
 	}
 #ifdef _DEBUG
 	printfDx("%s‘‚«‚İI‚í‚è‚Ü‚µ‚½", fileName);
@@ -66,6 +61,11 @@ void Ranking::AddRanking(int add)
 {
 	ranking.push_back(add);
 	Sort();
+
+	if (ranking.size() > 3)
+	{
+		ranking.erase(ranking.begin() + 4, ranking.end());
+	}
 }
 
 void Ranking::SetRanking(std::vector<int> rank)
