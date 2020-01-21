@@ -13,8 +13,9 @@ Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager,int num
 	:underTouch(false),
 	flipHorizontal(false),
 	isDeadFlag(false),
-	enemyDir(Vector2(1,0))
-
+	enemyDir(Vector2(1,0)),
+	maxAnimTime(2.0f),
+	maxAnimNum(1)
 {
 	_position = position;
 	_size = Vector2(72, 96);
@@ -88,7 +89,7 @@ void Cannon::Hit(Object & object)
 		isDeadFlag = true;
 		return;
 	} 
-	
+	CurrentPosition(object);  //“–‚½‚Á‚½•ûŒü‚Ö‚Ì‰Ÿ‚µo‚µ
 
 	//“–‚½‚Á‚½Žž•ûŒü‚ª‰º‚ÅA‚©‚ÂA“–‚½‚Á‚½‚à‚Ì‚ªPlayer‚©Cannon
 	if (_direction == Direction::Bottom &&
@@ -169,17 +170,17 @@ void Cannon::Shot()
 		Music::Instance().SoundFileStart(shot_se);
 		Vector2 kariPos = _position;
 		flipHorizontal = true;
-		reaction = (float)(30 *( 20 - nowNum));   //‘å–C‚Ì’²ß
+		reaction += (float)(25 *( 40 - nowNum*3));   //‘å–C‚Ì’²ß
 		m_pObjectManager->Add(new Bullet(kariPos + Vector2(16, 16), Vector2(-1,0)));// enemyDir));
 	}
 
 	//‰E
 	if (input.GetButtonTrigger(INPUT_BUTTON_RB, DX_INPUT_PAD1))
 	{
-		//Music::Instance().SoundFileStart(shot_se);
+		Music::Instance().SoundFileStart(shot_se);
 		Vector2 kariPos = _position;
 		flipHorizontal = false;
-		reaction = (float)(-30 *( 20 - nowNum));  //‘å–C‚Ì’²ß
+		reaction += (float)(- 25*( 40 - nowNum*3));  //‘å–C‚Ì’²ß
 		m_pObjectManager->Add(new Bullet(kariPos + Vector2(16, 16), Vector2(1, 0)));//enemyDir));
 	}
 }

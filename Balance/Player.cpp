@@ -3,6 +3,7 @@
 #include "DxLib.h"
 #include "Input.h"
 #include "GraphFactory.h"
+#include "GamePlayManager.h"
 
 Player::Player(const Vector2 &position)
 	:speed(250),
@@ -75,6 +76,8 @@ void Player::Hit(Object & object)
 //移動
 void Player::Move(float deltaTime)
 {
+	GamePlayManager::Instance().GetPlayerPos(_position);
+
 	//アナログパッドの入力情報
 	GetJoypadAnalogInput(&input_x, &input_y, DX_INPUT_KEY_PAD1);
 	
