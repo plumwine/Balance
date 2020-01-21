@@ -25,7 +25,7 @@ void WaveLine::Initialize()
 
 void WaveLine::Draw()
 {
-	DrawExtendGraph(0, 100, 1980, 105, _grp, false);
+	DrawExtendGraph(0, 500, 1980, 505, _grp, false);
 }
 
 void WaveLine::Update(float deltaTime)

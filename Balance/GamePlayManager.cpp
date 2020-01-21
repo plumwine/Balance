@@ -27,35 +27,15 @@ GamePlayManager::~GamePlayManager()
 
 void GamePlayManager::Initialize()
 {
-	m_pGameManager = new GameObjectManager();
-	m_EnemyManager = EnemyGenerateManager();
-	m_EnemyManager.Initialize(m_pGameManager);
-	fps = Fps();
-	input = Input();
+	
 	nowScene = Scene::LoadScene;
 	//最初はSatge1
 	nowSatge = StageWave::Stage1;
-	title_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Shake.png");      //タイトル
-	gage_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/zouka.png");       //ゲージ
-	endGr = GraphFactory::Instance().LoadGraph("../Texture/kari/sipai_A.png");
-	golGr = GraphFactory::Instance().LoadGraph("../Texture/kari/seikou_A.png");
-	back_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Haikei.png");
-	result = GraphFactory::Instance().LoadGraph("../Texture/master/result.png");
-	numberGr = GraphFactory::Instance().LoadGraph("../Texture/master/Renban.png");
-	subNumGr = GraphFactory::Instance().LoadGraph("../Texture/master/subNum.png");
-
-	boyon1 = Music::Instance().LoadSound("../Music/boyon1.wav");
-	hyun1 = Music::Instance().LoadSound("../Music/hyun1.wav");
-	button = Music::Instance().LoadSound("../Music/button.wav");
-
-	stageBGM = Music::Instance().LoadSound("../Music/stageBGM.wav");
-	titleBGM = Music::Instance().LoadSound("../Music/title.ogg");
-	resultBGM = Music::Instance().LoadSound("../Music/MusMusResult.ogg");
-
 	playerPos = Vector2(960, 808);
 	gameEnd = false;
 	cannonCount = 0;
-	waveline_Y = 100;
+	waveline_Y = 600;
+	topCannon_Y = 808;   //頂点のYを取得
 }
 
 //	ループ処理
@@ -78,7 +58,6 @@ void GamePlayManager::Update()
 		//変更点
 		m_EnemyManager.Update(fps.GetTime(), cannonCount);
 
-
 		ScreenFlip();
 
 		fps.Wait();
@@ -91,19 +70,16 @@ void GamePlayManager::GameUpdate(float deltaTime)
 	Ending();
 	//描画順んは後が高くなる
 	//背景描画
-	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
+	topCannon_Y = m_pGameManager->TopCannon();
 	m_pGameManager->Update(deltaTime);
 	m_pGameManager->Draw();
-	if (gameEnd) return;
-	
-	
 
 	Render::Instance().RectParticle(Vector2(10, 900), enemyDeadCount * 3, 192, gage_Gr, false);   //ゲージ
 	Render::Instance().NumberDraw_Small(Vector2(40, 940), cannonGenerateCount, subNumGr);          //大砲生成可能数
 	Render::Instance().NumberDraw(Vector2(100, 100), fps.GetTime(), numberGr);
-	Render::Instance().NumberDraw(Vector2(1700, 950), score, numberGr);
-	topCannon_Y = 808;   //頂点のYを取得
 
+	Render::Instance().NumberDraw(Vector2(1800, 1000), score, numberGr);
+	DrawGraph(1000, 1000, score_Text, 0); //スコアテキスト
 	
 	CountMnager();
 }
@@ -130,7 +106,40 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 }
 void GamePlayManager::Load()
 {
-	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
+	m_pGameManager = new GameObjectManager();
+	m_EnemyManager = EnemyGenerateManager();
+	m_EnemyManager.Initialize(m_pGameManager);
+	fps = Fps();
+	input = Input();
+
+	//絵の登録
+	title_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Shake.png");      //タイトル
+	gage_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/zouka.png");       //ゲージ
+	endGr = GraphFactory::Instance().LoadGraph("../Texture/kari/sipai_A.png");
+	golGr = GraphFactory::Instance().LoadGraph("../Texture/kari/seikou_A.png");
+	back_Gr_1 = GraphFactory::Instance().LoadGraph("../Texture/master/Haikei.png");    //朝
+	back_Gr_2 = GraphFactory::Instance().LoadGraph("../Texture/master/sunset.png");    //昼
+	back_Gr_3 = GraphFactory::Instance().LoadGraph("../Texture/master/night.png");     //夜
+	result = GraphFactory::Instance().LoadGraph("../Texture/master/result.png");
+	numberGr = GraphFactory::Instance().LoadGraph("../Texture/master/Renban.png");
+	subNumGr = GraphFactory::Instance().LoadGraph("../Texture/master/subNum.png");
+	//テキスト
+	gameplay_Text = GraphFactory::Instance().LoadGraph("../Texture/master/GamePlay.png");
+	pushstart_Text = GraphFactory::Instance().LoadGraph("../Texture/master/PushStart.png");
+	title_Text = GraphFactory::Instance().LoadGraph("../Texture/master/title.png");
+	score_Text = GraphFactory::Instance().LoadGraph("../Texture/master/score.png");
+	//音
+	//SE
+	boyon1 = Music::Instance().LoadSound("../Music/boyon1.wav");
+	hyun1 = Music::Instance().LoadSound("../Music/hyun1.wav");
+	button = Music::Instance().LoadSound("../Music/button.wav");
+	//BGM
+	stageBGM = Music::Instance().LoadSound("../Music/stageBGM.wav");
+	titleBGM = Music::Instance().LoadSound("../Music/title.ogg");
+	resultBGM = Music::Instance().LoadSound("../Music/MusMusResult.ogg");
+
+
+	DrawExtendGraph(0, 0, 1980, 1080, back_Gr_1, false);
 	Initialize();
 	//キャノンを追加するときはcannnonCountを足す
 	cannonCount = 1;
@@ -141,6 +150,8 @@ void GamePlayManager::Load()
 	m_pGameManager->Add(new Ground(Vector2(0, 936)));
 	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
 	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
+
+	//全て終わったらタイトルに行く
 	ChangeScene(Scene::TitleScene);
 
 }
@@ -153,7 +164,7 @@ void GamePlayManager::Title(float deltaTime)
 	{
 		Music::Instance().SoundFileStart(titleBGM, DX_PLAYTYPE_LOOP);
 	}
-	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
+	DrawExtendGraph(0, 0, 1980, 1080, back_Gr_1, false);
 	Render::Instance().Draw(Vector2(400, 20), Vector2(1020, 560), title_Gr);
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
 	{
@@ -185,22 +196,22 @@ void GamePlayManager::Ending()
 		fps.TimeStart();
 		score = 0;//スコアを初期値に設定
 		ChangeScene(Scene::LoadScene);
-	if (Music::Instance().CheckSound(stageBGM))
-	{
-		Music::Instance().SoundStop(stageBGM);
-	}
-	if (!Music::Instance().CheckSound(resultBGM))
-	{
-		Music::Instance().SoundFileStart(resultBGM,DX_PLAYTYPE_LOOP);
-	}
-	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
-	{
-		if (Music::Instance().CheckSound(resultBGM))
+		if (Music::Instance().CheckSound(stageBGM))
 		{
-			Music::Instance().SoundStop(resultBGM);
+			Music::Instance().SoundStop(stageBGM);
 		}
-		ChangeScene(Scene::TitleScene);
-	}
+		if (!Music::Instance().CheckSound(resultBGM))
+		{
+			Music::Instance().SoundFileStart(resultBGM,DX_PLAYTYPE_LOOP);
+		}
+		if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
+		{
+			if (Music::Instance().CheckSound(resultBGM))
+			{
+				Music::Instance().SoundStop(resultBGM);
+			}
+			ChangeScene(Scene::TitleScene);
+		}
 	}
 }
 
@@ -224,7 +235,7 @@ void GamePlayManager::Init()
 	m_pGameManager->Add(new Ground(Vector2(0, 936)));
 	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
 	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
-	m_pGameManager->Add(new WaveLine(Vector2(0, 100)));
+	m_pGameManager->Add(new WaveLine(Vector2(0, 500)));
 }
 
 //ウェイブ管理
@@ -233,12 +244,15 @@ void GamePlayManager::WaveUpdate(float deltaTime)
 	switch (nowSatge)
 	{
 	case Stage1:
+		DrawExtendGraph(0, 0, 1980, 1080, back_Gr_1, false);
 		Wave_1(deltaTime);
 		break;
 	case Stage2:
+		DrawExtendGraph(0, 0, 1980, 1080, back_Gr_2, false);
 		Wave_2(deltaTime);
 		break;
 	case Stage3:
+		DrawExtendGraph(0, 0, 1980, 1080, back_Gr_3, false);
 		Wave_3(deltaTime);
 		break;
 	}
@@ -313,7 +327,6 @@ void GamePlayManager::CountMnager()
 	if (cannonCount <= 0)
 	{
 		gameEnd = true;
-		}
 	}
 }
 
