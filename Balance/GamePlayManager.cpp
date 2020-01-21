@@ -48,6 +48,7 @@ void GamePlayManager::Initialize()
 
 	stageBGM = Music::Instance().LoadSound("../Music/stageBGM.wav");
 	titleBGM = Music::Instance().LoadSound("../Music/title.ogg");
+	resultBGM = Music::Instance().LoadSound("../Music/MusMusResult.ogg");
 
 	gameEnd = false;
 	cannonCount = 0;
@@ -115,6 +116,7 @@ void GamePlayManager::SceneUpdate(float deltaTime)
 		break;
 	case EndScene:
 		Ending();
+		break;
 	case LoadScene:
 		Load();
 		break;
@@ -133,7 +135,6 @@ void GamePlayManager::Load()
 	m_pGameManager->Add(new Ground(Vector2(0, 936)));
 	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
 	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
-	Music::Instance().SoundFileStart(titleBGM, DX_PLAYTYPE_LOOP);
 	fps.Wait();
 	ChangeScene(Scene::TitleScene);
 
@@ -141,6 +142,10 @@ void GamePlayManager::Load()
 //ƒ^ƒCƒgƒ‹
 void GamePlayManager::Title(float deltaTime)
 {
+	if (!Music::Instance().CheckSound(titleBGM))
+	{
+		Music::Instance().SoundFileStart(titleBGM, DX_PLAYTYPE_LOOP);
+	}
 	DrawExtendGraph(0, 0, 1980, 1080, back_Gr, false);
 	Render::Instance().Draw(Vector2(400, 20), Vector2(1020, 560), title_Gr);
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
@@ -162,8 +167,16 @@ void GamePlayManager::Ending()
 	{
 		Music::Instance().SoundStop(stageBGM);
 	}
+	if (!Music::Instance().CheckSound(resultBGM))
+	{
+		Music::Instance().SoundFileStart(resultBGM,DX_PLAYTYPE_LOOP);
+	}
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
 	{
+		if (Music::Instance().CheckSound(resultBGM))
+		{
+			Music::Instance().SoundStop(resultBGM);
+		}
 		ChangeScene(Scene::TitleScene);
 	}
 	if (gameEnd || (cannonCount <= 0))
