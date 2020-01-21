@@ -52,6 +52,10 @@ void GamePlayManager::Initialize()
 	titleBGM = Music::Instance().LoadSound("../Music/title.ogg");
 	resultBGM = Music::Instance().LoadSound("../Music/MusMusResult.ogg");
 
+	Music::Instance().SoundChangeVolume(80, stageBGM);
+	Music::Instance().SoundChangeVolume(80, titleBGM);
+	Music::Instance().SoundChangeVolume(80, resultBGM);
+
 	playerPos = Vector2(960, 808);
 	gameEnd = false;
 	cannonCount = 0;
