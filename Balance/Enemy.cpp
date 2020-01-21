@@ -13,9 +13,9 @@ Enemy::Enemy(const Vector2 & position, Vector2 velocity, int damage)
 	gravity(3)
 {
 	_position = position;
-	_size = Vector2(30,30);
+	_size = Vector2(60,60);
 	m_Velocity = velocity;
-	_grp = LoadGraph("../Texture/kari/enemy_A.png");
+	_grp = LoadGraph("../Texture/kari/crow.png");
 	m_Damage = damage + 1;     //012なので補正
 	m_Hp = (damage + 1) * 2 - 1;//2n+1で135と上がっていく
 	Initialize();
@@ -64,8 +64,10 @@ void Enemy::Hit(Object & object)
 	}
 	if (typeid(object) == typeid(Ground))
 	{
-		isDeadFlag = true;
 		GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
+		GamePlayManager::Instance().ScoreUp();    //スコアをアップ
+		isDeadFlag = true;
+		
 	}
 
 	
@@ -78,13 +80,12 @@ void Enemy::DeadJudgment()
 	if (_position.x < -100 ||
 		_position.x > WindowInfo::WindowWidth + 100)
 	{
-		GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
+		
 		isDeadFlag = true;
 	}
 	if (_position.y < -100 ||
 		_position.y > WindowInfo::WindowHeight + 100)
 	{
-		GamePlayManager::Instance().EnemyDeadCountUp();    //プレイヤーに倒されたらカウントをUPさせる
 		isDeadFlag = true;
 	}
 }
