@@ -29,7 +29,7 @@ public:
 	void SoundStop(int mem);
 	void SoundChangeVolume(int volume, int mem);
 
-	bool CheckSoundMem(int mem);
+	bool CheckSound(int mem);
 
 	void SoundDeleteMem(int mem);
 	void SoundAllDeleteMem();
