@@ -11,6 +11,7 @@
 #include "Enemy.h"
 #include "Ground.h"
 #include "WaveLine.h"
+#include "Ranking.h"
 
 //	クラスのインスタンスを取得
 GamePlayManager & GamePlayManager::Instance()
@@ -133,6 +134,10 @@ void GamePlayManager::Load()
 	fps = Fps();
 	input = Input();
 
+	Ranking::Instance().ReadRanking();
+	ranking = Ranking::Instance().GetRanking();
+	addRankFlag = false;
+
 	//絵の登録
 	title_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/Shake.png");      //タイトル
 	gage_Gr = GraphFactory::Instance().LoadGraph("../Texture/master/zouka.png");       //ゲージ
@@ -144,11 +149,15 @@ void GamePlayManager::Load()
 	result = GraphFactory::Instance().LoadGraph("../Texture/master/result.png");
 	numberGr = GraphFactory::Instance().LoadGraph("../Texture/master/Renban.png");
 	subNumGr = GraphFactory::Instance().LoadGraph("../Texture/master/subNum.png");
+	first = GraphFactory::Instance().LoadGraph("../Texture/master/first.png");
+	second = GraphFactory::Instance().LoadGraph("../Texture/master/second.png");
+	third = GraphFactory::Instance().LoadGraph("../Texture/master/third.png");
 	//テキスト
 	gameplay_Text = GraphFactory::Instance().LoadGraph("../Texture/master/GamePlay.png");
 	pushstart_Text = GraphFactory::Instance().LoadGraph("../Texture/master/PushStart.png");
 	title_Text = GraphFactory::Instance().LoadGraph("../Texture/master/title.png");
 	score_Text = GraphFactory::Instance().LoadGraph("../Texture/master/score.png");
+	rank_Text = GraphFactory::Instance().LoadGraph("../Texture/master/ranking.png");
 	//音
 	//SE
 	boyon1 = Music::Instance().LoadSound("../Music/boyon1.wav");
@@ -208,6 +217,21 @@ void GamePlayManager::Ending()
 	Render::Instance().NumberDraw(Vector2(700, 500), score, numberGr);
 	//Render::Instance().NumberDraw(Vector2(1600, 400), 9999999, numberGr);//試し用
 
+	if (!addRankFlag)
+	{
+		Ranking::Instance().AddRanking(score);
+		addRankFlag = true;
+		ranking = Ranking::Instance().GetRanking();
+	}
+	Render::Instance().Draw(Vector2(1000, 250), Vector2(600, 130), rank_Text);
+	Render::Instance().Draw(Vector2(1000, 425), Vector2(100, 100), first);
+	Render::Instance().Draw(Vector2(1000, 630), Vector2(100, 100), second);
+	Render::Instance().Draw(Vector2(1000, 830), Vector2(100, 100), third);
+	for (auto i = 0; i < ranking.size(); i++)
+	{
+		Render::Instance().NumberDraw(Vector2(1150, 250 + (i + 1) * 200), ranking[i], numberGr, FALSE);
+	}
+
 	if (Music::Instance().CheckSound(stageBGM))
 	{
 		Music::Instance().SoundStop(stageBGM);
@@ -227,6 +251,8 @@ void GamePlayManager::Ending()
 		}
 		ChangeScene(Scene::TitleScene);
 		nowSatge = StageWave::Stage1;
+
+		addRankFlag = false;
 	}
 }
 
@@ -332,7 +358,10 @@ void GamePlayManager::CountMnager()
 //得点を足す
 void GamePlayManager::ScoreUp()
 {
-	score += 10;
+	if (!gameEnd)
+	{
+		score += 10;
+	}
 }
 
 void GamePlayManager::GetPlayerPos(Vector2 pos)

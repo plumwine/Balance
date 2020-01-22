@@ -84,11 +84,15 @@ private:
 	int result;                          //リザルト背景
 	int endGr;                           //エンディング
 	int golGr;                           //エンディング2
+	int first;
+	int second;
+	int third;
 	//テキスト
 	int gameplay_Text;                   //ゲームプレイ
 	int pushstart_Text;
 	int title_Text;
 	int score_Text;
+	int rank_Text;
 
 	int numberGr;                        //数字大
 	int subNumGr;                        //数字小
@@ -121,4 +125,7 @@ private:
 
 	Fps fps;                             //ゲーム時間管理
 
+
+	std::vector<int> ranking;
+	bool addRankFlag;
 };

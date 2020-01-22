@@ -2,6 +2,7 @@
 #include <string>
 #include "WindowInfo.h"
 #include "GamePlayManager.h"
+#include "Ranking.h"
 
 
 //金井編集リポジトリ確認用
@@ -30,6 +31,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetBackgroundColor(0, 0, 0);
 	//	実行
 	GamePlayManager::Instance().Update();
+
+	Ranking::Instance().Write();
 
 	//	解放処理
 	DxLib_End();				// ＤＸライブラリ使用の終了処理

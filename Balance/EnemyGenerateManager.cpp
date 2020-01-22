@@ -35,6 +35,23 @@ void EnemyGenerateManager::Initialize(GameObjectManager *objectManager)
 	}
 }
 
+void EnemyGenerateManager::SetCSV(std::string filePath)
+{//マップを読み込む
+	std::ifstream ifs(filePath);
+
+	//ファイルの読み込みに成功したら
+
+	if (ifs)
+	{
+		std::string s;
+		while (!ifs.eof())
+		{
+			std::getline(ifs, s);
+			_generateTime.push_back(atoi(s.c_str()));
+		}
+	}
+}
+
 void EnemyGenerateManager::Update(float nowTime, int cannonCnt)
 {
 	cannonCount = cannonCnt;
