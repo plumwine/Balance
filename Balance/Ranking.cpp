@@ -64,7 +64,7 @@ void Ranking::AddRanking(int add)
 
 	if (ranking.size() > 3)
 	{
-		ranking.erase(ranking.begin() + 4, ranking.end());
+		ranking.erase(ranking.begin() + 3, ranking.end());
 	}
 }
 
@@ -107,6 +107,6 @@ std::vector<int> Ranking::GetRanking()
 
 void Ranking::Sort()
 {
-	std::sort(ranking.begin(), ranking.end());
+	std::sort(ranking.begin(), ranking.end(), std::greater<int>());
 }
 

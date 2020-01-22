@@ -17,6 +17,7 @@ public:
 	~EnemyGenerateManager();
 
 	void Initialize(GameObjectManager *objectManager);
+	void SetCSV(std::string filePath);
 	void Update(float nowTime, int cannonCount);
 private:
 	void Generate(int cannonCnt);

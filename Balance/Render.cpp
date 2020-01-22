@@ -209,7 +209,7 @@ void Render::StringDraw(Vector2 pos, const TCHAR* str, unsigned int color)
 		(int)pos.x, (int)pos.y, str, color);
 }
 
-void Render::NumberDraw(Vector2 pos, int number, int grp)
+void Render::NumberDraw(Vector2 pos, int number, int grp, bool TRlFLr)
 {
 	if (number == 0)
 	{
@@ -224,19 +224,40 @@ void Render::NumberDraw(Vector2 pos, int number, int grp)
 		);
 	}
 	int count = 0;
-	while (number != 0)
+	if (TRlFLr)
 	{
-		DrawRectGraph(
-			pos.x - (count * NUMBER_SIZE),
-			pos.y,
-			(number % 10) * NUMBER_SIZE,
-			0,
-			NUMBER_SIZE,
-			NUMBER_SIZE,
-			grp, TRUE
-		);
-		number /= 10;
-		count++;
+		while (number != 0)
+		{
+			DrawRectGraph(
+				pos.x - (count * NUMBER_SIZE),
+				pos.y,
+				(number % 10) * NUMBER_SIZE,
+				0,
+				NUMBER_SIZE,
+				NUMBER_SIZE,
+				grp, TRUE
+			);
+			number /= 10;
+			count++;
+		}
+	}
+	else
+	{
+		int dig = Digit(number);
+		while (number != 0)
+		{
+			DrawRectGraph(
+				pos.x + (dig - 1) * NUMBER_SIZE - (count * NUMBER_SIZE),
+				pos.y,
+				(number % 10) * NUMBER_SIZE,
+				0,
+				NUMBER_SIZE,
+				NUMBER_SIZE,
+				grp, TRUE
+			);
+			number /= 10;
+			count++;
+		}
 	}
 }
 
@@ -310,4 +331,17 @@ void Render::ShakeChange()
 void Render::ShakeStop()
 {
 	shake = 0;
+}
+
+int Render::Digit(int digit)
+{
+	int check = digit;
+	int count = 0;
+	while (check != 0)
+	{
+		check /= 10;
+		count++;
+	}
+
+	return count;
 }

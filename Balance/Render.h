@@ -40,13 +40,15 @@ public:
 	void LineDraw(Vector2 start, Vector2 end, unsigned int color);
 	void StringDraw(Vector2 pos, const TCHAR* str);
 	void StringDraw(Vector2 pos, const TCHAR* str, unsigned int color);
-	void NumberDraw(Vector2 pos, int number, int grp);
+	void NumberDraw(Vector2 pos, int number, int grp, bool TRlFLr = TRUE);
 	void NumberDraw_Small (Vector2 pos, int number, int grp);
 
 
 	void DrawShake(Object& object, bool reverse = 255);
 	void ShakeChange();
 	void ShakeStop();
+
+	int Digit(int digit);
 
 private:
 	int shake = 0;
