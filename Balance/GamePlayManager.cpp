@@ -44,18 +44,25 @@ void GamePlayManager::Init()
 	m_EnemyManager.Initialize(m_pGameManager);
 
 	gameEnd = false;
+	isSousa = false;
+	waveClear = false;
 	//キャノンを追加するときはcannnonCountを足す
 	cannonCount = 1;
 	cannonGenerateCount = 0;
 	enemyDeadCount = 0;
+
+	timeLimit = 60;  //制限時間は１分
 	//最初に生成するものを各Wave共通
 
 	m_pGameManager->Add(new Ground(Vector2(0, 936)));
 	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
 	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
-	m_pGameManager->Add(new WaveLine(Vector2(0, 500)));
+	m_pGameManager->Add(new WaveLine(Vector2(0, 600)));
 	fps.TimeReset();
-	fps.TimeStart();
+
+	geneWaitTime = 0;
+	maxGeneWaitTime = 40;
+
 }
 
 
@@ -97,10 +104,11 @@ void GamePlayManager::GameUpdate(float deltaTime)
 
 	Render::Instance().RectParticle(Vector2(10, 900), enemyDeadCount * 3, 192, gage_Gr, false);   //ゲージ
 	Render::Instance().NumberDraw_Small(Vector2(40, 940), cannonGenerateCount, subNumGr);          //大砲生成可能数
-	Render::Instance().NumberDraw(Vector2(100, 100), fps.GetTime(), numberGr);
+	Render::Instance().NumberDraw(Vector2(100, 0), timeLimit, numberGr);
 
 	Render::Instance().NumberDraw(Vector2(1800, 1000), score, numberGr);
 	Render::Instance().Draw(Vector2(1000, 1000),Vector2(800,100), score_Text); //スコアテキスト
+	TimeLimitManager(deltaTime);
 	Ending();
 	CountMnager();
 }
@@ -144,11 +152,21 @@ void GamePlayManager::Load()
 	result = GraphFactory::Instance().LoadGraph("../Texture/master/result.png");
 	numberGr = GraphFactory::Instance().LoadGraph("../Texture/master/Renban.png");
 	subNumGr = GraphFactory::Instance().LoadGraph("../Texture/master/subNum.png");
+	//Wave
+	wave_1 = GraphFactory::Instance().LoadGraph("../Texture/master/wave1.png");
+	wave_2 = GraphFactory::Instance().LoadGraph("../Texture/master/wave2.png");
+	wave_3 = GraphFactory::Instance().LoadGraph("../Texture/master/wave3.png");
 	//テキスト
 	gameplay_Text = GraphFactory::Instance().LoadGraph("../Texture/master/GamePlay.png");
 	pushstart_Text = GraphFactory::Instance().LoadGraph("../Texture/master/PushStart.png");
 	title_Text = GraphFactory::Instance().LoadGraph("../Texture/master/title.png");
 	score_Text = GraphFactory::Instance().LoadGraph("../Texture/master/score.png");
+
+	//操作説明
+	idou_Tu     = GraphFactory::Instance().LoadGraph("../Texture/master/move.png");
+	endClear_Tu = GraphFactory::Instance().LoadGraph("../Texture/master/endclear.png");
+	generate_Tu = GraphFactory::Instance().LoadGraph("../Texture/master/generate.png");
+	shot_Tu     = GraphFactory::Instance().LoadGraph("../Texture/master/shoot.png");
 	//音
 	//SE
 	boyon1 = Music::Instance().LoadSound("../Music/boyon1.wav");
@@ -199,6 +217,22 @@ void GamePlayManager::Title(float deltaTime)
 	}
 	m_pGameManager->Update(deltaTime);
 	m_pGameManager->Draw();
+
+	DrawGraph(0, 600, pushstart_Text, true);
+	DrawGraph(1000, 600, gameplay_Text, true);
+
+	if (input.GetButtonTrigger(INPUT_BUTTON_Y, DX_INPUT_PAD1))
+	{
+		isSousa = !isSousa;
+	}
+	if (isSousa)
+	{
+		DrawExtendGraph(0, 0, 1980 / 2, 1080 / 2, idou_Tu, false);
+		DrawExtendGraph(0, 1080 / 2, 1980 / 2, 1080, shot_Tu, false);
+		DrawExtendGraph(1980 / 2, 0, 1980, 1080 / 2, generate_Tu, false);
+		DrawExtendGraph(1980 / 2, 1080 / 2, 1980, 1080, endClear_Tu, false);
+	}
+
 }
 //エンディング
 void GamePlayManager::Ending()
@@ -206,7 +240,6 @@ void GamePlayManager::Ending()
 	if (!gameEnd) return;
 	DrawGraph(300, 200, result, 0);
 	Render::Instance().NumberDraw(Vector2(700, 500), score, numberGr);
-	//Render::Instance().NumberDraw(Vector2(1600, 400), 9999999, numberGr);//試し用
 
 	if (Music::Instance().CheckSound(stageBGM))
 	{
@@ -219,7 +252,23 @@ void GamePlayManager::Ending()
 
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
 	{
-		Init();
+		m_pGameManager->Clear();
+		m_EnemyManager.Initialize(m_pGameManager);
+
+		gameEnd = false;
+		isSousa = false;
+		waveClear = false;
+		//キャノンを追加するときはcannnonCountを足す
+		cannonCount = 1;
+		cannonGenerateCount = 0;
+		enemyDeadCount = 0;
+
+		timeLimit = 60;  //制限時間は１分
+		//最初に生成するものを各Wave共通
+
+		m_pGameManager->Add(new Ground(Vector2(0, 936)));
+		m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
+		m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
 		score = 0;//スコアを初期値に設定
 		if (Music::Instance().CheckSound(resultBGM))
 		{
@@ -228,6 +277,9 @@ void GamePlayManager::Ending()
 		ChangeScene(Scene::TitleScene);
 		nowSatge = StageWave::Stage1;
 	}
+	DrawGraph(200, 100, pushstart_Text, true);
+	DrawGraph(1200, 100, title_Text, true);
+
 }
 
 void GamePlayManager::ChangeScene(Scene scene)
@@ -260,31 +312,34 @@ void GamePlayManager::WaveUpdate(float deltaTime)
 void GamePlayManager::Wave_1(float deltaTime)
 {
 	GameUpdate(deltaTime);
-	if (topCannon_Y <= waveline_Y)
+	if (waveClear)
 	{
 		ChangeWave(StageWave::Stage2);
 		Init();
 	}
+	DrawExtendGraph(0, 100, 200, 200, wave_1, true);
 }
 
 void GamePlayManager::Wave_2(float deltaTime)
 {
 	GameUpdate(deltaTime);
-	if (topCannon_Y <= waveline_Y)
+	if (waveClear)
 	{
 		ChangeWave(StageWave::Stage3);
 		Init();
 	}
+	DrawExtendGraph(0,100 , 200, 100, wave_2, true);
 }
 
 void GamePlayManager::Wave_3(float deltaTime)
 {
 	GameUpdate(deltaTime);
-	if (topCannon_Y <= waveline_Y)
+	if (waveClear)
 	{
 		gameEnd = true;
 		fps.Wait();
 	}
+	DrawExtendGraph(0, 100, 200, 100, wave_3, true);
 }
 
 StageWave GamePlayManager::GetWave()
@@ -302,12 +357,30 @@ void GamePlayManager::ChangeWave(StageWave wave)
 //カウントの管理
 void GamePlayManager::CountMnager()
 {
+
+	if (cannonCount <= 0)
+	{
+		fps.Wait();
+		gameEnd = true;
+	}
+
 	//エネミーを一定数倒したら、一回大砲を生成できるカウントを＋
 	if (enemyDeadCount >= 3)
 	{
 		enemyDeadCount = 0;
 		cannonGenerateCount++;
 	}
+
+	geneWaitTime++;
+	if (!(geneWaitTime >= maxGeneWaitTime))
+	{
+		return;
+	}
+	else
+	{
+		geneWaitTime = maxGeneWaitTime;
+	}
+
 	//ため込める大砲の数制限
 	if (cannonGenerateCount >= 5)
 		cannonGenerateCount = 5;
@@ -317,14 +390,25 @@ void GamePlayManager::CountMnager()
 		//Aボタンを押したらCannonを生成
 		if (input.GetButtonTrigger(INPUT_BUTTON_A, DX_INPUT_PAD1))
 		{
+			geneWaitTime = 0;
 			cannonGenerateCount--;
 			cannonCount++;
 			m_pGameManager->Add(new Cannon(Vector2(playerPos.x, -100), m_pGameManager, cannonCount));
 		}
 	}
-	if (cannonCount <= 0)
+	
+}
+
+void GamePlayManager::TimeLimitManager(float deltaTime)
+{
+
+	//時間を減らしていく
+	timeLimit -= deltaTime;
+
+	//時間が0になったらゲームを終了する
+	if (timeLimit <= 1)     //1なのは調整
 	{
-		fps.Wait();
+		timeLimit = 0;
 		gameEnd = true;
 	}
 }
@@ -338,4 +422,9 @@ void GamePlayManager::ScoreUp()
 void GamePlayManager::GetPlayerPos(Vector2 pos)
 {
 	playerPos = pos;
+}
+
+void GamePlayManager::SetWaveClear()
+{
+	waveClear = true;
 }

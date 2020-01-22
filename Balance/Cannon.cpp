@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Ground.h"
 #include "GamePlayManager.h"
+#include "WaveLine.h"
 
 //コンストラクタ　初期化並び
 Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager,int num)
@@ -15,7 +16,9 @@ Cannon::Cannon(const Vector2 &position, GameObjectManager* objectManager,int num
 	isDeadFlag(false),
 	enemyDir(Vector2(1,0)),
 	maxAnimTime(2.0f),
-	maxAnimNum(1)
+	maxAnimNum(1),
+	shotWaitTime(0),
+	maxShotWaitTime(9)
 {
 	_position = position;
 	_size = Vector2(72, 96);
@@ -52,7 +55,7 @@ void Cannon::Draw()
 //更新
 void Cannon::Update(float deltaTime)
 {
-	Shot();
+	Shot(deltaTime);
 	Move(deltaTime);
 
 	//アニメーション
@@ -89,12 +92,15 @@ void Cannon::Hit(Object & object)
 		isDeadFlag = true;
 		return;
 	} 
-	CurrentPosition(object);  //当たった方向への押し出し
+	//CurrentPosition(object);  //当たった方向への押し出し
 
-	//当たった時方向が下で、かつ、当たったものがPlayerかCannon
-	if (_direction == Direction::Bottom &&
-		( typeid(object) == typeid(Cannon) || typeid(object) == typeid(Player)))
+
+	//当たった時方向が下で、かつ、当たったものがPlayerかCannon   (_direction == Direction::Bottom || _direction == Direction::Top)&&
+	if ((_direction == Direction::Bottom || _direction == Direction::Top) && ( typeid(object) == typeid(Cannon) || typeid(object) == typeid(Player)))
 	{
+		if (typeid(object) == typeid(WaveLine))
+			GamePlayManager::Instance().SetWaveClear();
+
 		CurrentPosition(object);  //当たった方向への押し出し
 		nowNum = (int)((_position.y + _size.y / 2) + 248) / 96;
 
@@ -132,7 +138,7 @@ void Cannon::Move(float deltaTime)
 	}
 	else
 	{
-		gravity = 150.0f;
+		gravity = 200.0f;
 	}
 	
 	_velocity.x += reaction;  //横方向の移動
@@ -143,6 +149,21 @@ void Cannon::Move(float deltaTime)
 	
 
 	_velocity = Vector2(0, 0);
+
+	//ウィンドウ範囲外に出たら消す
+	if (_position.x < 0 ||
+		_position.x > WindowInfo::WindowWidth)
+	{
+		GamePlayManager::Instance().DeadCannon();
+		isDeadFlag = true;
+	}
+	if (_position.y < -500 ||
+		_position.y > WindowInfo::WindowHeight)
+	{
+		GamePlayManager::Instance().DeadCannon();
+		isDeadFlag = true;
+	}
+
 
 	//大砲の完成の減速
 	if (reaction >11)
@@ -159,24 +180,45 @@ void Cannon::Move(float deltaTime)
 	}
 }
 //弾の発射
-void Cannon::Shot()
+void Cannon::Shot(float deltaTime)
 {
 	if (!underTouch) return;
+
+
+	shotWaitTime++;
+	
+	if (!(shotWaitTime >= maxShotWaitTime))
+	{
+		return;
+	}
+	else
+	{
+		shotWaitTime = maxShotWaitTime;
+	}
+
+
 
 	//ゲームパッドの押されたボタンに合わせて反動をつける
 	//左
 	if (input.GetButtonTrigger(INPUT_BUTTON_LB, DX_INPUT_PAD1))
 	{
+		shotWaitTime = 0;
 		Music::Instance().SoundFileStart(shot_se);
 		Vector2 kariPos = _position;
 		flipHorizontal = true;
 		reaction += (float)(25 *( 40 - nowNum*3));   //大砲の調節
 		m_pObjectManager->Add(new Bullet(kariPos + Vector2(16, 16), Vector2(-1,0)));// enemyDir));
 	}
+	if (shotWaitTime == 0)
+	{
+		return;
+	}
+
 
 	//右
 	if (input.GetButtonTrigger(INPUT_BUTTON_RB, DX_INPUT_PAD1))
 	{
+		shotWaitTime = 0;
 		Music::Instance().SoundFileStart(shot_se);
 		Vector2 kariPos = _position;
 		flipHorizontal = false;

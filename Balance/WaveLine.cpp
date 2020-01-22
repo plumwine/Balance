@@ -8,7 +8,7 @@ WaveLine::WaveLine(const Vector2 &position)
 {
 	_position = position;
 	m_position = position;  //初期位置を覚えるため
-	_grp = LoadGraph("../Texture/master/waveline.png");
+	_grp = LoadGraph("../Texture/master/Gline.png");
 }
 
 
@@ -25,7 +25,7 @@ void WaveLine::Initialize()
 
 void WaveLine::Draw()
 {
-	DrawExtendGraph(0, 500, 1980, 505, _grp, false);
+	DrawExtendGraph(_position.x, _position.y, 1980, _position.y +20, _grp, false);
 }
 
 void WaveLine::Update(float deltaTime)
@@ -43,16 +43,6 @@ bool WaveLine::IsDead()
 //当たり判定はいらない
 void WaveLine::Hit(Object & object)
 {
-//	//オブジェクトが当たったらTure;
-//	if (typeid(object) == typeid(Cannon))
-//	{
-//		isTouch = true;
-//	}
-//	else
-//	{
-//		//触れていないときは
-//		isTouch = false;
-//	}
 }
 
 //触ったかどうか

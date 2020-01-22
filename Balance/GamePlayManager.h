@@ -53,6 +53,7 @@ public:
 	//スコア
 	void ScoreUp();
 	void GetPlayerPos(Vector2 pos);
+	void SetWaveClear();
 private:
 	//シーン管理
 	void SceneUpdate(float deltaTime);
@@ -72,6 +73,7 @@ private:
 	void ChangeWave(StageWave wave);
 	void CountMnager();
 
+	void TimeLimitManager(float deltaTime);
 	
 
 private:
@@ -84,6 +86,15 @@ private:
 	int result;                          //リザルト背景
 	int endGr;                           //エンディング
 	int golGr;                           //エンディング2
+	//Wave
+	int wave_1;
+	int wave_2;
+	int wave_3;
+	//説明
+	int idou_Tu;
+	int endClear_Tu;
+	int generate_Tu;                    
+	int shot_Tu;
 	//テキスト
 	int gameplay_Text;                   //ゲームプレイ
 	int pushstart_Text;
@@ -105,6 +116,7 @@ private:
 
 	Scene nowScene;                      //現在のシーン
 	bool gameEnd;                        //ゲームエンド（仮）
+	bool waveClear;
 	float waveline_Y;                    //WaveLineのYを勝手に宣言
 	float topCannon_Y;                   //現在の一番上のYを取得
 	Input input; 
@@ -113,6 +125,12 @@ private:
 	int cannonCount;                     //生成されている砲台をカウント
 	int cannonGenerateCount;             //大砲生成カウント
 
+	int geneWaitTime;
+	int maxGeneWaitTime;
+
+	//数字
+	float timeLimit;                     //時間制限
+
 	int score;                           //スコア
 	Vector2 playerPos;                   //プレイヤーの位置
 
@@ -120,5 +138,6 @@ private:
 	GameObjectManager* m_pGameManager;   //ゲームオブジェクトマネージャー
 
 	Fps fps;                             //ゲーム時間管理
+	bool isSousa;                        //操作説明を出すかどうか
 
 };

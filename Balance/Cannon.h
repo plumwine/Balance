@@ -22,7 +22,7 @@ public:
 	int GetNowNum();                   //現在の順番
 	void GetObj(Object* obj);
 
-	void Shot();                       //弾を撃つ
+	void Shot(float deltaTime);                       //弾を撃つ
 private:
 
 	void Move(float deltaTime);        //移動関係
@@ -40,6 +40,13 @@ private:
 	Vector2 enemyDir;                  //敵の方向
 	//音
 	int shot_se;                       //撃つときの音
+	int shotWaitTime;
+	int maxShotWaitTime;
+	
+
+
+
+
 
 	//アニメーション用
 	float animTime;
