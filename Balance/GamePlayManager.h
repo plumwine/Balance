@@ -87,6 +87,7 @@ private:
 	int first;
 	int second;
 	int third;
+	int scoreBack;
 	//テキスト
 	int gameplay_Text;                   //ゲームプレイ
 	int pushstart_Text;

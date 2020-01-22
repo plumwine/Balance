@@ -20,7 +20,7 @@ void EnemyGenerateManager::Initialize(GameObjectManager *objectManager)
 
 	m_pGameObjectManager = objectManager;
 	//マップを読み込む
-	std::ifstream ifs("data\\generateTime.csv");
+	std::ifstream ifs("data\\wave1kari.csv");
 
 	//ファイルの読み込みに成功したら
 	
@@ -56,7 +56,7 @@ void EnemyGenerateManager::Update(float nowTime, int cannonCnt)
 {
 	cannonCount = cannonCnt;
 
-	if (cannonCount == 0 || _generateTime.empty())
+	if (cannonCount == 0 || _generateTime.empty() || _generateTime.front() == 0)
 	{
 		return;
 	}

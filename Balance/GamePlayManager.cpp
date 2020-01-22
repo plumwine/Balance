@@ -100,6 +100,7 @@ void GamePlayManager::GameUpdate(float deltaTime)
 	Render::Instance().NumberDraw_Small(Vector2(40, 940), cannonGenerateCount, subNumGr);          //大砲生成可能数
 	Render::Instance().NumberDraw(Vector2(100, 100), fps.GetTime(), numberGr);
 
+	Render::Instance().Draw(Vector2(975, 975), Vector2(900, 110), scoreBack);
 	Render::Instance().NumberDraw(Vector2(1800, 1000), score, numberGr);
 	Render::Instance().Draw(Vector2(1000, 1000),Vector2(800,100), score_Text); //スコアテキスト
 	Ending();
@@ -152,6 +153,7 @@ void GamePlayManager::Load()
 	first = GraphFactory::Instance().LoadGraph("../Texture/master/first.png");
 	second = GraphFactory::Instance().LoadGraph("../Texture/master/second.png");
 	third = GraphFactory::Instance().LoadGraph("../Texture/master/third.png");
+	scoreBack = GraphFactory::Instance().LoadGraph("../Texture/master/scoreBack.png");
 	//テキスト
 	gameplay_Text = GraphFactory::Instance().LoadGraph("../Texture/master/GamePlay.png");
 	pushstart_Text = GraphFactory::Instance().LoadGraph("../Texture/master/PushStart.png");
@@ -251,6 +253,7 @@ void GamePlayManager::Ending()
 		}
 		ChangeScene(Scene::TitleScene);
 		nowSatge = StageWave::Stage1;
+		m_EnemyManager.SetCSV("data\\wave1kari.csv");
 
 		addRankFlag = false;
 	}
@@ -290,6 +293,8 @@ void GamePlayManager::Wave_1(float deltaTime)
 	{
 		ChangeWave(StageWave::Stage2);
 		Init();
+		fps.TimeReset();
+		m_EnemyManager.SetCSV("data\\wave2kari.csv");
 	}
 }
 
@@ -300,6 +305,8 @@ void GamePlayManager::Wave_2(float deltaTime)
 	{
 		ChangeWave(StageWave::Stage3);
 		Init();
+		fps.TimeReset();
+		m_EnemyManager.SetCSV("data\\wave3kari.csv");
 	}
 }
 
@@ -309,7 +316,7 @@ void GamePlayManager::Wave_3(float deltaTime)
 	if (topCannon_Y <= waveline_Y)
 	{
 		gameEnd = true;
-		fps.Wait();
+		fps.TimeReset();
 	}
 }
 
