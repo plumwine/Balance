@@ -4,7 +4,7 @@
 #include "EnemyGenerateManager.h"
 #include "FPS.h"
 
-//ƒQ[ƒ€zŠÂenum
+//ã‚²ãƒ¼ãƒ å¾ªç’°enum
 enum Scene
 {
 	TitleScene,
@@ -14,7 +14,7 @@ enum Scene
 };
 
 
-//ƒQ[ƒ€ƒvƒŒƒC—p
+//ã‚²ãƒ¼ãƒ ãƒ—ãƒ¬ã‚¤ç”¨
 enum StageWave
 {
 	Stage1,
@@ -23,7 +23,7 @@ enum StageWave
 };
 
 
-//	ƒQ[ƒ€ƒvƒŒƒCŠÇ—ƒNƒ‰ƒX
+//	ã‚²ãƒ¼ãƒ ãƒ—ãƒ¬ã‚¤ç®¡ç†ã‚¯ãƒ©ã‚¹
 class GamePlayManager
 {
 private:
@@ -32,29 +32,30 @@ private:
 	GamePlayManager& operator=(const GamePlayManager&) {}
 public:
 
-	//	ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
+	//	ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
 	static GamePlayManager& Instance();
 	~GamePlayManager();
 
-	void Initialize(); //‰Šú‰»
+	void Initialize(); //åˆæœŸåŒ–
 
-	//	ƒ‹[ƒvˆ—
+	//	ãƒ«ãƒ¼ãƒ—å‡¦ç†
 	void Update();
-	//‰¼
+	//ä»®
 	void endGame() { gameEnd = true; }
 
-	//  XVˆ—
+	//  æ›´æ–°å‡¦ç†
 	void GameUpdate(float deltaTime);
-	void EnemyDeadCountUp() { enemyDeadCount++; };       //“G€–SƒJƒEƒ“ƒgUP
+	void EnemyDeadCountUp() { enemyDeadCount++; };       //æ•µæ­»äº¡ã‚«ã‚¦ãƒ³ãƒˆUP
 	void DeadCannon() { cannonCount--; }
-	int GetCannonCount() { return cannonCount; }         //–C‘ä‚Ì¶‚«‚Ä‚¢‚é”
+	int GetCannonCount() { return cannonCount; }         //ç ²å°ã®ç”Ÿãã¦ã„ã‚‹æ•°
 
 	StageWave GetWave();
-	//ƒXƒRƒA
+	//ã‚¹ã‚³ã‚¢
 	void ScoreUp();
 	void GetPlayerPos(Vector2 pos);
+	void SetWaveClear();
 private:
-	//ƒV[ƒ“ŠÇ—
+	//ã‚·ãƒ¼ãƒ³ç®¡ç†
 	void SceneUpdate(float deltaTime);
 	void Load();
 	void Title(float deltaTime);
@@ -65,40 +66,50 @@ private:
 	//Wave
 	void WaveUpdate(float deltaTime);
 
-	//ƒEƒFƒCƒuŠÇ—
+	//ã‚¦ã‚§ã‚¤ãƒ–ç®¡ç†
 	void Wave_1(float deltaTime);
 	void Wave_2(float deltaTime);
 	void Wave_3(float deltaTime);
 	void ChangeWave(StageWave wave);
 	void CountMnager();
 
+	void TimeLimitManager(float deltaTime);
 	
 
 private:
 	
-	////‰æ‘œŠÖŒW
-	int title_Gr;                        //ƒ^ƒCƒgƒ‹
-	int back_Gr_1;                         //”wŒi@’©
-	int back_Gr_2;                         //”wŒi@’‹
-	int back_Gr_3;                         //”wŒi@–é
-	int result;                          //ƒŠƒUƒ‹ƒg”wŒi
-	int endGr;                           //ƒGƒ“ƒfƒBƒ“ƒO
-	int golGr;                           //ƒGƒ“ƒfƒBƒ“ƒO2
+	////ç”»åƒé–¢ä¿‚
+	int title_Gr;                        //ã‚¿ã‚¤ãƒˆãƒ«
+	int back_Gr_1;                         //èƒŒæ™¯ã€€æœ
+	int back_Gr_2;                         //èƒŒæ™¯ã€€æ˜¼
+	int back_Gr_3;                         //èƒŒæ™¯ã€€å¤œ
+	int result;                          //ãƒªã‚¶ãƒ«ãƒˆèƒŒæ™¯
+	int endGr;                           //ã‚¨ãƒ³ãƒ‡ã‚£ãƒ³ã‚°
+	int golGr;                           //ã‚¨ãƒ³ãƒ‡ã‚£ãƒ³ã‚°2
+	//Wave
+	int wave_1;
+	int wave_2;
+	int wave_3;
+	//èª¬æ˜
+	int idou_Tu;
+	int endClear_Tu;
+	int generate_Tu;                    
+	int shot_Tu;
 	int first;
 	int second;
 	int third;
 	int scoreBack;
-	//ƒeƒLƒXƒg
-	int gameplay_Text;                   //ƒQ[ƒ€ƒvƒŒƒC
+	//ãƒ†ã‚­ã‚¹ãƒˆ
+	int gameplay_Text;                   //ã‚²ãƒ¼ãƒ ãƒ—ãƒ¬ã‚¤
 	int pushstart_Text;
 	int title_Text;
 	int score_Text;
 	int rank_Text;
 
-	int numberGr;                        //”š‘å
-	int subNumGr;                        //”š¬
-	int gage_Gr;                         //ƒQ[ƒW
-	//‰¹Œ¹ŠÇ—
+	int numberGr;                        //æ•°å­—å¤§
+	int subNumGr;                        //æ•°å­—å°
+	int gage_Gr;                         //ã‚²ãƒ¼ã‚¸
+	//éŸ³æºç®¡ç†
 	//SE
 	int boyon1;
 	int hyun1;
@@ -108,23 +119,31 @@ private:
 	int titleBGM;
 	int resultBGM;
 
-	Scene nowScene;                      //Œ»İ‚ÌƒV[ƒ“
-	bool gameEnd;                        //ƒQ[ƒ€ƒGƒ“ƒhi‰¼j
-	float waveline_Y;                    //WaveLine‚ÌY‚ğŸè‚ÉéŒ¾
-	float topCannon_Y;                   //Œ»İ‚Ìˆê”Ôã‚ÌY‚ğæ“¾
+	Scene nowScene;                      //ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³
+	bool gameEnd;                        //ã‚²ãƒ¼ãƒ ã‚¨ãƒ³ãƒ‰ï¼ˆä»®ï¼‰
+	bool waveClear;
+	float waveline_Y;                    //WaveLineã®Yã‚’å‹æ‰‹ã«å®£è¨€
+	float topCannon_Y;                   //ç¾åœ¨ã®ä¸€ç•ªä¸Šã®Yã‚’å–å¾—
 	Input input; 
 	StageWave nowSatge;
-	int enemyDeadCount;                  //“G€–SƒJƒEƒ“ƒg
-	int cannonCount;                     //¶¬‚³‚ê‚Ä‚¢‚é–C‘ä‚ğƒJƒEƒ“ƒg
-	int cannonGenerateCount;             //‘å–C¶¬ƒJƒEƒ“ƒg
+	int enemyDeadCount;                  //æ•µæ­»äº¡ã‚«ã‚¦ãƒ³ãƒˆ
+	int cannonCount;                     //ç”Ÿæˆã•ã‚Œã¦ã„ã‚‹ç ²å°ã‚’ã‚«ã‚¦ãƒ³ãƒˆ
+	int cannonGenerateCount;             //å¤§ç ²ç”Ÿæˆã‚«ã‚¦ãƒ³ãƒˆ
 
-	int score;                           //ƒXƒRƒA
-	Vector2 playerPos;                   //ƒvƒŒƒCƒ„[‚ÌˆÊ’u
+	int geneWaitTime;
+	int maxGeneWaitTime;
 
-	EnemyGenerateManager m_EnemyManager; //“G¶¬ƒNƒ‰ƒX
-	GameObjectManager* m_pGameManager;   //ƒQ[ƒ€ƒIƒuƒWƒFƒNƒgƒ}ƒl[ƒWƒƒ[
+	//æ•°å­—
+	float timeLimit;                     //æ™‚é–“åˆ¶é™
 
-	Fps fps;                             //ƒQ[ƒ€ŠÔŠÇ—
+	int score;                           //ã‚¹ã‚³ã‚¢
+	Vector2 playerPos;                   //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®
+
+	EnemyGenerateManager m_EnemyManager; //æ•µç”Ÿæˆã‚¯ãƒ©ã‚¹
+	GameObjectManager* m_pGameManager;   //ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
+
+	Fps fps;                             //ã‚²ãƒ¼ãƒ æ™‚é–“ç®¡ç†
+	bool isSousa;                        //æ“ä½œèª¬æ˜ã‚’å‡ºã™ã‹ã©ã†ã‹
 
 
 	std::vector<int> ranking;

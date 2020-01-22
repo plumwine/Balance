@@ -7,7 +7,7 @@ Ground::Ground(const Vector2 &position)
 	:isGameEnd(false)
 {
 	_position = position; 
-	_size = Vector2(1920, 144);
+	_size = Vector2(1980, 300);
 	Initialize();
 }
 
