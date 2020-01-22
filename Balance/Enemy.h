@@ -5,7 +5,7 @@
 class Enemy : public Object
 {
 public:
-	Enemy(const Vector2& position, Vector2 velocity,int damage);
+	Enemy(const Vector2& position, Vector2 velocity,int damage,bool rever);
 	~Enemy();
 
 
@@ -29,8 +29,9 @@ private:
 	bool isDeadFlag;        //éÄñSîªíË
 	int m_Hp;
 	int m_Damage;
+	bool isReverse;        //îΩì]Ç∑ÇÈÇ©Ç«Ç§Ç© Ç∑ÇÈÇ»ÇÁtrue
+	float angle;
 
-	
 	float gravity;       //èdóÕ
 };
 

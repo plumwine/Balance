@@ -20,6 +20,7 @@ Player::Player(const Vector2 &position)
 
 Player::~Player()
 {
+	
 }
 
 void Player::Initialize()
