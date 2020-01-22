@@ -138,11 +138,11 @@ void Cannon::Move(float deltaTime)
 	_velocity.x += reaction;  //‰¡•ûŒü‚ÌˆÚ“®
 	_velocity.y = gravity;    //c•ûŒü‚Ö‚ÌˆÚ“®id—Íj
 
-
 	_position += _velocity * deltaTime;
 	
-	_velocity = Vector2(0, 0);
+	
 
+	_velocity = Vector2(0, 0);
 
 	//‘å–C‚ÌŠ®¬‚ÌŒ¸‘¬
 	if (reaction >11)

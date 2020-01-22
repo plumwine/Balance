@@ -38,6 +38,27 @@ void GamePlayManager::Initialize()
 	topCannon_Y = 808;   //頂点のYを取得
 }
 
+void GamePlayManager::Init()
+{
+	m_pGameManager->Clear();
+	m_EnemyManager.Initialize(m_pGameManager);
+
+	gameEnd = false;
+	//キャノンを追加するときはcannnonCountを足す
+	cannonCount = 1;
+	cannonGenerateCount = 0;
+	enemyDeadCount = 0;
+	//最初に生成するものを各Wave共通
+
+	m_pGameManager->Add(new Ground(Vector2(0, 936)));
+	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
+	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
+	m_pGameManager->Add(new WaveLine(Vector2(0, 500)));
+	fps.TimeReset();
+	fps.TimeStart();
+}
+
+
 //	ループ処理
 void GamePlayManager::Update()
 {
@@ -67,7 +88,7 @@ void GamePlayManager::Update()
 //	更新処理
 void GamePlayManager::GameUpdate(float deltaTime)
 {
-	Ending();
+	
 	//描画順んは後が高くなる
 	//背景描画
 	topCannon_Y = m_pGameManager->TopCannon();
@@ -79,8 +100,8 @@ void GamePlayManager::GameUpdate(float deltaTime)
 	Render::Instance().NumberDraw(Vector2(100, 100), fps.GetTime(), numberGr);
 
 	Render::Instance().NumberDraw(Vector2(1800, 1000), score, numberGr);
-	DrawGraph(1000, 1000, score_Text, 0); //スコアテキスト
-	
+	Render::Instance().Draw(Vector2(1000, 1000),Vector2(800,100), score_Text); //スコアテキスト
+	Ending();
 	CountMnager();
 }
 
@@ -139,9 +160,8 @@ void GamePlayManager::Load()
 	resultBGM = Music::Instance().LoadSound("../Music/MusMusResult.ogg");
 
 
-	DrawExtendGraph(0, 0, 1980, 1080, back_Gr_1, false);
-	Initialize();
-	//キャノンを追加するときはcannnonCountを足す
+	DrawExtendGraph(0, 0, 1980, 1080, back_Gr_1, false);     //背景
+	
 	cannonCount = 1;
 	cannonGenerateCount = 0;
 	enemyDeadCount = 0;
@@ -153,11 +173,12 @@ void GamePlayManager::Load()
 
 	//全て終わったらタイトルに行く
 	ChangeScene(Scene::TitleScene);
-
 }
+
 //タイトル
 void GamePlayManager::Title(float deltaTime)
 {
+	
 	fps.Wait();
 	fps.TimeStop();
 	if (!Music::Instance().CheckSound(titleBGM))
@@ -178,40 +199,34 @@ void GamePlayManager::Title(float deltaTime)
 	}
 	m_pGameManager->Update(deltaTime);
 	m_pGameManager->Draw();
-
-	
-
 }
 //エンディング
 void GamePlayManager::Ending()
 {
 	if (!gameEnd) return;
-	DrawTurnGraph(300, 200, result, 0);
+	DrawGraph(300, 200, result, 0);
 	Render::Instance().NumberDraw(Vector2(700, 500), score, numberGr);
-	
+	//Render::Instance().NumberDraw(Vector2(1600, 400), 9999999, numberGr);//試し用
+
+	if (Music::Instance().CheckSound(stageBGM))
+	{
+		Music::Instance().SoundStop(stageBGM);
+	}
+	if (!Music::Instance().CheckSound(resultBGM))
+	{
+		Music::Instance().SoundFileStart(resultBGM, DX_PLAYTYPE_LOOP);
+	}
+
 	if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
 	{
-		Initialize();
 		Init();
-		fps.TimeStart();
 		score = 0;//スコアを初期値に設定
-		ChangeScene(Scene::LoadScene);
-		if (Music::Instance().CheckSound(stageBGM))
+		if (Music::Instance().CheckSound(resultBGM))
 		{
-			Music::Instance().SoundStop(stageBGM);
+			Music::Instance().SoundStop(resultBGM);
 		}
-		if (!Music::Instance().CheckSound(resultBGM))
-		{
-			Music::Instance().SoundFileStart(resultBGM,DX_PLAYTYPE_LOOP);
-		}
-		if (input.GetButtonTrigger(INPUT_BUTTON_START, DX_INPUT_PAD1))
-		{
-			if (Music::Instance().CheckSound(resultBGM))
-			{
-				Music::Instance().SoundStop(resultBGM);
-			}
-			ChangeScene(Scene::TitleScene);
-		}
+		ChangeScene(Scene::TitleScene);
+		nowSatge = StageWave::Stage1;
 	}
 }
 
@@ -220,23 +235,7 @@ void GamePlayManager::ChangeScene(Scene scene)
 	nowScene = scene;
 }
 
-void GamePlayManager::Init()
-{
-	m_pGameManager->Clear();
-	m_EnemyManager.Initialize(m_pGameManager);
-
-	gameEnd = false;
-	//キャノンを追加するときはcannnonCountを足す
-	cannonCount = 1;
-	cannonGenerateCount = 0;
-	enemyDeadCount = 0;
-	//最初に生成するものを各Wave共通
-
-	m_pGameManager->Add(new Ground(Vector2(0, 936)));
-	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
-	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
-	m_pGameManager->Add(new WaveLine(Vector2(0, 500)));
-}
+#pragma region Wave
 
 //ウェイブ管理
 void GamePlayManager::WaveUpdate(float deltaTime)
@@ -263,10 +262,8 @@ void GamePlayManager::Wave_1(float deltaTime)
 	GameUpdate(deltaTime);
 	if (topCannon_Y <= waveline_Y)
 	{
-		fps.Wait();
 		ChangeWave(StageWave::Stage2);
 		Init();
-		fps.TimeStart();
 	}
 }
 
@@ -275,10 +272,8 @@ void GamePlayManager::Wave_2(float deltaTime)
 	GameUpdate(deltaTime);
 	if (topCannon_Y <= waveline_Y)
 	{
-		fps.Wait();
 		ChangeWave(StageWave::Stage3);
 		Init();
-		fps.TimeStart();
 	}
 }
 
@@ -291,6 +286,7 @@ void GamePlayManager::Wave_3(float deltaTime)
 		fps.Wait();
 	}
 }
+
 StageWave GamePlayManager::GetWave()
 {
 	return nowSatge;
@@ -300,6 +296,8 @@ void GamePlayManager::ChangeWave(StageWave wave)
 {
 	nowSatge = wave;
 }
+#pragma endregion
+
 
 //カウントの管理
 void GamePlayManager::CountMnager()
@@ -326,6 +324,7 @@ void GamePlayManager::CountMnager()
 	}
 	if (cannonCount <= 0)
 	{
+		fps.Wait();
 		gameEnd = true;
 	}
 }

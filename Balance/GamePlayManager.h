@@ -76,7 +76,7 @@ private:
 
 private:
 	
-	//‰æ‘œŠÖŒW
+	////‰æ‘œŠÖŒW
 	int title_Gr;                        //ƒ^ƒCƒgƒ‹
 	int back_Gr_1;                         //”wŒi@’©
 	int back_Gr_2;                         //”wŒi@’‹

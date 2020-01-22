@@ -63,7 +63,7 @@ void EnemyGenerateManager::Generate(int cannonCnt)
 		Vector2 generatePos = Vector2(
 			0,
 			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * CANNONTEXTURESIZEY) + (CANNONTEXTURESIZEY / 2 - THISTEXTURESIZEY / 2));
-		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0), GamePlayManager::Instance().GetWave()));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0), GamePlayManager::Instance().GetWave(),true));
 	}
 	//右から発射される敵
 	else
@@ -71,7 +71,7 @@ void EnemyGenerateManager::Generate(int cannonCnt)
 		Vector2 generatePos = Vector2(
 			WindowInfo::WindowWidth,
 			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * CANNONTEXTURESIZEY) + (CANNONTEXTURESIZEY / 2 - THISTEXTURESIZEY / 2));
-		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0),GamePlayManager::Instance().GetWave()));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0),GamePlayManager::Instance().GetWave(),false));
 	}
 }
 
@@ -84,7 +84,7 @@ void EnemyGenerateManager::Generate(int cannonCnt, int R0L1)
 			0,
 			//　画面縦幅　　　　　　 - 　地面の高さ - プレイヤーの高さ - ランダムの砲台の位置        *  砲台の高さ         +  （砲台の高さ　/　2　-　敵の高さ　/　2）　←座標合わせのあとの中心合わせ
 			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * CANNONTEXTURESIZEY) + (CANNONTEXTURESIZEY / 2 - THISTEXTURESIZEY / 2));
-		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0), GamePlayManager::Instance().GetWave()));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(1, 0), GamePlayManager::Instance().GetWave(),true));
 	}
 	//右から発射される敵
 	else
@@ -92,6 +92,6 @@ void EnemyGenerateManager::Generate(int cannonCnt, int R0L1)
 		Vector2 generatePos = Vector2(
 			WindowInfo::WindowWidth,
 			WindowInfo::WindowHeight - GROUNDHEIGHT - PLAYERTEXTUREY - ((GetRand(cannonCnt - 1) + 1) * CANNONTEXTURESIZEY) + (CANNONTEXTURESIZEY / 2 - THISTEXTURESIZEY / 2));
-		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0), GamePlayManager::Instance().GetWave()));
+		m_pGameObjectManager->Add(new Enemy(generatePos, Vector2(-1, 0), GamePlayManager::Instance().GetWave(),false));
 	}
 }
