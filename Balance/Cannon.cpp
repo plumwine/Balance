@@ -98,8 +98,7 @@ void Cannon::Hit(Object & object)
 	//“–‚½‚Á‚½•ûŒü‚ª‰º‚ÅA‚©‚ÂA“–‚½‚Á‚½‚à‚Ì‚ªPlayer‚©Cannon   (_direction == Direction::Bottom || _direction == Direction::Top)&&
 	if ((_direction == Direction::Bottom || _direction == Direction::Top) && ( typeid(object) == typeid(Cannon) || typeid(object) == typeid(Player)))
 	{
-		if (typeid(object) == typeid(WaveLine))
-			GamePlayManager::Instance().SetWaveClear();
+
 
 		CurrentPosition(object);  //“–‚½‚Á‚½•ûŒü‚Ö‚Ì‰Ÿ‚µo‚µ
 		nowNum = (int)((_position.y + _size.y / 2) + 248) / 96;
@@ -107,6 +106,10 @@ void Cannon::Hit(Object & object)
 		if (nowNum <= 1)
 		{
 			nowNum = 1;
+		}
+		if (nowNum <= 3)
+		{
+			GamePlayManager::Instance().SetWaveClear();
 		}
 
 		_velocity.x = (0.2f * object.Velocity().x) / (10 / nowNum);
