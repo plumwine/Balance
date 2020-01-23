@@ -41,6 +41,8 @@ void EnemyGenerateManager::SetCSV(std::string filePath)
 
 	//ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¬Œ÷‚µ‚½‚ç
 
+	_generateTime = {};
+
 	if (ifs)
 	{
 		std::string s;

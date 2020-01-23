@@ -303,6 +303,7 @@ void GamePlayManager::Ending()
 		ChangeScene(Scene::TitleScene);
 		nowSatge = StageWave::Stage1;
 		m_EnemyManager.SetCSV("data\\wave1kari.csv");
+		fps.TimeReset();
 
 		addRankFlag = false;
 	}
