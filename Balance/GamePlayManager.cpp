@@ -52,13 +52,13 @@ void GamePlayManager::Init()
 	cannonGenerateCount = 0;
 	enemyDeadCount = 0;
 
-	timeLimit = 60;  //制限時間は１分
+	timeLimit = 120;  //制限時間は１分
 	//最初に生成するものを各Wave共通
 
 	m_pGameManager->Add(new Ground(Vector2(0, 936)));
 	m_pGameManager->Add(new Player(Vector2(960, 808)));  //Player
 	m_pGameManager->Add(new Cannon(Vector2(960, 600), m_pGameManager, cannonCount)); //Canon
-	m_pGameManager->Add(new WaveLine(Vector2(0, 600)));
+	m_pGameManager->Add(new WaveLine(Vector2(0, 100)));
 	fps.TimeReset();
 
 	geneWaitTime = 0;
@@ -105,7 +105,7 @@ void GamePlayManager::GameUpdate(float deltaTime)
 
 	Render::Instance().RectParticle(Vector2(10, 900), enemyDeadCount * 3, 192, gage_Gr, false);   //ゲージ
 	Render::Instance().NumberDraw_Small(Vector2(40, 940), cannonGenerateCount, subNumGr);          //大砲生成可能数
-	Render::Instance().NumberDraw(Vector2(100, 0), timeLimit, numberGr);
+	Render::Instance().NumberDraw(Vector2(150, 0), timeLimit, numberGr);
 
 	Render::Instance().Draw(Vector2(975, 975), Vector2(900, 110), scoreBack);
 	Render::Instance().NumberDraw(Vector2(1800, 1000), score, numberGr);
@@ -178,6 +178,7 @@ void GamePlayManager::Load()
 	generate_Tu = GraphFactory::Instance().LoadGraph("../Texture/master/generate.png");
 	shot_Tu     = GraphFactory::Instance().LoadGraph("../Texture/master/shoot.png");
 	rank_Text = GraphFactory::Instance().LoadGraph("../Texture/master/ranking.png");
+	sousa = GraphFactory::Instance().LoadGraph("../Texture/master/sousa.png");
 	//音
 	//SE
 	boyon1 = Music::Instance().LoadSound("../Music/boyon1.wav");
@@ -231,6 +232,7 @@ void GamePlayManager::Title(float deltaTime)
 
 	DrawGraph(0, 600, pushstart_Text, true);
 	DrawGraph(1000, 600, gameplay_Text, true);
+	DrawGraph(0, 900, sousa, true);
 
 	if (input.GetButtonTrigger(INPUT_BUTTON_Y, DX_INPUT_PAD1))
 	{

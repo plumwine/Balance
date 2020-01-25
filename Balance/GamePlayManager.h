@@ -99,6 +99,7 @@ private:
 	int second;
 	int third;
 	int scoreBack;
+	int sousa;
 	//テキスト
 	int gameplay_Text;                   //ゲームプレイ
 	int pushstart_Text;
